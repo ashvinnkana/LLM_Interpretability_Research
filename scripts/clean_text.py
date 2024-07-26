@@ -20,7 +20,7 @@ def basic(text):
     # Remove extra spaces between words
     text = re.sub(r'(?<!\n) +', ' ', text)
 
-    # remove spaces before fullstop
+    # remove spaces before fullstops
     text = text.replace(' .', '.')
 
     # remove spaces between newlines
@@ -29,6 +29,6 @@ def basic(text):
     # Replace multiple consecutive newlines with a single newline
     text = re.sub(r'\n\n+', '\n\n', text)
 
-    text = text.replace('\n', '\\n')
+    # text = text.replace('\n', '\\n')
 
     return text
