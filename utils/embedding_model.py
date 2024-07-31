@@ -26,7 +26,7 @@ class EMBEDDER:
             batch = data[i:i_end]
 
             # create embeddings
-            chunks = [f'{x["title"]}: {x["content"]}' for x in batch["metadata"]]
+            chunks = [f'{x["content"]}' for x in batch["metadata"]]
             embeds = self.encoder(chunks)
 
             assert len(embeds) == (i_end - i)

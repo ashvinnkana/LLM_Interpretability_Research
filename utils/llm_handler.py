@@ -5,7 +5,7 @@ set_seed(42)
 
 
 class LLM:
-    def __init__(self, model_name):
+    def  __init__(self, model_name):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForCausalLM.from_pretrained(model_name)
 
@@ -16,11 +16,11 @@ class LLM:
                               max_length=1024)
 
     def generate_response(self, tokens):
-        response = self.model.generate(input_ids=tokens['input_ids'],
-                                       max_new_tokens=1000,
-                                       attention_mask=tokens['attention_mask'],
-                                       pad_token_id=self.tokenizer.eos_token_id,
-                                       num_return_sequences=1)
+        response = self.model.generate(tokens,
+                                       max_length=150,
+                                       num_beams=5,
+                                       early_stopping=True)
+
         return self.tokenizer_decode(response)
 
     def tokenizer_decode(self, response):

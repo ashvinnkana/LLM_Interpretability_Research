@@ -3,13 +3,13 @@ from pinecone import Pinecone, ServerlessSpec
 
 
 class PINECONE:
-    def __init__(self, apikey, index_name, dimensions):
+    def __init__(self, apikey, index_name, dimensions, cloud, region):
         self.index = None
         self.index_name = index_name
         self.dims = dimensions
         self.db_client = Pinecone(api_key=apikey)
         self.spec = ServerlessSpec(
-            cloud="aws", region="us-east-1"
+            cloud=cloud, region=region
         )
 
         existing_indexes = [
@@ -46,5 +46,3 @@ class PINECONE:
         # get doc text
         docs = [x['metadata']['content'] for x in res["matches"]]
         return docs
-
-

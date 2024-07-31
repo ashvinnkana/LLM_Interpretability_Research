@@ -1,7 +1,7 @@
 import pdfplumber
 
 
-def extract_pdf(pdf_path):
+def extract_pdf_to_text(pdf_path):
     text = ""
     try:
         with pdfplumber.open(pdf_path) as pdf:

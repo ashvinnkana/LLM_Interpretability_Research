@@ -1,5 +1,6 @@
 import os
-from scripts import extract_file, clean_text
+from scripts import extract_file
+from scripts.preprocess_text import clean, chunk_by_word_limit, convert_to_dataset
 from utils.llm_handler import LLM
 from utils.pinecone_client import PINECONE
 from utils.embedding_model import EMBEDDER
@@ -17,39 +18,47 @@ fastai_interface_conn_apikey = os.getenv('GROQ_CONN_APIKEY')
 # setup
 embedder = EMBEDDER('dwzhu/e5-base-4k')
 
-vectordb = PINECONE(vectordb_connect_key, 'llm-research', embedder.get_dimensions())
+vectordb = PINECONE(vectordb_connect_key,
+                    'llm-research',
+                    embedder.get_dimensions(),
+                    'aws', 'us-east-1')
 vectordb.connect()
 
 fastai_interface = GROQ(fastai_interface_conn_apikey)
-fastai_interface.set_model('llama3-70b-8192')
 
 
-def get_response(query, top_k):
-    query_embeds = embedder.encode(query)
-    docs = vectordb.get_docs(query_embeds, top_k)
-
-    return fastai_interface.generate_response(query, docs, 'AI')
-
-
-def extract_pdf():
+def preprocess_data(file_path):
     # Extract PDF Contents
-    data = extract_file.extract_pdf('./data/unstructured_data/wa_legislation_files/Limitation_Act_2005.pdf')
-    data = clean_text.basic(data)
-
-    # print content of the file
-    print(data)
+    data = extract_file.extract_pdf_to_text(file_path)
+    return convert_to_dataset(chunk_by_word_limit(clean(data)))
 
 
-def generate_reference_text():
-    # TODO: Ask a question passing this extracted text to LLM
+def process_and_upsert_pdf_data(file_path):
+    dataset = preprocess_data(file_path)
+    embedder.encode_upsert_vectordb(dataset, 10, vectordb)
 
-    legal_llm = LLM(constants.aus_legal_llm)
-    tokens = legal_llm.tokenize('Section 51 of the Constitution provides')
-    print(legal_llm.generate_response(tokens))
+
+def get_response(query, docs, topic, llm):
+    fastai_interface.set_model(constants.groq_supported_llm_list[llm]['model_id'])
+    return fastai_interface.generate_response(query, docs, topic)
+
+
+def non_legal_llm_responses(question, docs):
+    # LLM : 0 = llama, 1 = mixtral, 2 = gemma
+    for index, llm in enumerate(constants.groq_supported_llm_list):
+        print(f'{llm['model_id']}\n{get_response(question, docs, 'LAW', index)}\n')
 
 
 def main():
-    return
+    # process_and_upsert_pdf_data('./data/unstructured_data/wa_legislation_files/Limitation_Act_2005.pdf')
+
+    question = "What is the section that states the limitation period for a continuous adverse possession in WA?"
+    print(f"question: {question}\n")
+
+    query_embeds = embedder.encode(question)
+    docs = vectordb.get_docs(query_embeds, 5)
+
+    non_legal_llm_responses(question, docs)
 
 
 if __name__ == '__main__':
