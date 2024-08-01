@@ -1,7 +1,7 @@
 import os
 from scripts import extract_file
 from scripts.preprocess_text import clean, chunk_by_word_limit, convert_to_dataset
-from utils.llm_handler import LLM
+from utils.pipeline_llm_handler import LLM
 from utils.pinecone_client import PINECONE
 from utils.embedding_model import EMBEDDER
 from utils.groq_client import GROQ
@@ -49,8 +49,14 @@ def non_legal_llm_responses(question, docs):
         print(f'{llm['model_id']}\n{get_response(question, docs, 'LAW', index)}\n')
 
 
+def legal_llm_response(question, docs):
+    legal_llm = LLM(constants.aus_legal_llm, 'question-answering')
+
+    print(f'{constants.aus_legal_llm}\n{legal_llm.generate(question, docs)}\n')
+
+
 def main():
-    # process_and_upsert_pdf_data('./data/unstructured_data/wa_legislation_files/Limitation_Act_2005.pdf')
+    process_and_upsert_pdf_data('./data/unstructured_data/wa_legislation_files/Limitation_Act_2005.pdf')
 
     question = "What is the section that states the limitation period for a continuous adverse possession in WA?"
     print(f"question: {question}\n")
@@ -59,6 +65,7 @@ def main():
     docs = vectordb.get_docs(query_embeds, 5)
 
     non_legal_llm_responses(question, docs)
+    legal_llm_response(question, docs)
 
 
 if __name__ == '__main__':
