@@ -32,6 +32,68 @@ def save_preprocessed_data(type_, data, unstructured_file_path, extract_version,
         file.write(data)
 
 
+def get_html_node_string(node, level):
+    html_string = ""
+
+    # Handle nodes of type 'heading'
+    if node.type_ == 'heading':
+        # If the node has no children, create a heading tag
+        if len(node.children) == 0:
+            html_string += f'<h{level}>{node.value}</h{level}>'
+        else:
+            # If the node has children, wrap the heading in a div and process children
+            html_string += f'<div><h{level}>{node.value}</h{level}>'
+
+            for child in node.children:
+                html_string += get_html_node_string(child, level + 1)
+
+            html_string += '</div>'
+
+    # Handle nodes of type 'ordered_bullet'
+    elif node.type_ == 'ordered_bullet':
+        # If the node has no children, create an ordered list item with key
+        if len(node.children) == 0:
+            html_string += f'<h{level}>({node.key}) {node.value}</h{level}>'
+        else:
+            # If the node has children, wrap the item in a div and process children
+            html_string += f'<div><h{level}>({node.key}) {node.value}</h{level}>'
+
+            for child in node.children:
+                html_string += get_html_node_string(child, level + 1)
+
+            html_string += '</div>'
+
+    # Handle nodes of type 'unordered_bullet'
+    elif node.type_ == 'unordered_bullet':
+        # If the node has no children, create an unordered list item
+        if len(node.children) == 0:
+            html_string += f'<li>{node.value}</li>'
+        else:
+            # If the node has children, wrap the item in a div and process children
+            html_string += f'<div><li>{node.value}</li>'
+
+            for child in node.children:
+                html_string += get_html_node_string(child, level + 1)
+
+            html_string += '</div>'
+
+    # Handle nodes of type 'content'
+    elif node.type_ == 'content':
+        # If the node has no children, create a paragraph
+        if len(node.children) == 0:
+            html_string += f'<p>{node.value}</p>'
+        else:
+            # If the node has children, wrap the paragraph in a div and process children
+            html_string += f'<div><p>{node.value}</p>'
+
+            for child in node.children:
+                html_string += get_html_node_string(child, level + 1)
+
+            html_string += '</div>'
+
+    return html_string
+
+
 def extract_scores(score_dict, response):
     """
     Extract the F-measure scores from a dictionary of ROUGE scores.

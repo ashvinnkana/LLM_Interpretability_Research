@@ -5,7 +5,7 @@ from utils import logging_messages
 
 from utils.functions import get_file_name
 from utils.functions import chunk_by_word_limit, build_dataset
-from utils.functions import get_node_dict
+from utils.functions import get_node_dict, get_html_node_string
 
 
 def none_v0(data, pdf_path):
@@ -33,3 +33,20 @@ def json_v0(data, pdf_path):
     json_string = json.dumps(json_dict, indent=2)
 
     return build_dataset(json_dict, file_name, is_dict=True), json_string
+
+
+def html_v0(data, pdf_path):
+    """
+        STRUCTURE : HTML
+        Chunking all heading that has contents
+        """
+    logging.info(logging_messages.display_structuring_version.format('HTML', '0'))
+    file_name = get_file_name(pdf_path)
+    html_format = []
+
+    for node in data:
+        html_format.append(get_html_node_string(node, 1))
+
+    html_string = f'<html><body>\n{'\n'.join(html_format)}\n</body></html>'
+
+    return build_dataset(html_format, file_name, is_dict=False), html_string

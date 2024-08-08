@@ -21,6 +21,7 @@ footer_tag = 'footer'
 
 unstructured_tag = 'UNSTRUCTURED'
 json_structured_tag = 'JSON_STRUCTURED'
+html_structured_tag = 'HTML_STRUCTURED'
 
 nltk_resource_packages = [
     'punkt'

@@ -24,7 +24,8 @@ embedder = EMBEDDER(constants.embedder)
 fastai_interface = GROQ()
 
 unstructured_vectordb = PINECONE(strings.unstructured_0_index)
-json_structured_vectordb = PINECONE(strings.structured_JSON_1_index)
+v1_json_structured_vectordb = PINECONE(strings.structured_JSON_1_index)
+v1_html_structured_vectordb = PINECONE(strings.structured_HTML_1_index)
 
 
 def legal_llm_response(question, docs):
@@ -105,9 +106,15 @@ def generate_responses(question, ref_answer):
 
     # get responses for json_structured data
     logging.info(logging_messages.generating_response.format('JSON-STRUCTURED'))
-    json_structured_vectordb.connect()
-    json_structured_docs = json_structured_vectordb.get_docs(query_embeds, 5)
+    v1_json_structured_vectordb.connect()
+    json_structured_docs = v1_json_structured_vectordb.get_docs(query_embeds, 5)
     response_scores['json-structured'] = non_legal_llm_responses(question, json_structured_docs, ref_answer)
+
+    # get responses for html_structured data
+    logging.info(logging_messages.generating_response.format('HTML-STRUCTURED'))
+    v1_html_structured_vectordb.connect()
+    html_structured_docs = v1_html_structured_vectordb.get_docs(query_embeds, 5)
+    response_scores['html-structured'] = non_legal_llm_responses(question, html_structured_docs, ref_answer)
 
     logging.info(logging_messages.main_divider)
     return response_scores
@@ -128,17 +135,31 @@ def upsert_v0_unstructured_v0(pdf_path):
 
 
 def upsert_v0_structured_json_v1(pdf_path):
-    json_structured_vectordb.connect()
+    v1_json_structured_vectordb.connect()
     node_data = extract_data.extract_v1(pdf_path)
     json_structured_dataset, json_string = structure_data.json_v0(node_data, pdf_path)
     save_preprocessed_data('structured_data', json_string, pdf_path,
                            'extract_v1', 'v0', 'json')
     try:
         logging.info(logging_messages.upserting_chunks.format(constants.json_structured_tag, pdf_path))
-        embedder.encode_upsert_vectordb(json_structured_dataset, 5, json_structured_vectordb)
+        embedder.encode_upsert_vectordb(json_structured_dataset, 5, v1_json_structured_vectordb)
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
+
+
+def upsert_v0_structured_html_v1(pdf_path):
+    v1_html_structured_vectordb.connect()
+    node_data = extract_data.extract_v1(pdf_path)
+    html_structured_dataset, html_string = structure_data.html_v0(node_data, pdf_path)
+    save_preprocessed_data('structured_data', html_string, pdf_path,
+                           'extract_v1', 'v0', 'html')
+    try:
+        logging.info(logging_messages.upserting_chunks.format(constants.html_structured_tag, pdf_path))
+        embedder.encode_upsert_vectordb(html_structured_dataset, 5, v1_html_structured_vectordb)
+        logging.info(logging_messages.status_success)
+    except Exception as e:
+        logging.error(logging_messages.error_upserting.format(constants.html_structured_tag, pdf_path, e))
 
 
 def upsert_all_data():
@@ -154,12 +175,15 @@ def upsert_all_data():
         logging.info(logging_messages.sub_divider)
         upsert_v0_structured_json_v1(pdf_path)
 
+        logging.info(logging_messages.sub_divider)
+        upsert_v0_structured_html_v1(pdf_path)
+
         logging.info(logging_messages.main_divider)
 
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    upsert_all_data()
+    # upsert_all_data()
 
     question = "What is the section that states the limitation period for a continuous adverse possession in WA?"
     ref_answer = ("The limitation period for a continuous adverse possession in Western Australia is stated in Section "
