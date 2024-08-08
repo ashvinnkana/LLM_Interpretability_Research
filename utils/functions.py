@@ -152,7 +152,7 @@ def process_context(structured_data, sentence, index, node_route):
         node_route.pop()
     if get_node_type(structured_data, node_route) == 'content':
         node_route.pop()
-    content_node = Node('context' + ''.join(str(i) for i in node_route) + str(index), sentence, 'content')
+    content_node = Node('optional-context' + ''.join(str(i) for i in node_route) + str(index), sentence, 'content')
     idx = add_node_child(structured_data, node_route, content_node)
     node_route.append(idx)
     return node_route
