@@ -1,10 +1,15 @@
+import os
+
 from groq import Groq
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class GROQ:
-    def __init__(self, apikey):
+    def __init__(self):
         self.model = None
-        self.groq_client = Groq(api_key=apikey)
+        self.groq_client = Groq(api_key=os.getenv('GROQ_CONN_APIKEY'))
 
     def set_model(self, model):
         self.model = model

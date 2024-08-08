@@ -1,15 +1,21 @@
+import os
 import time
 from pinecone import Pinecone, ServerlessSpec
+from dotenv import load_dotenv
+
+from utils.constants import pinecone_cloud, pinecone_region, pinecone_dimension
+
+load_dotenv()
 
 
 class PINECONE:
-    def __init__(self, apikey, index_name, dimensions, cloud, region):
+    def __init__(self, index_name):
         self.index = None
         self.index_name = index_name
-        self.dims = dimensions
-        self.db_client = Pinecone(api_key=apikey)
+        self.dims = pinecone_dimension
+        self.db_client = Pinecone(api_key=os.getenv('PINECONE_CONN_APIKEY'))
         self.spec = ServerlessSpec(
-            cloud=cloud, region=region
+            cloud=pinecone_cloud, region=pinecone_region
         )
 
         existing_indexes = [
@@ -21,7 +27,7 @@ class PINECONE:
             # if it does not exist, create index
             self.db_client.create_index(
                 index_name,
-                dimension=dimensions,
+                dimension=pinecone_dimension,
                 metric='cosine',
                 spec=self.spec
             )
@@ -44,5 +50,9 @@ class PINECONE:
         res = self.index.query(vector=query, top_k=top_k, include_metadata=True)
 
         # get doc text
-        docs = [x['metadata']['content'] for x in res["matches"]]
+        try:
+            docs = [f'CHUNK SOURCED FROM {chunk['metadata']['source']}\n\n{chunk['metadata']['content']}'
+                    for chunk in res["matches"]]
+        except KeyError:
+            docs = [chunk['metadata']['content'] for chunk in res["matches"]]
         return docs

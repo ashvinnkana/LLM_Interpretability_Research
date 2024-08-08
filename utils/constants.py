@@ -11,3 +11,25 @@ groq_supported_llm_list = [
      'developer': 'Google',
      'context_window': '8192'},
 ]
+
+header_estimated_size = 4
+footer_estimated_size = 4
+header_footer_occurrence_accept_threshold = 2
+header_tag = 'header'
+footer_tag = 'footer'
+
+
+unstructured_tag = 'UNSTRUCTURED'
+json_structured_tag = 'JSON_STRUCTURED'
+
+nltk_resource_packages = [
+    'punkt'
+]
+
+embedder = 'dwzhu/e5-base-4k'
+pinecone_cloud = 'aws'
+pinecone_region = 'us-east-1'
+pinecone_dimension = 768
+
+latest_head_index = 0
+
