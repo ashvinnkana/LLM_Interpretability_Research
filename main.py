@@ -158,6 +158,7 @@ def upsert_all_data():
 
 
 def main():
+    print("RUNNING ON: ", embedder.get_encoder_device())
     upsert_all_data()
 
     question = "What is the section that states the limitation period for a continuous adverse possession in WA?"

@@ -1,3 +1,4 @@
+import torch
 from semantic_router.encoders import HuggingFaceEncoder
 from tqdm.auto import tqdm
 
@@ -6,6 +7,9 @@ class EMBEDDER:
     def __init__(self, name):
         self.name = name
         self.encoder = HuggingFaceEncoder(name=name)
+
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.encoder.device = device
 
     def get_encoder_device(self):
         return self.encoder.device
