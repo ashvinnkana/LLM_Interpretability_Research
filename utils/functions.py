@@ -91,12 +91,18 @@ def get_node_dict(node):
         else:
             temp[node.value] = children_node
 
+    elif node.type_ == 'unordered_bullet':
+        if len(node.children) == 0:
+            temp[node.key] = node.value
+        else:
+            temp[node.value] = children_node
+
     # Process heading nodes
     elif node.type_ == 'heading':
         if len(node.children) == 0:
             temp[node.key] = node.value
         else:
-            temp[node.value] = children_node
+            temp[node.key + '>>' + node.value] = children_node
 
     # Process ordered bullet nodes
     elif node.type_ == 'ordered_bullet':

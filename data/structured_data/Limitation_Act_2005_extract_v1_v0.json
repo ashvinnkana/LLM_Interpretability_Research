@@ -1,9 +1,159 @@
 {
-  "Western Australia": {
+  "heading0>>Western Australia": {
     "optional-context01": "Limitation Act 2005",
     "optional-context02": "As at 01 Jul 2024 Official Version [PCO 00-e0-00] Published on www.legislation.wa.gov.au"
   },
-  "Part 1 \u2014 Preliminary": {
+  "heading013>>Part 1 \u2014 Preliminary": {
+    "(1)": "Short title 2",
+    "(2)": "Commencement 2",
+    "(3)": "Interpretation 2",
+    "(4)": "Application of limitation periods under this Act 6",
+    "(5)": "Actions other than personal injury actions do not revive 6",
+    "(6) Personal injury actions \u2014 accrual, limitation periods 7": {
+      "(6A) Special provisions for child sexual abuse actions:": {
+        "optional-context15011": "no limitation period 7"
+      }
+    },
+    "(7)": "Special provisions for certain personal injury actions relating to childbirth 9",
+    "(8)": "Special provisions for certain defamation actions 10",
+    "(9)": "Limitation periods under other written laws 10",
+    "(10)": "Application to Crown 11"
+  },
+  "heading1916": "Part 2 \u2014 Limitation periods",
+  "heading217>>Division 1 \u2014 Preliminary": {
+    "(11)": "Limitation periods under this Part are extendable etc. under Part 3 12",
+    "(12)": "When actions commence 12"
+  },
+  "heading3120>>Division 2 \u2014 General limitation period": {
+    "(13) General limitation period \u2014 6 years 12": {
+      "optional-context4022": "As at 01 Jul 2024 Official Version page i"
+    }
+  },
+  "heading40023>>Division 3 \u2014 Limitation periods for particular causes of action": {
+    "(14)": "Personal injury, Fatal Accidents Act 1959 actions \u2014 3 years 12",
+    "(15)": "Defamation \u2014 one year from publication 13",
+    "(16)": "Trespass to the person etc. \u2014 3 years 13",
+    "(17)": "Contribution between tortfeasors \u2014 2 years 13",
+    "(18)": "Deeds \u2014 12 years 13",
+    "(19)": "Recovery of land \u2014 12 years 13",
+    "(20)": "Money secured on real property or on real and personal property \u2014 12 years 14",
+    "(21)": "Interest secured on real property or on real and personal property 14",
+    "(22)": "Interest secured on personal property 15",
+    "(23)": "Possession \u2014 12 years 16",
+    "(24)": "Foreclosure \u2014 12 years 16",
+    "(25)": "Redemption \u2014 12 years 16",
+    "(26)": "Accounts \u2014 limitation period for the basis of the duty to account applies 17",
+    "(27)": "Equitable actions (not analogous to other actions) 17",
+    "(28)": "Tax mistakenly paid \u2014 12 months or as provided under other Act 18",
+    "(29)": "Arbitration \u2014 limitation period for corresponding civil proceeding applies 18"
+  },
+  "heading51540": "Part 3 \u2014 Extension or shortening of limitation periods",
+  "heading641>>Division 1 \u2014 Extension for persons under": {
+    "18 years when cause of action accrues": {
+      "(30)": "Limitation periods applicable to persons under 15 when cause of action accrues 19",
+      "(31) Limitation periods applicable to persons between": {
+        "optional-context70145": "15 and 18 when cause of action accrues 19"
+      },
+      "(32)": "Suspension of time while person under 18 is without guardian 19",
+      "(33) Defendant in close relationship with person under": {
+        "optional-context70348": "18 when cause of action accrues 20"
+      },
+      "(34)": "Defamation 21 page ii Official Version As at 01 Jul 2024"
+    }
+  },
+  "heading70450>>Division 2 \u2014 Extension for persons with mental disability": {
+    "(35)": "Suspension of time while person with mental disability is without guardian 21",
+    "(36)": "Defendant in close relationship with person with mental disability 22",
+    "(37)": "Defamation 23"
+  },
+  "heading8254>>Division 3 \u2014 Extension by courts": {
+    "(38)": "Court may extend time to commence actions in cases of fraud or improper conduct 23",
+    "(39)": "Court may extend time to commence actions for personal injury or under Fatal Accidents Act 1959 23",
+    "(40)": "Court may extend time to commence defamation actions 25",
+    "(41)": "Court may extend time to commence action by person under 18 when cause of action accrues, with guardian 25",
+    "(42)": "Court may extend time to commence action by person with a mental disability, with guardian 26",
+    "(43)": "Jurisdiction and procedure 26",
+    "(44)": "Further matters for court\u2019s consideration on extension applications 27"
+  },
+  "heading9662>>Division 4 \u2014 Extension or shortening by agreement": {
+    "(45)": "Agreement to extend or shorten limitation period 27"
+  },
+  "heading10064>>Division 5 \u2014 Extension by confirmation": {
+    "(46)": "Meaning of confirmation 28",
+    "(47)": "Limitation period extended by confirmation 28",
+    "(48)": "Formal requirements for acknowledgments 29",
+    "(49)": "Who has benefit of confirmation 29",
+    "(50)": "Who is bound by confirmation 29",
+    "(51) Effects of certain kinds of confirmation 30 Division 6 \u2014 Extension of limitation periods \u2014": {
+      "optional-context11571": "other matters"
+    },
+    "(52) Persons with mental disability under 18 when cause of action accrues \u2014 most beneficial limitation period applies 30": {
+      "optional-context11673": "As at 01 Jul 2024 Official Version page iii"
+    },
+    "(53)": "Limitation period in case of death of certain persons if cause of action accrues to certain other persons 31",
+    "(54)": "Arbitration \u2014 extension of limitation period 31"
+  },
+  "heading11876": "Part 4 \u2014 Accrual of particular causes of action",
+  "heading1277>>Division 1 \u2014 Accrual of certain causes of action other than to recover land": {
+    "(55)": "Personal injury \u2014 general 33",
+    "(56)": "Asbestos or silica dust related diseases 33",
+    "(57)": "Survival of certain actions 35",
+    "(58)": "Contributions between tortfeasors 36",
+    "(59)": "Debts repayable on demand 36",
+    "(60)": "Successive wrongs to goods 37",
+    "(61)": "Equitable interests 37",
+    "(62)": "Future interests of beneficiaries under trusts 37",
+    "(63)": "Matters referable to arbitration 37",
+    "(64)": "Arbitral awards 38"
+  },
+  "heading13988>>Division 2 \u2014 Accrual of certain causes of action to recover land": {
+    "(65)": "Adverse possession 38",
+    "(66)": "Dispossession or discontinuance 39",
+    "(67)": "Deceased in possession 39",
+    "(68)": "Grantor in possession 39",
+    "(69)": "Future interests in land 39",
+    "(70)": "Forfeiture 40",
+    "(71)": "Rent wrongly paid 40",
+    "(72)": "Tenancies 40",
+    "(73)": "Beneficial co-owners of land 41"
+  },
+  "heading14898>>Part 5 \u2014 Effect of expiration of limitation period": {
+    "(74)": "Time to commence actions may be extended despite extinguishment of rights 43",
+    "(75)": "Extinguishment of right and title to land 43",
+    "(76)": "No title by adverse possession against Crown 43",
+    "(77)": "Future interests in land 44",
+    "(78)": "Provisions in case of land held on trust 44 page iv Official Version As at 01 Jul 2024"
+  },
+  "heading154104>>Part 6 \u2014 Miscellaneous": {
+    "(79)": "Burden of proof 46",
+    "(80)": "Grounds in equity upon which to refuse relief preserved 46",
+    "(81)": "Counterclaims \u2014 commencement 46",
+    "(82)": "Joint causes of action 46",
+    "(83)": "Joint liability 47",
+    "(84)": "Formal entry and claim 47",
+    "(85)": "Other beneficiaries 47",
+    "(86)": "Limited right to recover tax 47",
+    "(87)": "Limited operation of certain court orders as to refund of tax 48",
+    "(88)": "Arbitrations \u2014 commencement 49"
+  },
+  "heading169115": "Part 7 \u2014 Transitional provisions",
+  "heading17116": "Division 1 \u2014 Provisions for Civil Liability",
+  "heading18117>>Legislation Amendment (Child Sexual": {
+    "Abuse Actions) Act 2018": {
+      "(89)": "Terms used 50",
+      "(90)": "Application of section 6A 51",
+      "(91)": "Previously barred causes of action 51",
+      "(92)": "Previously settled causes of action 52"
+    }
+  },
+  "heading1903123>>Notes": {
+    "optional-context20124": "Compilation table 54"
+  },
+  "heading200125>>Defined terms": {
+    "optional-context21126": "As at 01 Jul 2024 Official Version page v",
+    "optional-context21127": "An Act to provide for time limits for commencing civil legal proceedings and arbitrations, and for related purposes."
+  },
+  "heading211128>>Part 1 \u2014 Preliminary": {
     "(1)": "Short title This is the Limitation Act 2005.",
     "(2) Commencement": {
       "optional-context221131": "This Act comes into operation on the day on which it receives the Royal Assent."
@@ -166,8 +316,9 @@
       }
     }
   },
-  "heading1916": "Part 2 \u2014 Limitation periods",
-  "Division 1 \u2014 Preliminary": {
+  "heading22911255": "Division 1 Preliminary",
+  "heading23256": "Part 2 \u2014 Limitation periods",
+  "heading24257>>Division 1 \u2014 Preliminary": {
     "(11) Limitation periods under this Part are extendable etc. under": {
       "Part 3": {
         "((1))": "Divisions 2 and 3 have effect subject to Part 3.",
@@ -179,7 +330,7 @@
       "((2))": "Nothing in subsection (1) affects the operation of section 88."
     }
   },
-  "Division 2 \u2014 General limitation period": {
+  "heading2511265>>Division 2 \u2014 General limitation period": {
     "(13) General limitation period \u2014 6 years": {
       "((1)) An action on any cause of action cannot be commenced if": {
         "optional-context2600268": "6 years have elapsed since the cause of action accrued."
@@ -187,7 +338,7 @@
       "((2))": "Subsection (1) does not apply to an action if Division 3 provides for a different limitation period for that action."
     }
   },
-  "Division 3 \u2014 Limitation periods for particular causes of action": {
+  "heading2601270>>Division 3 \u2014 Limitation periods for particular causes of action": {
     "(14) Personal injury, Fatal Accidents Act 1959 actions \u2014 3 years": {
       "((1))": "An action for damages relating to a personal injury to a person cannot be commenced if 3 years have elapsed since the cause of action accrued.",
       "((2))": "An action under the Fatal Accidents Act 1959 for damages relating to the death of a person cannot be commenced if 3 years have elapsed since the death."
@@ -304,21 +455,58 @@
       }
     }
   },
-  "heading51540": "Part 3 \u2014 Extension or shortening of limitation periods",
-  "Division 1 \u2014 Extension for persons under": {
-    "18 years when cause of action accrues": {
-      "(30)": "Limitation periods applicable to persons under 15 when cause of action accrues 19",
-      "(31) Limitation periods applicable to persons between": {
-        "optional-context70145": "15 and 18 when cause of action accrues 19"
+  "heading271510353": "Part 3 \u2014 Extension or shortening of limitation periods",
+  "heading28354>>Division 1 \u2014 Extension for persons under 18 years when cause of action accrues": {
+    "(30) Limitation periods applicable to persons under 15 when cause of action accrues": {
+      "((1))": "If a person is under 15 years of age when a cause of action accrues to the person, an action on that cause of action cannot be commenced if 6 years have elapsed since the cause of action accrued.",
+      "((2))": "Subsection (1) does not apply if Part 2 Division 3 provides for a longer limitation period for commencing the action."
+    },
+    "(31) Limitation periods applicable to persons between 15 and 18 when cause of action accrues": {
+      "((1))": "If a person is 15, 16 or 17 years of age when a cause of action accrues to the person, an action on that cause of action cannot be commenced if the person has reached 21 years of age.",
+      "((2))": "Subsection (1) does not apply if Part 2 Division 2 or 3 provides for a longer limitation period for commencing the action."
+    },
+    "(32) Suspension of time while person under 18 is without guardian": {
+      "((1)) If \u2014": {
+        "(a)": "a person is under 18 years of age when a cause of action accrues to the person; and",
+        "(b) during any time after the accrual but before the person reaches 18 years of age the person is without a guardian, the time during which the person is without a guardian does not count in the reckoning of the limitation period for commencing an action on the cause of action.": {
+          "Division 1 Extension for persons under 18 years when cause of action accrues": {
+            "(s)": "33"
+          }
+        }
       },
-      "(32)": "Suspension of time while person under 18 is without guardian 19",
-      "(33) Defendant in close relationship with person under": {
-        "optional-context70348": "18 when cause of action accrues 20"
+      "((2)) Despite subsection (1), an action on the cause of action cannot be commenced \u2014": {
+        "(a)": "if the person has reached 21 years of age; or",
+        "(b)": "in the case where Part 2 Division 2 or 3 provides for a longer limitation period for commencing the action, if that limitation period has expired."
       },
-      "(34)": "Defamation 21 page ii Official Version As at 01 Jul 2024"
+      "((3))": "This section is subject to section 33."
+    },
+    "(33) Defendant in close relationship with person under 18 when cause of action accrues": {
+      "((1)) If \u2014": {
+        "(a)": "a person is under 18 years of age when a cause of action accrues to the person (person A); and",
+        "(b)": "during any time after the accrual but before person A reaches 18 years of age a defendant is a person in a close relationship with person A, an action on that cause of action cannot be commenced if person A has reached 25 years of age."
+      },
+      "((2))": "Subsection (1) does not apply if Part 2 Division 3 provides for a longer limitation period for commencing the action.",
+      "((3)) In subsection (1) \u2014": {
+        "optional-context2932377": "defendant includes a person for whom a defendant is vicariously liable;",
+        "person in a close relationship, in relation to person A, means \u2014": {
+          "(a) a person (person B) who at law has responsibility for \u2014": {
+            "(i)": "the long-term care, welfare and development of person A before person A reaches 18 years of age; or"
+          },
+          "(b) a person (person C) whose relationship with person A or person B is such that it is in the circumstances reasonable \u2014": {
+            "(i)": "for person A or person B not to commence an action against person C; or"
+          }
+        },
+        "optional-context2932381": "Extension for persons with mental disability Division 2",
+        "optional-context2932382": "(ii) the day to day care, welfare and development of person A before person A reaches 18 years of age;",
+        "optional-context2932383": "or",
+        "optional-context2932386": "(ii) for person A not to wish to divulge the conduct or events in respect of which an action against person C would be founded."
+      }
+    },
+    "(34) Defamation": {
+      "optional-context294388": "Sections 30, 31, 32 and 33 do not apply to an action relating to the publication of defamatory matter."
     }
   },
-  "Division 2 \u2014 Extension for persons with mental disability": {
+  "heading2940389>>Division 2 \u2014 Extension for persons with mental disability": {
     "(35) Suspension of time while person with mental disability is without guardian": {
       "((1)) If \u2014": {
         "(a)": "a person is suffering a mental disability at any time after a cause of action accrues to the person; and",
@@ -354,7 +542,7 @@
       "optional-context302413": "Sections 35 and 36 do not apply to an action relating to the publication of defamatory matter."
     }
   },
-  "Division 3 \u2014 Extension by courts": {
+  "heading3020414>>Division 3 \u2014 Extension by courts": {
     "(38) Court may extend time to commence actions in cases of fraud or improper conduct": {
       "((1))": "A plaintiff may apply to a court for leave to commence an action on a cause of action even though the limitation period provided for under this Act has expired.",
       "((2))": "On an application a court may extend the time in which the action can be commenced up to 3 years from when the action ought reasonably to have been commenced if the court is satisfied that the failure to commence the action was attributable to fraudulent or other improper conduct of the defendant or a person for whom the defendant is vicariously liable.",
@@ -366,7 +554,71 @@
       "((2))": "A plaintiff may apply to a court for leave to commence an action under the Fatal Accidents Act 1959 for damages relating to the death of a person even though the limitation period provided for under this Act has expired."
     }
   },
-  "Division 4 \u2014 Extension or shortening by agreement": {
+  "heading3111423>>Division 3 Extension by courts": {
+    "((3)) On an application a court may extend the time in which the action can be commenced if the court is satisfied that, when the limitation period expired, a person to whom the cause of action accrues \u2014": {
+      "(a)": "was not aware of the physical cause of the death or injury;",
+      "(b)": "was aware of the physical cause of the death or injury but was not aware that the death or injury was attributable to the conduct of a person; or",
+      "(c)": "was aware of the physical cause of the death or injury and that the death or injury was attributable to the conduct of a person but after reasonable enquiry, had been unable to establish that person\u2019s identity."
+    },
+    "((4)) On an application a court may extend the time in which the action can be commenced up to 3 years from when a person to whom the cause of action accrues became aware, or ought reasonably to have become aware \u2014": {
+      "(a)": "of the physical cause of the death or injury;",
+      "(b)": "that the death or injury was attributable to the conduct of a person (whether a defendant or not); and",
+      "(c)": "of the identity of the person mentioned in paragraph (b)."
+    },
+    "((5)) In this section \u2014": {
+      "person to whom the cause of action accrues \u2014": {
+        "(a)": "in the case of a person who is under 18 years of age when the cause of action accrues, means either that person or a guardian of that person;",
+        "(b)": "in the case of a person with a mental disability, means either that person or a guardian of that person;",
+        "(c) in the case of an action under the Fatal Accidents": {
+          "optional-context32202437": "Act 1959 to be brought by a personal representative of a deceased person, means the personal representative;",
+          "optional-context32202438": "Extension by courts Division 3"
+        },
+        "(d) in the case of an action under the Fatal Accidents": {
+          "optional-context32203440": "Act 1959 to be brought by a person under section 9(1) of that Act, means that person;"
+        },
+        "(e) in the case of an action of a kind to which the Law": {
+          "Reform (Miscellaneous Provisions) Act 1941 section 4 applies, means either the deceased person or a personal representative of that person.": {
+            "(40) Court may extend time to commence defamation actions": {
+              "((1))": "A plaintiff may apply to a court for leave to commence an action relating to the publication of defamatory matter even though one year has elapsed since the publication.",
+              "((2))": "Subject to subsection (3), on an application a court, if satisfied that it was not reasonable in the circumstances for the plaintiff to have commenced an action in relation to the matter complained of within one year from the publication, must extend the time in which the action can be commenced.",
+              "((3))": "An action relating to the publication of defamatory matter cannot be commenced if 3 years have elapsed since the publication."
+            },
+            "(41)": "Court may extend time to commence action by person under",
+            "(42) Court may extend time to commence action by person with a mental disability, with guardian": {
+              "((1))": "A plaintiff who suffers a mental disability at any time after a cause of action accrues to that person may apply to a court for leave to commence an action even though the limitation period provided for under this Act has expired.",
+              "((2))": "Subject to subsection (3), on an application a court may extend the time in which the action can be commenced up to 12 years from when the cause of action accrued.",
+              "((3))": "A court is not to extend time on an application unless the court is satisfied that in the circumstances it was unreasonable for a guardian of the plaintiff not to commence the action within the limitation period for the action.",
+              "((4))": "This section does not apply to an action relating to the publication of defamatory matter."
+            },
+            "(43) Jurisdiction and procedure": {
+              "((1)) Subject to subsection (2), an extension application is to be made by summons in the jurisdiction in which \u2014": {
+                "(a)": "the existing action, if any, has been brought; or",
+                "(b)": "the proposed action would be brought if the application were successful, as is relevant to the case."
+              },
+              "((2))": "An extension application in respect of an arbitration for a difference or matter under an arbitration provision is to be made by summons to the Supreme Court.",
+              "((3))": "The plaintiff is to serve a copy of the summons on each person against whom the action that is the subject of the extension application is brought or proposed to be brought.",
+              "((4))": "Despite subsection (1), the Supreme Court may give leave to bring an action in any court which seems to it to be the appropriate court.",
+              "((5))": "An extension application can be sought or determined at any time before or after the issue, or close of, pleadings."
+            },
+            "(44)": "Further matters for court\u2019s consideration on extension applications"
+          },
+          "18 when cause of action accrues, with guardian": {
+            "((1))": "A plaintiff who was under 18 years of age when a cause of action accrued to that person may apply to a court for leave to commence an action even though the limitation period provided for under this Act has expired.",
+            "((2))": "Subject to subsection (3), on an application a court may extend the time in which the action can be commenced up to when the plaintiff reaches 21 years of age.",
+            "((3))": "A court is not to extend time on an application unless the court is satisfied that in the circumstances it was unreasonable for a",
+            "((4))": "This section does not apply to an action relating to the publication of defamatory matter."
+          },
+          "optional-context32204452": "Division 3 Extension by courts guardian of the plaintiff not to commence the action within the limitation period for the action.",
+          "optional-context32204464": "Extension or shortening by agreement Division 4",
+          "When deciding, on an extension application, whether to extend the time for the commencement of an action, a court is to have regard to \u2014": {
+            "(a)": "whether the delay in commencing the proposed action, whatever the merit of the reasons for that delay, would unacceptably diminish the prospects of a fair trial of the action; and",
+            "(b)": "whether extending the time would significantly prejudice the defendant (other than by reason only of the commencement of the proposed action)."
+          }
+        }
+      }
+    }
+  },
+  "heading3220441472>>Division 4 \u2014 Extension or shortening by agreement": {
     "(45) Agreement to extend or shorten limitation period": {
       "((1))": "Nothing in this Act prevents a person from agreeing to extend or shorten a limitation period provided for under this Act.",
       "((2)) Despite subsection (1), a provision in, or condition of, an agreement is of no effect if it purports to \u2014": {
@@ -375,7 +627,8 @@
       }
     }
   },
-  "Division 5 \u2014 Extension by confirmation": {
+  "heading33011478": "Division 5 Extension by confirmation",
+  "heading34479>>Division 5 \u2014 Extension by confirmation": {
     "(46) Meaning of confirmation": {
       "((1)) For the purposes of this Act, a person confirms a cause of action if the person \u2014": {
         "(a)": "acknowledges, to a person having the cause of action (person A), person A\u2019s right or title, even though the acknowledgment does not disclose a promise to pay;",
@@ -415,8 +668,37 @@
       "((2))": "A confirmation of a cause of action to recover income becoming due at any time operates also as a confirmation of a cause of action to recover income falling due at a later time on the same account."
     }
   },
-  "heading11876": "Part 4 \u2014 Accrual of particular causes of action",
-  "Division 1 \u2014 Accrual of certain causes of action other than to recover land": {
+  "heading3551507>>Division 6 \u2014 Extension of limitation periods \u2014 other matters": {
+    "(52) Persons with mental disability under 18 when cause of action accrues \u2014 most beneficial limitation period applies If \u2014": {
+      "(a)": "a person is under 18 years of age when a cause of action accrues to the person;",
+      "(b)": "during any time after that time the person is suffering a mental disability; and",
+      "(c) different limitation periods for commencing an action on the cause of action are provided for under section 7 or": {
+        "optional-context3602512": "Division 1 or 2, the limitation period for commencing the action is the longer of those limitation periods.",
+        "optional-context3602513": "Extension of limitation periods \u2014 other matters Division 6"
+      }
+    },
+    "(53) Limitation period in case of death of certain persons if cause of action accrues to certain other persons": {
+      "((1)) In this section \u2014": {
+        "person A means \u2014": {
+          "(a)": "a person who is under 18 years of age when a cause of action accrues to the person and who dies without having reached 18 years of age; or",
+          "(b)": "a person who, at any time after a cause of action accrues to the person, is suffering a mental disability and who dies at a time when the person is suffering the mental disability."
+        }
+      },
+      "((2))": "If, on person A\u2019s death, person A\u2019s cause of action accrues to a person (person B) who is either under 18 years of age or suffering a mental disability when person A dies, a further extension of time is not allowed by reason of person B\u2019s being under 18 years of age or suffering a mental disability."
+    },
+    "(54) Arbitration \u2014 extension of limitation period": {
+      "((1)) If a court \u2014": {
+        "(a)": "removes an arbitrator or umpire;",
+        "(b)": "restrains a party or an arbitrator or umpire from proceeding with an arbitration; or",
+        "(c) sets aside an arbitral award, the court may at the same time or within 6 months afterwards, whether or not the limitation period provided for under this Act for commencing an action with respect to the difference or matter under arbitration has expired, order that the whole or any part of the time between the commencement of the arbitration and the making of the order under this section does not count in the reckoning of the limitation period.": {
+          "optional-context36202525": "Division 6 Extension of limitation periods \u2014 other matters"
+        }
+      },
+      "((2))": "If, after the expiration of a limitation period provided for under this Act, a court makes an order under this section, the expiration of the first limitation period has no effect for the purposes of this Act."
+    }
+  },
+  "heading3621527": "Part 4 \u2014 Accrual of particular causes of action",
+  "heading37528>>Division 1 \u2014 Accrual of certain causes of action other than to recover land": {
     "(55) Personal injury \u2014 general": {
       "((1)) A cause of action for damages relating to a personal injury to a person accrues when the only or earlier of such of the following events as are applicable occurs \u2014": {
         "(a)": "the person becomes aware that he or she has sustained a not insignificant personal injury;",
@@ -515,7 +797,7 @@
       "optional-context389597": "A cause of action to enforce an arbitral award accrues when default in observance of the award first occurs, being the default in respect of which the action is brought."
     }
   },
-  "Division 2 \u2014 Accrual of certain causes of action to recover land": {
+  "heading3890598>>Division 2 \u2014 Accrual of certain causes of action to recover land": {
     "(65) Adverse possession": {
       "((1))": "A cause of action to recover land does not accrue unless the land is in adverse possession and if, under this Act, such a cause of action would have accrued at a certain time but the land is not in adverse possession at that time, the cause of action does not accrue unless and until adverse possession of the land is taken.",
       "((2)) Subject to subsection (3), if \u2014": {
@@ -583,7 +865,7 @@
       }
     }
   },
-  "Part 5 \u2014 Effect of expiration of limitation period": {
+  "heading398210645>>Part 5 \u2014 Effect of expiration of limitation period": {
     "(74) Time to commence actions may be extended despite extinguishment of rights Nothing in this Part prevents \u2014": {
       "(a)": "a person from making an application under section 38, 41 or 42 for leave to commence an action to recover land; or",
       "(b)": "a court, on such an application, from extending the time in which an action to recover land can be commenced, even though the limitation period provided for under this Act has expired."
@@ -621,7 +903,8 @@
       "((2))": "If land is held upon trust including a trust for sale, an action to recover the land may be brought by the trustee on behalf of any person entitled to a beneficial interest in possession in the land or in the proceeds of sale whose right of action has not been barred by this Act even though the right of action of the trustee would apart from this provision have been barred by this Act."
     }
   },
-  "Part 6 \u2014 Miscellaneous": {
+  "heading4041671": "Part 6 Miscellaneous",
+  "heading41672>>Part 6 \u2014 Miscellaneous": {
     "(79) Burden of proof": {
       "((1))": "Subject to subsection (2), a defendant in an action has the burden of proving that the action cannot be commenced because the applicable limitation period has expired.",
       "((2))": "The plaintiff has the burden of proving that the time mentioned in section 32(1) or 35(1) does not count in the reckoning of the limitation period.",
@@ -653,173 +936,7 @@
       "((1))": "This section applies in respect of an action by a person (a claimant) to recover, or in relation to the recovery of, any money paid by way of tax or purported tax."
     }
   },
-  "heading169115": "Part 7 \u2014 Transitional provisions",
-  "heading17116": "Division 1 \u2014 Provisions for Civil Liability",
-  "Legislation Amendment (Child Sexual": {
-    "Abuse Actions) Act 2018": {
-      "(89)": "Terms used 50",
-      "(90)": "Application of section 6A 51",
-      "(91)": "Previously barred causes of action 51",
-      "(92)": "Previously settled causes of action 52"
-    }
-  },
-  "Notes": {
-    "optional-context49778": "This is a compilation of the Limitation Act 2005 and includes amendments made by other written laws. For provisions that have come into operation see the compilation table."
-  },
-  "Defined terms": {
-    "optional-context21126": "As at 01 Jul 2024 Official Version page v",
-    "optional-context21127": "An Act to provide for time limits for commencing civil legal proceedings and arbitrations, and for related purposes."
-  },
-  "heading22911255": "Division 1 Preliminary",
-  "heading23256": "Part 2 \u2014 Limitation periods",
-  "heading271510353": "Part 3 \u2014 Extension or shortening of limitation periods",
-  "Division 1 \u2014 Extension for persons under 18 years when cause of action accrues": {
-    "(30) Limitation periods applicable to persons under 15 when cause of action accrues": {
-      "((1))": "If a person is under 15 years of age when a cause of action accrues to the person, an action on that cause of action cannot be commenced if 6 years have elapsed since the cause of action accrued.",
-      "((2))": "Subsection (1) does not apply if Part 2 Division 3 provides for a longer limitation period for commencing the action."
-    },
-    "(31) Limitation periods applicable to persons between 15 and 18 when cause of action accrues": {
-      "((1))": "If a person is 15, 16 or 17 years of age when a cause of action accrues to the person, an action on that cause of action cannot be commenced if the person has reached 21 years of age.",
-      "((2))": "Subsection (1) does not apply if Part 2 Division 2 or 3 provides for a longer limitation period for commencing the action."
-    },
-    "(32) Suspension of time while person under 18 is without guardian": {
-      "((1)) If \u2014": {
-        "(a)": "a person is under 18 years of age when a cause of action accrues to the person; and",
-        "(b) during any time after the accrual but before the person reaches 18 years of age the person is without a guardian, the time during which the person is without a guardian does not count in the reckoning of the limitation period for commencing an action on the cause of action.": {
-          "Division 1 Extension for persons under 18 years when cause of action accrues": {
-            "(s)": "33"
-          }
-        }
-      },
-      "((2)) Despite subsection (1), an action on the cause of action cannot be commenced \u2014": {
-        "(a)": "if the person has reached 21 years of age; or",
-        "(b)": "in the case where Part 2 Division 2 or 3 provides for a longer limitation period for commencing the action, if that limitation period has expired."
-      },
-      "((3))": "This section is subject to section 33."
-    },
-    "(33) Defendant in close relationship with person under 18 when cause of action accrues": {
-      "((1)) If \u2014": {
-        "(a)": "a person is under 18 years of age when a cause of action accrues to the person (person A); and",
-        "(b)": "during any time after the accrual but before person A reaches 18 years of age a defendant is a person in a close relationship with person A, an action on that cause of action cannot be commenced if person A has reached 25 years of age."
-      },
-      "((2))": "Subsection (1) does not apply if Part 2 Division 3 provides for a longer limitation period for commencing the action.",
-      "((3)) In subsection (1) \u2014": {
-        "optional-context2932377": "defendant includes a person for whom a defendant is vicariously liable;",
-        "person in a close relationship, in relation to person A, means \u2014": {
-          "(a) a person (person B) who at law has responsibility for \u2014": {
-            "(i)": "the long-term care, welfare and development of person A before person A reaches 18 years of age; or"
-          },
-          "(b) a person (person C) whose relationship with person A or person B is such that it is in the circumstances reasonable \u2014": {
-            "(i)": "for person A or person B not to commence an action against person C; or"
-          }
-        },
-        "optional-context2932381": "Extension for persons with mental disability Division 2",
-        "optional-context2932382": "(ii) the day to day care, welfare and development of person A before person A reaches 18 years of age;",
-        "optional-context2932383": "or",
-        "optional-context2932386": "(ii) for person A not to wish to divulge the conduct or events in respect of which an action against person C would be founded."
-      }
-    },
-    "(34) Defamation": {
-      "optional-context294388": "Sections 30, 31, 32 and 33 do not apply to an action relating to the publication of defamatory matter."
-    }
-  },
-  "Division 3 Extension by courts": {
-    "((3)) On an application a court may extend the time in which the action can be commenced if the court is satisfied that, when the limitation period expired, a person to whom the cause of action accrues \u2014": {
-      "(a)": "was not aware of the physical cause of the death or injury;",
-      "(b)": "was aware of the physical cause of the death or injury but was not aware that the death or injury was attributable to the conduct of a person; or",
-      "(c)": "was aware of the physical cause of the death or injury and that the death or injury was attributable to the conduct of a person but after reasonable enquiry, had been unable to establish that person\u2019s identity."
-    },
-    "((4)) On an application a court may extend the time in which the action can be commenced up to 3 years from when a person to whom the cause of action accrues became aware, or ought reasonably to have become aware \u2014": {
-      "(a)": "of the physical cause of the death or injury;",
-      "(b)": "that the death or injury was attributable to the conduct of a person (whether a defendant or not); and",
-      "(c)": "of the identity of the person mentioned in paragraph (b)."
-    },
-    "((5)) In this section \u2014": {
-      "person to whom the cause of action accrues \u2014": {
-        "(a)": "in the case of a person who is under 18 years of age when the cause of action accrues, means either that person or a guardian of that person;",
-        "(b)": "in the case of a person with a mental disability, means either that person or a guardian of that person;",
-        "(c) in the case of an action under the Fatal Accidents": {
-          "optional-context32202437": "Act 1959 to be brought by a personal representative of a deceased person, means the personal representative;",
-          "optional-context32202438": "Extension by courts Division 3"
-        },
-        "(d) in the case of an action under the Fatal Accidents": {
-          "optional-context32203440": "Act 1959 to be brought by a person under section 9(1) of that Act, means that person;"
-        },
-        "(e) in the case of an action of a kind to which the Law": {
-          "Reform (Miscellaneous Provisions) Act 1941 section 4 applies, means either the deceased person or a personal representative of that person.": {
-            "(40) Court may extend time to commence defamation actions": {
-              "((1))": "A plaintiff may apply to a court for leave to commence an action relating to the publication of defamatory matter even though one year has elapsed since the publication.",
-              "((2))": "Subject to subsection (3), on an application a court, if satisfied that it was not reasonable in the circumstances for the plaintiff to have commenced an action in relation to the matter complained of within one year from the publication, must extend the time in which the action can be commenced.",
-              "((3))": "An action relating to the publication of defamatory matter cannot be commenced if 3 years have elapsed since the publication."
-            },
-            "(41)": "Court may extend time to commence action by person under",
-            "(42) Court may extend time to commence action by person with a mental disability, with guardian": {
-              "((1))": "A plaintiff who suffers a mental disability at any time after a cause of action accrues to that person may apply to a court for leave to commence an action even though the limitation period provided for under this Act has expired.",
-              "((2))": "Subject to subsection (3), on an application a court may extend the time in which the action can be commenced up to 12 years from when the cause of action accrued.",
-              "((3))": "A court is not to extend time on an application unless the court is satisfied that in the circumstances it was unreasonable for a guardian of the plaintiff not to commence the action within the limitation period for the action.",
-              "((4))": "This section does not apply to an action relating to the publication of defamatory matter."
-            },
-            "(43) Jurisdiction and procedure": {
-              "((1)) Subject to subsection (2), an extension application is to be made by summons in the jurisdiction in which \u2014": {
-                "(a)": "the existing action, if any, has been brought; or",
-                "(b)": "the proposed action would be brought if the application were successful, as is relevant to the case."
-              },
-              "((2))": "An extension application in respect of an arbitration for a difference or matter under an arbitration provision is to be made by summons to the Supreme Court.",
-              "((3))": "The plaintiff is to serve a copy of the summons on each person against whom the action that is the subject of the extension application is brought or proposed to be brought.",
-              "((4))": "Despite subsection (1), the Supreme Court may give leave to bring an action in any court which seems to it to be the appropriate court.",
-              "((5))": "An extension application can be sought or determined at any time before or after the issue, or close of, pleadings."
-            },
-            "(44)": "Further matters for court\u2019s consideration on extension applications"
-          },
-          "18 when cause of action accrues, with guardian": {
-            "((1))": "A plaintiff who was under 18 years of age when a cause of action accrued to that person may apply to a court for leave to commence an action even though the limitation period provided for under this Act has expired.",
-            "((2))": "Subject to subsection (3), on an application a court may extend the time in which the action can be commenced up to when the plaintiff reaches 21 years of age.",
-            "((3))": "A court is not to extend time on an application unless the court is satisfied that in the circumstances it was unreasonable for a",
-            "((4))": "This section does not apply to an action relating to the publication of defamatory matter."
-          },
-          "optional-context32204452": "Division 3 Extension by courts guardian of the plaintiff not to commence the action within the limitation period for the action.",
-          "optional-context32204464": "Extension or shortening by agreement Division 4",
-          "When deciding, on an extension application, whether to extend the time for the commencement of an action, a court is to have regard to \u2014": {
-            "(a)": "whether the delay in commencing the proposed action, whatever the merit of the reasons for that delay, would unacceptably diminish the prospects of a fair trial of the action; and",
-            "(b)": "whether extending the time would significantly prejudice the defendant (other than by reason only of the commencement of the proposed action)."
-          }
-        }
-      }
-    }
-  },
-  "heading33011478": "Division 5 Extension by confirmation",
-  "Division 6 \u2014 Extension of limitation periods \u2014 other matters": {
-    "(52) Persons with mental disability under 18 when cause of action accrues \u2014 most beneficial limitation period applies If \u2014": {
-      "(a)": "a person is under 18 years of age when a cause of action accrues to the person;",
-      "(b)": "during any time after that time the person is suffering a mental disability; and",
-      "(c) different limitation periods for commencing an action on the cause of action are provided for under section 7 or": {
-        "optional-context3602512": "Division 1 or 2, the limitation period for commencing the action is the longer of those limitation periods.",
-        "optional-context3602513": "Extension of limitation periods \u2014 other matters Division 6"
-      }
-    },
-    "(53) Limitation period in case of death of certain persons if cause of action accrues to certain other persons": {
-      "((1)) In this section \u2014": {
-        "person A means \u2014": {
-          "(a)": "a person who is under 18 years of age when a cause of action accrues to the person and who dies without having reached 18 years of age; or",
-          "(b)": "a person who, at any time after a cause of action accrues to the person, is suffering a mental disability and who dies at a time when the person is suffering the mental disability."
-        }
-      },
-      "((2))": "If, on person A\u2019s death, person A\u2019s cause of action accrues to a person (person B) who is either under 18 years of age or suffering a mental disability when person A dies, a further extension of time is not allowed by reason of person B\u2019s being under 18 years of age or suffering a mental disability."
-    },
-    "(54) Arbitration \u2014 extension of limitation period": {
-      "((1)) If a court \u2014": {
-        "(a)": "removes an arbitrator or umpire;",
-        "(b)": "restrains a party or an arbitrator or umpire from proceeding with an arbitration; or",
-        "(c) sets aside an arbitral award, the court may at the same time or within 6 months afterwards, whether or not the limitation period provided for under this Act for commencing an action with respect to the difference or matter under arbitration has expired, order that the whole or any part of the time between the commencement of the arbitration and the making of the order under this section does not count in the reckoning of the limitation period.": {
-          "optional-context36202525": "Division 6 Extension of limitation periods \u2014 other matters"
-        }
-      },
-      "((2))": "If, after the expiration of a limitation period provided for under this Act, a court makes an order under this section, the expiration of the first limitation period has no effect for the purposes of this Act."
-    }
-  },
-  "heading3621527": "Part 4 \u2014 Accrual of particular causes of action",
-  "heading4041671": "Part 6 Miscellaneous",
-  "Part 6 Miscellaneous": {
+  "heading4270695>>Part 6 Miscellaneous": {
     "((2)) Any judgment by a court in favour of a claimant is to be for only that part of the amount claimed which the court is satisfied \u2014": {
       "(a)": "has not been charged directly to or recovered directly from another person or, if it has been so charged or recovered, has been refunded to the other person;",
       "(b)": "will not be charged directly to or recovered directly from another person; and",
@@ -855,36 +972,13 @@
       }
     }
   },
-  "Part 7 Transitional provisions": {
+  "heading431111721>>Part 7 Transitional provisions": {
     "Division 1 Provisions for Civil Liability Legislation Amendment (Child": {
-      "(s) 92 amount paid under a previous judgment relating to the cause of action.": {
-        "((6)) A court, other than the Supreme Court, may not set aside a previous judgment of another court.": {
-          "[Section 91 inserted: No. 3 of 2018 s. 12.]": {
-            "(92) Previously settled causes of action": {
-              "((1))": "This section applies in relation to a proposed action on a previously settled cause of action and to the agreement effecting the settlement (the settlement agreement).",
-              "((2))": "Application may be made to a court that would have jurisdiction to deal with the action, but for the settlement agreement, for leave to commence the action.",
-              "((3)) The court may, if satisfied that it is just and reasonable to do so \u2014": {
-                "(a)": "grant leave to commence the action, subject to conditions; and",
-                "(b)": "to the extent necessary for that, set aside the settlement agreement and any judgment giving effect to the settlement."
-              },
-              "((4))": "If an action on the previously settled cause of action is commenced, the settlement agreement and each agreement relating to the settlement, other than a contract of insurance, is, despite any written or other law, void to the extent to which it relates to the child sexual abuse the subject of the cause of action.",
-              "((5))": "A party to an agreement that is wholly or partly void under subsection (4) cannot seek to recover an amount paid by or for the party under the agreement on the basis that the agreement is void to that extent.",
-              "((6))": "The court dealing with the action may, if satisfied that it is just and reasonable to do so, take into account any amount paid",
-              "((7)) For the purposes of subsection (6), amounts paid under an agreement are taken to relate to the child sexual abuse the subject of the cause of action to the extent of 50% if the agreement \u2014": {
-                "(a)": "does not relate solely to that child sexual abuse; and",
-                "(b)": "does not expressly deal with the extent to which the agreement and amounts paid under it relate to that child sexual abuse."
-              }
-            }
-          },
-          "optional-context47000770": "Transitional provisions Part 7",
-          "optional-context47000771": "Division 1 under an agreement that is wholly or partly void under this section, to the extent to which the amount relates to the child sexual abuse the subject of the cause of action.",
-          "optional-context47000775": "[Section 92 inserted: No. 3 of 2018 s. 12.]"
-        }
-      }
+      "(s)": "89"
     }
   },
   "heading4400724": "Part 7 \u2014 Transitional provisions [Heading inserted: No. 3 of 2018 s. 12.]",
-  "Division 1 \u2014 Provisions for Civil Liability Legislation": {
+  "heading45725>>Division 1 \u2014 Provisions for Civil Liability Legislation": {
     "Amendment (Child Sexual Abuse Actions) Act 2018 [Heading inserted: No. 3 of 2018 s. 12.]": {
       "(89) Terms used In this Division \u2014": {
         "optional-context4600728": "child sexual abuse has the meaning given in section 6A(1);",
@@ -923,8 +1017,39 @@
       }
     }
   },
+  "heading46024756>>Part 7 Transitional provisions": {
+    "Division 1 Provisions for Civil Liability Legislation Amendment (Child": {
+      "(s) 92 amount paid under a previous judgment relating to the cause of action.": {
+        "((6)) A court, other than the Supreme Court, may not set aside a previous judgment of another court.": {
+          "[Section 91 inserted: No. 3 of 2018 s. 12.]": {
+            "(92) Previously settled causes of action": {
+              "((1))": "This section applies in relation to a proposed action on a previously settled cause of action and to the agreement effecting the settlement (the settlement agreement).",
+              "((2))": "Application may be made to a court that would have jurisdiction to deal with the action, but for the settlement agreement, for leave to commence the action.",
+              "((3)) The court may, if satisfied that it is just and reasonable to do so \u2014": {
+                "(a)": "grant leave to commence the action, subject to conditions; and",
+                "(b)": "to the extent necessary for that, set aside the settlement agreement and any judgment giving effect to the settlement."
+              },
+              "((4))": "If an action on the previously settled cause of action is commenced, the settlement agreement and each agreement relating to the settlement, other than a contract of insurance, is, despite any written or other law, void to the extent to which it relates to the child sexual abuse the subject of the cause of action.",
+              "((5))": "A party to an agreement that is wholly or partly void under subsection (4) cannot seek to recover an amount paid by or for the party under the agreement on the basis that the agreement is void to that extent.",
+              "((6))": "The court dealing with the action may, if satisfied that it is just and reasonable to do so, take into account any amount paid",
+              "((7)) For the purposes of subsection (6), amounts paid under an agreement are taken to relate to the child sexual abuse the subject of the cause of action to the extent of 50% if the agreement \u2014": {
+                "(a)": "does not relate solely to that child sexual abuse; and",
+                "(b)": "does not expressly deal with the extent to which the agreement and amounts paid under it relate to that child sexual abuse."
+              }
+            }
+          },
+          "optional-context47000770": "Transitional provisions Part 7",
+          "optional-context47000771": "Division 1 under an agreement that is wholly or partly void under this section, to the extent to which the amount relates to the child sexual abuse the subject of the cause of action.",
+          "optional-context47000775": "[Section 92 inserted: No. 3 of 2018 s. 12.]"
+        }
+      }
+    }
+  },
   "heading470003776": "Notes Compilation table",
-  "Compilation table": {
+  "heading48777>>Notes": {
+    "optional-context49778": "This is a compilation of the Limitation Act 2005 and includes amendments made by other written laws. For provisions that have come into operation see the compilation table."
+  },
+  "heading490779>>Compilation table": {
     "optional-context50780": "Short title Number Assent Commencement and year Limitation Act 2005 19 of 2005 15 Nov 2005 15 Nov 2005 (see s. 2)",
     "optional-context50781": "Civil Liability Legislation 3 of 2018 19 Apr 2018 1 Jul 2018 (see s. 2(b) and Amendment (Child Sexual Gazette 29 Jun 2018 p. 2434)",
     "optional-context50782": "Abuse Actions) Act 2018",
@@ -934,7 +1059,7 @@
     "optional-context50786": "Subdiv. 9 [This is a list of terms defined and the provisions where they are defined.",
     "optional-context50787": "The list is not part of the law.]"
   },
-  "Defined term Provision(s)": {
+  "heading507788>>Defined term Provision(s)": {
     "optional-context51789": "action........................................................................................... 3(1), 21(1), 22(1)",
     "optional-context51790": "arbitral award ................................................................................................... 3(1)",
     "optional-context51791": "arbitration provision ......................................................................................... 3(1)",
