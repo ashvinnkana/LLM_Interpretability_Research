@@ -1,12 +1,12 @@
 {
-  "heading0": "Western Australia",
-  "Limitation Act 2005": {
-    "context12": "As at 01 Jul 2024 Official Version [PCO 00-e0-00] Published on www.legislation.wa.gov.au"
+  "Western Australia": {
+    "optional-context01": "Limitation Act 2005",
+    "optional-context02": "As at 01 Jul 2024 Official Version [PCO 00-e0-00] Published on www.legislation.wa.gov.au"
   },
   "Part 1 \u2014 Preliminary": {
     "(1)": "Short title This is the Limitation Act 2005.",
     "(2) Commencement": {
-      "context251131": "This Act comes into operation on the day on which it receives the Royal Assent."
+      "optional-context221131": "This Act comes into operation on the day on which it receives the Royal Assent."
     },
     "(3) Interpretation": {
       "((1)) In this Act \u2014": {
@@ -14,15 +14,15 @@
           "(a)": "any civil proceeding in a court, whether the claim that is the subject of the proceeding or relief sought is under a written law, at common law, in equity or otherwise; or",
           "(b)": "an arbitration under an arbitration provision, but does not include proceedings for certiorari, mandamus, prohibition, habeas corpus or quo warranto except in sections 28, 86 and 87, in which it includes proceedings for certiorari, mandamus, prohibition or quo warranto;"
         },
-        "context2520137": "arbitral award means the resolution or determination by an arbitrator of a difference or matter referred to arbitration under an arbitration provision;",
+        "optional-context2220137": "arbitral award means the resolution or determination by an arbitrator of a difference or matter referred to arbitration under an arbitration provision;",
         "arbitration provision means \u2014": {
           "(a)": "a provision of an agreement to refer present or future differences to arbitration, whether an arbitrator is named in the agreement or not; and",
           "(b)": "a provision of any written law requiring or permitting the determination of any matter by arbitration or relating to such an arbitration;"
         },
-        "context2520141": "commencement day means the day on which this Act comes into operation;",
-        "context2520142": "defendant means a person against whom an action is brought or proposed to be brought;",
-        "context2520143": "extension application means an application under section 38, 39, 40, 41 or 42;",
-        "context2520144": "future interest means an estate in reversion or remainder or other vested or contingent interest in property which is yet to entitle immediate possession of the property;",
+        "optional-context2220141": "commencement day means the day on which this Act comes into operation;",
+        "optional-context2220142": "defendant means a person against whom an action is brought or proposed to be brought;",
+        "optional-context2220143": "extension application means an application under section 38, 39, 40, 41 or 42;",
+        "optional-context2220144": "future interest means an estate in reversion or remainder or other vested or contingent interest in property which is yet to entitle immediate possession of the property;",
         "guardian, in relation to a person who is under 18 years of age when a cause of action accrues to the person (person A), means a person \u2014": {
           "(a)": "who at law has responsibility for the long-term care, welfare and development of person A before person A reaches 18 years of age; and",
           "(b)": "for whom it is practicable, having regard to the person\u2019s relationship with person A, to commence an action on behalf of person A;"
@@ -31,32 +31,32 @@
           "(a)": "is either a guardian of person A or the administrator of person A\u2019s estate, or both; and",
           "(b)": "has, under the guardianship order, the administration order, or the provisions of the Guardianship and"
         },
-        "context2520151": "Administration Act 1990, as is relevant to the case, the function of considering the appropriateness of commencing an action on behalf of person A, and in this definition the terms \u201cadministrator\u201d, \u201cadministration order\u201d, \u201cguardian\u201d and \u201cguardianship order\u201d have the respective meanings that they have in the Guardianship and Administration Act 1990 section 3(1);",
-        "context2520152": "income includes interest on a judgment and other interest, and includes rent, annuities and dividends, but does not include arrears of interest secured by a mortgage and lawfully treated as principal;",
+        "optional-context2220151": "Administration Act 1990, as is relevant to the case, the function of considering the appropriateness of commencing an action on behalf of person A, and in this definition the terms \u201cadministrator\u201d, \u201cadministration order\u201d, \u201cguardian\u201d and \u201cguardianship order\u201d have the respective meanings that they have in the Guardianship and Administration Act 1990 section 3(1);",
+        "optional-context2220152": "income includes interest on a judgment and other interest, and includes rent, annuities and dividends, but does not include arrears of interest secured by a mortgage and lawfully treated as principal;",
         "land includes \u2014": {
           "(a)": "corporeal hereditaments and rentcharges and any estate or interest in those things whether freehold or leasehold and whether at law or in equity; and",
           "(b)": "the interest, pending sale of land (including incorporeal hereditaments) held on trust for sale, of a person having an interest in the proceeds of sale, but otherwise does not include incorporeal hereditaments;"
         },
-        "context2520156": "mental disability, in relation to a person, means a disability suffered by the person (including an intellectual disability, a psychiatric condition, an acquired brain injury or dementia) an effect of which is that the person is unable to make reasonable judgments in respect of matters relating to the person or the person\u2019s property;",
-        "context2520157": "mortgage includes a charge or lien on real or personal property for securing money or money\u2019s worth but does not include a possessory lien on goods nor a binding effect on the property arising under court order to seize and sell or seize and deliver the property;",
-        "context2520158": "mortgagee includes a person claiming a mortgage through an original mortgagee;",
-        "context2520159": "mortgagor includes a person claiming property subject to a mortgage through an original mortgagor;",
-        "context2520160": "personal injury includes a disease, impairment of a person\u2019s physical condition, and mental disability;",
-        "context2520161": "personal representative means a person who, for the time being, is an executor or an administrator of a deceased person\u2019s estate;",
+        "optional-context2220156": "mental disability, in relation to a person, means a disability suffered by the person (including an intellectual disability, a psychiatric condition, an acquired brain injury or dementia) an effect of which is that the person is unable to make reasonable judgments in respect of matters relating to the person or the person\u2019s property;",
+        "optional-context2220157": "mortgage includes a charge or lien on real or personal property for securing money or money\u2019s worth but does not include a possessory lien on goods nor a binding effect on the property arising under court order to seize and sell or seize and deliver the property;",
+        "optional-context2220158": "mortgagee includes a person claiming a mortgage through an original mortgagee;",
+        "optional-context2220159": "mortgagor includes a person claiming property subject to a mortgage through an original mortgagor;",
+        "optional-context2220160": "personal injury includes a disease, impairment of a person\u2019s physical condition, and mental disability;",
+        "optional-context2220161": "personal representative means a person who, for the time being, is an executor or an administrator of a deceased person\u2019s estate;",
         "plaintiff means \u2014": {
           "(a)": "a person bringing, or proposing to bring, an action; or",
           "(b)": "a person acting on behalf of a person mentioned in paragraph (a);"
         },
-        "context2520165": "principal money, in relation to a mortgage, means all money secured by the mortgage, including arrears of interest lawfully treated as principal, but does not include other interest;",
-        "context2520166": "rent includes a rent service and a rentcharge;",
-        "context2520167": "rentcharge means an annuity or other periodical sum of money charged on or payable out of land, but does not include a rent service or interest on a mortgage of land;",
-        "context2520168": "tax includes a fee, charge or other impost;",
-        "context2520169": "trust has the meaning given to that term in the Trustees Act 1962 section 6(1);",
-        "context2520170": "trustee has the meaning given to that term in the Trustees Act 1962 section 6(1) and includes a personal representative."
+        "optional-context2220165": "principal money, in relation to a mortgage, means all money secured by the mortgage, including arrears of interest lawfully treated as principal, but does not include other interest;",
+        "optional-context2220166": "rent includes a rent service and a rentcharge;",
+        "optional-context2220167": "rentcharge means an annuity or other periodical sum of money charged on or payable out of land, but does not include a rent service or interest on a mortgage of land;",
+        "optional-context2220168": "tax includes a fee, charge or other impost;",
+        "optional-context2220169": "trust has the meaning given to that term in the Trustees Act 1962 section 6(1);",
+        "optional-context2220170": "trustee has the meaning given to that term in the Trustees Act 1962 section 6(1) and includes a personal representative."
       },
       "((2)) In this Act a reference to the accrual of a cause of action is a reference \u2014": {
         "(a) to the accrual of the cause of action to a person (person": {
-          "context25210173": "A) to whom the cause of action accrues; and"
+          "optional-context22210173": "A) to whom the cause of action accrues; and"
         },
         "(b)": "where relevant, to the accrual of the cause of action to a person through whom person A claims."
       },
@@ -81,7 +81,7 @@
     "(5) Actions other than personal injury actions do not revive": {
       "((1))": "An action cannot be commenced on or after commencement day if the action could not have been commenced immediately before commencement day because of an enactment that is repealed or amended by the Limitation Legislation Amendment and Repeal Act 2005.",
       "((2)) This section is subject to sections 6 and 6A.": {
-        "context2541192": "[Section 5 amended: No. 3 of 2018 s. 9.]"
+        "optional-context2241192": "[Section 5 amended: No. 3 of 2018 s. 9.]"
       }
     },
     "(6) Personal injury actions \u2014 accrual, limitation periods": {
@@ -89,10 +89,10 @@
       "((2)) If, under the relevant section, the cause of action accrues before commencement day, the applicable limitation period in that case is that which would have applied before commencement day, whether or not that period has expired.": {
         "(6A) Special provisions for child sexual abuse actions: no limitation period": {
           "((1))": "In this section \u2014",
-          "context25510198": "child means a person under 18 years of age;",
-          "context25510199": "child sexual abuse, of a person, means an act or omission in relation to the person, when the person is a child, that is sexual abuse;",
-          "context25510200": "child sexual abuse action means an action on a child sexual abuse cause of action;",
-          "context25510201": "child sexual abuse cause of action means a cause of action that relates, directly or indirectly, to a personal injury of the person to whom the cause of action accrues, where the injury results from child sexual abuse of the person.",
+          "optional-context22510198": "child means a person under 18 years of age;",
+          "optional-context22510199": "child sexual abuse, of a person, means an act or omission in relation to the person, when the person is a child, that is sexual abuse;",
+          "optional-context22510200": "child sexual abuse action means an action on a child sexual abuse cause of action;",
+          "optional-context22510201": "child sexual abuse cause of action means a cause of action that relates, directly or indirectly, to a personal injury of the person to whom the cause of action accrues, where the injury results from child sexual abuse of the person.",
           "((2)) Despite anything in this or any other Act, no limitation period applies in respect of a child sexual abuse action.": {
             "(s)": "6A"
           },
@@ -106,16 +106,16 @@
             "(a)": "any inherent, implied or statutory jurisdiction of a court;",
             "(b)": "any other powers of a court arising or derived from the common law or under any other Act (including any"
           },
-          "context25510211": "or",
-          "context25510213": "Commonwealth Act), rule of court, practice note or practice direction.",
-          "context25510214": "Note for this subsection:",
-          "context25510215": "For example, this section is not intended to limit a court\u2019s power to summarily dismiss or permanently stay proceedings where the lapse of time has a burdensome effect on the defendant that is so serious that a fair trial is not possible.",
+          "optional-context22510211": "or",
+          "optional-context22510213": "Commonwealth Act), rule of court, practice note or practice direction.",
+          "optional-context22510214": "Note for this subsection:",
+          "optional-context22510215": "For example, this section is not intended to limit a court\u2019s power to summarily dismiss or permanently stay proceedings where the lapse of time has a burdensome effect on the defendant that is so serious that a fair trial is not possible.",
           "((6))": "A cause of action referred to in the definition of child sexual abuse cause of action does not include a cause of action, action on which could not be maintained but for the Fatal Accidents Act 1959 or the Law Reform (Miscellaneous Provisions)",
-          "context25510217": "Act 1941.",
+          "optional-context22510217": "Act 1941.",
           "((7))": "The Minister must carry out a review of the operation and effectiveness of this section and Part 7 as soon as is practicable after the 3rd anniversary of the day on which the Civil Liability",
-          "context25510219": "Legislation Amendment (Child Sexual Abuse Actions) Act 2018 section 10 comes into operation.",
+          "optional-context22510219": "Legislation Amendment (Child Sexual Abuse Actions) Act 2018 section 10 comes into operation.",
           "((8))": "The Minister must prepare a report based on the review and, as soon as is practicable after the report is prepared, cause it to be laid before each House of Parliament.",
-          "context25510221": "[Section 6A inserted: No. 3 of 2018 s. 10.]"
+          "optional-context22510221": "[Section 6A inserted: No. 3 of 2018 s. 10.]"
         }
       }
     },
@@ -143,7 +143,7 @@
         "(b)": "each cause of action in the proceedings accrues because of the publication of the same, or substantially the same, matter on separate occasions (whether by the same defendant or another defendant);",
         "(c)": "one or more of the other causes of action in the proceedings accrued before commencement day (a \u201cpre-commencement action\u201d); and",
         "(d) the post-commencement action accrued no later than": {
-          "context25713241": "12 months after the day on which the earliest pre-commencement action in the proceedings accrued."
+          "optional-context22713241": "12 months after the day on which the earliest pre-commencement action in the proceedings accrued."
         }
       }
     },
@@ -155,7 +155,7 @@
           "(b)": "a provision prescribing the time within which an action can be commenced (including a law providing for the extension or shortening of that time);",
           "(c)": "a provision in respect of the limitation or exclusion of liability or the barring of a right of action if an action is not commenced within a particular time limit."
         },
-        "context2581249": "[Section 9 amended: No. 3 of 2018 s. 11.]"
+        "optional-context2281249": "[Section 9 amended: No. 3 of 2018 s. 11.]"
       }
     },
     "(10) Application to Crown": {
@@ -166,14 +166,23 @@
       }
     }
   },
-  "heading2916": "Part 2 \u2014 Limitation periods",
+  "heading1916": "Part 2 \u2014 Limitation periods",
   "Division 1 \u2014 Preliminary": {
-    "(11)": "Limitation periods under this Part are extendable etc. under"
+    "(11) Limitation periods under this Part are extendable etc. under": {
+      "Part 3": {
+        "((1))": "Divisions 2 and 3 have effect subject to Part 3.",
+        "((2))": "Subsection (1) is subject to section 28(5)."
+      }
+    },
+    "(12) When actions commence": {
+      "((1))": "In this Part a reference to the commencement of an action is a reference to the issue in the appropriate court of a writ or other originating application in relation to the action.",
+      "((2))": "Nothing in subsection (1) affects the operation of section 88."
+    }
   },
   "Division 2 \u2014 General limitation period": {
     "(13) General limitation period \u2014 6 years": {
       "((1)) An action on any cause of action cannot be commenced if": {
-        "context3000268": "6 years have elapsed since the cause of action accrued."
+        "optional-context2600268": "6 years have elapsed since the cause of action accrued."
       },
       "((2))": "Subsection (1) does not apply to an action if Division 3 provides for a different limitation period for that action."
     }
@@ -184,7 +193,7 @@
       "((2))": "An action under the Fatal Accidents Act 1959 for damages relating to the death of a person cannot be commenced if 3 years have elapsed since the death."
     },
     "(15) Defamation \u2014 one year from publication": {
-      "context311275": "An action relating to the publication of defamatory matter cannot be commenced if one year has elapsed since the publication."
+      "optional-context271275": "An action relating to the publication of defamatory matter cannot be commenced if one year has elapsed since the publication."
     },
     "(16) Trespass to the person etc. \u2014 3 years An action for \u2014": {
       "(a)": "trespass to the person;",
@@ -193,17 +202,17 @@
       "(d)": "imprisonment, cannot be commenced if 3 years have elapsed since the cause of action accrued."
     },
     "(17) Contribution between tortfeasors \u2014 2 years": {
-      "context313282": "An action for contribution under the Law Reform (Contributory",
-      "context313283": "Negligence and Tortfeasors\u2019 Contribution) Act 1947 section 7 cannot be commenced if 2 years have elapsed since the cause of action accrued."
+      "optional-context273282": "An action for contribution under the Law Reform (Contributory",
+      "optional-context273283": "Negligence and Tortfeasors\u2019 Contribution) Act 1947 section 7 cannot be commenced if 2 years have elapsed since the cause of action accrued."
     },
     "(18) Deeds \u2014 12 years": {
-      "context314285": "An action on a cause of action founded on a deed cannot be commenced if 12 years have elapsed since the cause of action accrued."
+      "optional-context274285": "An action on a cause of action founded on a deed cannot be commenced if 12 years have elapsed since the cause of action accrued."
     },
     "(19) Recovery of land \u2014 12 years": {
       "((1))": "An action to recover land cannot be commenced if 12 years have elapsed since the cause of action accrued.",
       "((2)) Despite subsection (1), an action to recover land may be commenced at any time if it is brought \u2014": {
         "(a) by the Crown or a person claiming through the Crown;": {
-          "context31510290": "and"
+          "optional-context27510290": "and"
         },
         "(b)": "on a cause of action which accrues to the Crown."
       }
@@ -228,8 +237,8 @@
       "((2)) An action cannot be commenced \u2014": {
         "(a) after the occurrence of the only or later of such of the following events as are applicable \u2014": {
           "(i)": "the elapse of 6 years since the cause of action accrued;",
-          "context31710308": "(ii) in the case where a mortgagee under a prior mortgage is in possession of all or any of the property comprised in the mortgage securing the interest when the cause of action accrued, and after that time discontinues possession, the elapse of one year since the discontinuance;",
-          "context31710309": "or"
+          "optional-context27710308": "(ii) in the case where a mortgagee under a prior mortgage is in possession of all or any of the property comprised in the mortgage securing the interest when the cause of action accrued, and after that time discontinues possession, the elapse of one year since the discontinuance;",
+          "optional-context27710309": "or"
         },
         "(b)": "if the limitation period provided for under section 20 for an action between the same parties on a cause of action to recover the principal money bearing the interest has expired."
       }
@@ -246,17 +255,17 @@
       "((2)) An action cannot be commenced \u2014": {
         "(a) after the occurrence of the only or later of such of the following events as are applicable \u2014": {
           "(i)": "the elapse of 6 years since the cause of action accrued;",
-          "context31810321": "(ii) in the case where a mortgagee under a prior mortgage is in possession of all or any of the property comprised in the mortgage securing the interest when the cause of action accrued, and after that time discontinues possession, the elapse of one year since the discontinuance;",
-          "context31810322": "or"
+          "optional-context27810321": "(ii) in the case where a mortgagee under a prior mortgage is in possession of all or any of the property comprised in the mortgage securing the interest when the cause of action accrued, and after that time discontinues possession, the elapse of one year since the discontinuance;",
+          "optional-context27810322": "or"
         },
         "(b)": "if the limitation period for an action between the same parties on a cause of action to recover the principal money bearing the interest has expired."
       }
     },
     "(23) Possession \u2014 12 years": {
-      "context319325": "An action to recover from a mortgagor possession of real property or real and personal property secured by a mortgage cannot be commenced if 12 years have elapsed since the cause of action accrued."
+      "optional-context279325": "An action to recover from a mortgagor possession of real property or real and personal property secured by a mortgage cannot be commenced if 12 years have elapsed since the cause of action accrued."
     },
     "(24) Foreclosure \u2014 12 years": {
-      "context3110327": "An action to foreclose the equity of redemption of real property or real and personal property secured by a mortgage cannot be commenced if 12 years have elapsed since the cause of action accrued."
+      "optional-context2710327": "An action to foreclose the equity of redemption of real property or real and personal property secured by a mortgage cannot be commenced if 12 years have elapsed since the cause of action accrued."
     },
     "(25) Redemption \u2014 12 years": {
       "An action to redeem mortgaged property (whether real or personal) in the possession of a mortgagee cannot be commenced if 12 years have elapsed since the occurrence of the only or later of such of the following events as are applicable \u2014": {
@@ -265,12 +274,12 @@
       }
     },
     "(26) Accounts \u2014 limitation period for the basis of the duty to account applies": {
-      "context3112333": "An action for an account cannot be commenced if the limitation period for the cause of action that is the basis of the duty to account has expired."
+      "optional-context2712333": "An action for an account cannot be commenced if the limitation period for the cause of action that is the basis of the duty to account has expired."
     },
     "(27) Equitable actions (not analogous to other actions)": {
       "((1)) An equitable action cannot be commenced after the only or later of such of the following events as are applicable \u2014": {
         "(a) the elapse of 6 years since the cause of action accrued;": {
-          "context311300337": "or"
+          "optional-context271300337": "or"
         },
         "(b)": "the elapse of 3 years since time started running, on equitable principles, for the commencement of the action."
       },
@@ -289,22 +298,22 @@
       "((5))": "An order cannot be made under this or any other Act enabling or permitting an action to which subsection (3) applies to be commenced after the expiry of the period mentioned in that subsection."
     },
     "(29) Arbitration \u2014 limitation period for corresponding civil proceeding applies": {
-      "context3115350": "An arbitration for a difference or matter under an arbitration provision cannot be commenced if the limitation period that would apply under this Act to the bringing of a civil proceeding in a court for the resolution or determination of the difference or matter has expired.",
+      "optional-context2715350": "An arbitration for a difference or matter under an arbitration provision cannot be commenced if the limitation period that would apply under this Act to the bringing of a civil proceeding in a court for the resolution or determination of the difference or matter has expired.",
       "Extension for persons under 18 years when cause of action Division 1 accrues": {
         "(s)": "30"
       }
     }
   },
-  "heading61540": "Part 3 \u2014 Extension or shortening of limitation periods",
+  "heading51540": "Part 3 \u2014 Extension or shortening of limitation periods",
   "Division 1 \u2014 Extension for persons under": {
     "18 years when cause of action accrues": {
       "(30)": "Limitation periods applicable to persons under 15 when cause of action accrues 19",
       "(31) Limitation periods applicable to persons between": {
-        "context80145": "15 and 18 when cause of action accrues 19"
+        "optional-context70145": "15 and 18 when cause of action accrues 19"
       },
       "(32)": "Suspension of time while person under 18 is without guardian 19",
       "(33) Defendant in close relationship with person under": {
-        "context80348": "18 when cause of action accrues 20"
+        "optional-context70348": "18 when cause of action accrues 20"
       },
       "(34)": "Defamation 21 page ii Official Version As at 01 Jul 2024"
     }
@@ -316,7 +325,7 @@
         "(b)": "during the time in which the person is suffering the mental disability the person is without a guardian, the time during which the person is without a guardian does not count in the reckoning of a limitation period for commencing an action on the cause of action."
       },
       "((2)) Despite subsection (1), an action on the cause of action cannot be commenced if 12 years have elapsed since the cause of action accrued.": {
-        "context3401395": "Division 2 Extension for persons with mental disability"
+        "optional-context3001395": "Division 2 Extension for persons with mental disability"
       },
       "((3))": "This section is subject to section 36."
     },
@@ -324,21 +333,25 @@
       "((1)) If \u2014": {
         "(a)": "a person (person A) is suffering a mental disability at any time after a cause of action accrues to person A; and",
         "(b) during the time in which person A is suffering the mental disability a defendant is a person in a close relationship with person A, an action on that cause of action cannot be commenced if": {
-          "context34101401": "3 years have elapsed since the relationship ceased."
+          "optional-context30101401": "3 years have elapsed since the relationship ceased."
         }
       },
       "((2))": "Subsection (1) does not apply if Part 2 Division 2 or 3 provides for a longer limitation period for commencing the action.",
       "((3))": "Despite subsection (1), an action on the cause of action cannot be commenced if 30 years have elapsed since the cause of action accrued.",
       "((4)) In subsection (1) \u2014": {
-        "context3413405": "defendant includes a person for whom a defendant is vicariously liable;",
+        "optional-context3013405": "defendant includes a person for whom a defendant is vicariously liable;",
         "person in a close relationship, in relation to person A, means \u2014": {
           "(a)": "a guardian of person A; or",
           "(b) a person (person B) whose relationship with person A or a guardian of person A is such that it is in the circumstances reasonable \u2014": {
             "(i)": "for person A or the guardian not to commence an action against person B; or"
           }
         },
-        "context3413410": "(ii) for person A not to wish to divulge the conduct or events in respect of which an action against person B would be founded."
+        "optional-context3013410": "(ii) for person A not to wish to divulge the conduct or events in respect of which an action against person B would be founded.",
+        "optional-context3013411": "Extension by courts Division 3"
       }
+    },
+    "(37) Defamation": {
+      "optional-context302413": "Sections 35 and 36 do not apply to an action relating to the publication of defamatory matter."
     }
   },
   "Division 3 \u2014 Extension by courts": {
@@ -375,15 +388,15 @@
       "If a cause of action lies against a person (either solely or with other persons) and the person confirms the cause of action \u2014": {
         "(a)": "after the limitation period provided for under this Act for the cause of action begins to run; and",
         "(b) before that limitation period expires, the time during which the limitation period runs before the confirmation is made does not count in the reckoning of the limitation period for an action on the cause of action by a person": {
-          "context41101490": "Extension by confirmation Division 5 having the benefit of the confirmation against a person bound by the confirmation."
+          "optional-context35101490": "Extension by confirmation Division 5 having the benefit of the confirmation against a person bound by the confirmation."
         }
       }
     },
     "(48) Formal requirements for acknowledgments": {
-      "context412492": "For the purposes of section 46(1)(a), an acknowledgment is of no effect unless it is in writing and signed by the maker."
+      "optional-context352492": "For the purposes of section 46(1)(a), an acknowledgment is of no effect unless it is in writing and signed by the maker."
     },
     "(49) Who has benefit of confirmation": {
-      "context413494": "For the purposes of this Act, a person (person A) has the benefit of a confirmation if the confirmation is made to person A or to a person through whom person A claims."
+      "optional-context353494": "For the purposes of this Act, a person (person A) has the benefit of a confirmation if the confirmation is made to person A or to a person through whom person A claims."
     },
     "(50) Who is bound by confirmation": {
       "((1)) For the purposes of this Act, a person (person A) is bound by a confirmation if \u2014": {
@@ -392,7 +405,7 @@
         "(c)": "in the case where the maker is, at the time when the maker makes the confirmation, a personal representative of a deceased person (either solely or with other persons) \u2014 person A is, at or after that time, a personal representative of the deceased person;",
         "(d)": "in the case where the maker is, at the time when the maker makes the confirmation, a trustee other than a personal representative of a deceased person (either solely or with other persons) \u2014 person A is, at or after that time, a trustee of the trust of which the maker is a trustee; or",
         "(e) person A is bound under subsection (2).": {
-          "context41404502": "Division 6 Extension of limitation periods \u2014 other matters"
+          "optional-context35404502": "Division 6 Extension of limitation periods \u2014 other matters"
         }
       },
       "((2))": "If a maker of a confirmation of a cause of action in relation to property is in possession of the property when the confirmation is made, the confirmation binds a person subsequently in possession of the property who claims through the maker of the confirmation."
@@ -402,7 +415,7 @@
       "((2))": "A confirmation of a cause of action to recover income becoming due at any time operates also as a confirmation of a cause of action to recover income falling due at a later time on the same account."
     }
   },
-  "heading12876": "Part 4 \u2014 Accrual of particular causes of action",
+  "heading11876": "Part 4 \u2014 Accrual of particular causes of action",
   "Division 1 \u2014 Accrual of certain causes of action other than to recover land": {
     "(55) Personal injury \u2014 general": {
       "((1)) A cause of action for damages relating to a personal injury to a person accrues when the only or earlier of such of the following events as are applicable occurs \u2014": {
@@ -410,7 +423,7 @@
         "(b)": "the first symptom, clinical sign or other manifestation of personal injury consistent with the person having sustained a not insignificant personal injury."
       },
       "((2)) This section does not apply to a personal injury that is attributable to the inhalation of asbestos or silica dust.": {
-        "context4401534": "[Section 55 amended: No. 21 of 2023 s. 656.]"
+        "optional-context3801534": "[Section 55 amended: No. 21 of 2023 s. 656.]"
       }
     },
     "(56) Asbestos or silica dust related diseases": {
@@ -421,7 +434,7 @@
       "((2)) For the purposes of this section a person has knowledge of the relevant facts in relation to a cause of action when the person has knowledge \u2014": {
         "(a)": "that the injury in question was significant;",
         "(b) that the injury was attributable in whole or in part to the act or omission which is alleged to constitute the cause of action;": {
-          "context44111542": "Division 1 Accrual of certain causes of action other than to recover land"
+          "optional-context38111542": "Division 1 Accrual of certain causes of action other than to recover land"
         },
         "(c)": "of the identity of the defendant; and",
         "(d)": "if it is alleged that the act or omission was that of a person other than the defendant, of the identity of that person and the additional facts supporting the bringing of an action against the defendant, and knowledge that any acts or omissions did or did not, as a matter of law, give rise to a cause of action is irrelevant."
@@ -433,12 +446,73 @@
           "Compensation and Injury Management Act 1981 section 36(1) \u2014": {
             "(i)": "has determined that the degree of the disability assessed in accordance with section 93D(2) of that Act is 30% or more; or"
           },
-          "context44131551": "(ii) has assessed that the worker\u2019s degree of whole of person impairment evaluated as described in sections 146A and 146C of that Act (on or after",
-          "context44131552": "14 November 2005) is 25% or more;",
-          "context44131553": "or"
+          "optional-context38131551": "(ii) has assessed that the worker\u2019s degree of whole of person impairment evaluated as described in sections 146A and 146C of that Act (on or after",
+          "optional-context38131552": "14 November 2005) is 25% or more;",
+          "optional-context38131553": "or"
         },
-        "(c)": "a Dust Disease Medical Panel constituted under the"
+        "(c) a Dust Disease Medical Panel constituted under the": {
+          "optional-context38132555": "Workers Compensation and Injury Management",
+          "optional-context38132556": "Act 2023 section 124 has determined for the purposes of",
+          "Part 7 Division 2 of that Act that the degree of permanent whole of person impairment resulting from the injury is at least 25%.": {
+            "((4A)) Subsection (4) applies to an injury that \u2014": {
+              "(a)": "before 14 November 2005, is a disability as defined in the Workers\u2019 Compensation and Injury Management",
+              "(b)": "on or after 14 November 2005 and before the commencement of the Workers Compensation and",
+              "(c)": "on or after the commencement of the Workers"
+            }
+          },
+          "optional-context38132560": "Act 1981; or",
+          "optional-context38132562": "Injury Management Act 2023 Part 7 Division 2, is an injury as defined in the Workers\u2019 Compensation and",
+          "optional-context38132563": "Injury Management Act 1981; or",
+          "optional-context38132565": "Compensation and Injury Management Act 2023 Part 7",
+          "optional-context38132566": "Division 2, is an injury from employment for the purposes of that Act."
+        }
+      },
+      "((5)) For the purposes of this section a person\u2019s knowledge includes knowledge which the person might reasonably have been expected to acquire \u2014": {
+        "(a)": "from facts observable or ascertainable by the person; or",
+        "(b) from facts ascertainable by the person with the help of medical or other appropriate expert advice which it is reasonable for the person to seek, but a person is not to be fixed under this subsection with knowledge of a fact ascertainable only with the help of expert advice so long as the person has taken all reasonable steps to obtain (and, where appropriate, to act on) that advice.": {
+          "optional-context38141570": "[Section 56 amended: No. 21 of 2023 s. 657.]"
+        }
       }
+    },
+    "(57) Survival of certain actions": {
+      "((1)) If a person dies as a result of a personal injury other than an injury that is attributable to the inhalation of asbestos or silica dust but, immediately before the death, a cause of action relating to the personal injury had not accrued under section 55, the cause of action relating to the personal injury is to be taken as having accrued when the person died.": {
+        "optional-context3820573": "Division 1 Accrual of certain causes of action other than to recover land"
+      },
+      "((2)) If a person dies as a result of a personal injury that is attributable to the inhalation of asbestos or silica dust but, immediately before the death, a cause of action relating to the personal injury had not accrued under section 56, the cause of action relating to the personal injury is to be taken as having accrued when the person died.": {
+        "optional-context3821575": "[Section 57 amended: No. 21 of 2023 s. 658.]"
+      }
+    },
+    "(58) Contributions between tortfeasors": {
+      "optional-context383577": "A cause of action for contribution under the Law Reform (Contributory Negligence and Tortfeasors\u2019 Contribution)",
+      "Act 1947 section 7 accrues to a person (person A) \u2014": {
+        "(a)": "in the case where person A is liable in respect of the damage for which contribution is claimed by judgment of a court or by arbitral award \u2014 when the judgment is given or the award is made, whether or not, in the case of a judgment, the judgment is afterwards varied as to quantum of damages; or",
+        "(b) in any other case, if person A makes an agreement with a person having a cause of action for the damage for which the cause of action for contribution arises, which agreement fixes, as between the parties to the agreement, the amount of the liability in respect of the damage of person A or a person through whom person A claims \u2014": {
+          "optional-context38311581": "when the agreement is made."
+        }
+      }
+    },
+    "(59) Debts repayable on demand": {
+      "optional-context384583": "A cause of action for the repayment of a debt repayable on demand accrues when there is a failure to comply with a demand for repayment."
+    },
+    "(60) Successive wrongs to goods If \u2014": {
+      "(a)": "a cause of action for the conversion or detention of goods accrues to a person;",
+      "(b)": "possession of the goods is not recovered by the person or by a person claiming through the person; and",
+      "(c)": "a further cause of action for the conversion or detention of the goods or a cause of action to recover the proceeds of sale of the goods accrues to the person or to a person claiming through the person, the cause of action for the further conversion or detention or to recover the proceeds of sale accrues when the cause of action mentioned in paragraph (a) accrues."
+    },
+    "(61) Equitable interests": {
+      "optional-context386589": "A cause of action to enforce an equitable estate or interest in land accrues, for the purposes of this Act, in the same manner and circumstances as, and when, a cause of action to recover the land would accrue if the estate or interest were a legal estate or interest."
+    },
+    "(62) Future interests of beneficiaries under trusts": {
+      "optional-context387591": "A cause of action of a beneficiary relating to a future interest in trust property accrues when the beneficiary becomes entitled to immediate possession of the property."
+    },
+    "(63) Matters referable to arbitration": {
+      "If, under an arbitration provision, a cause of action with respect to any difference or matter referable to arbitration under the arbitration provision \u2014": {
+        "(a)": "does not accrue until the making of an arbitral award or the happening of some other event in or relating to the arbitration; or",
+        "(b)": "does not accrue at all, the cause of action nevertheless accrues, for the purposes of the application of this Act to an arbitration under the arbitration provision, when it would have accrued but for that arbitration provision."
+      }
+    },
+    "(64) Arbitral awards": {
+      "optional-context389597": "A cause of action to enforce an arbitral award accrues when default in observance of the award first occurs, being the default in respect of which the action is brought."
     }
   },
   "Division 2 \u2014 Accrual of certain causes of action to recover land": {
@@ -447,15 +521,15 @@
       "((2)) Subject to subsection (3), if \u2014": {
         "(a)": "a cause of action accrues to recover land from a person in adverse possession of the land; and",
         "(b) afterwards, the land is in the adverse possession of a second person, whether the second person claims through the first person or not, the cause of action to recover the land from the second person accrues when the cause of action mentioned in paragraph (a)": {
-          "context48011604": "accrues."
+          "optional-context39011604": "accrues."
         }
       },
       "((3)) If a cause of action to recover land accrues and afterwards, but before the limitation period for the action expires, the land ceases to be in adverse possession, the cause of action does not accrue unless and until adverse possession of the land is taken again.": {
-        "context4802606": "Accrual of certain causes of action to recover land Division 2"
+        "optional-context3902606": "Accrual of certain causes of action to recover land Division 2"
       }
     },
     "(66) Dispossession or discontinuance": {
-      "context481608": "A cause of action to recover land by a person who has been in possession of the land and, while entitled to the land, is dispossessed or discontinues possession, accrues when the person is dispossessed, or discontinues the possession."
+      "optional-context391608": "A cause of action to recover land by a person who has been in possession of the land and, while entitled to the land, is dispossessed or discontinues possession, accrues when the person is dispossessed, or discontinues the possession."
     },
     "(67) Deceased in possession": {
       "A cause of action to recover the land of a deceased person (whether under a will or on intestacy) accrues when the deceased died if, at that time, the deceased was \u2014": {
@@ -497,14 +571,14 @@
     },
     "(73) Beneficial co-owners of land": {
       "((1)) In this section \u2014": {
-        "context4880638": "land means land held on trust under a settlement;",
-        "context4880639": "settlement means a disposition, inter vivos or by will, of property upon trust, where no person is, immediately after the disposition takes effect, beneficially entitled to the trust property absolutely."
+        "optional-context3980638": "land means land held on trust under a settlement;",
+        "optional-context3980639": "settlement means a disposition, inter vivos or by will, of property upon trust, where no person is, immediately after the disposition takes effect, beneficially entitled to the trust property absolutely."
       },
       "((2))": "A cause of action to recover land that is in the possession of a person entitled under the settlement to immediate possession of the land does not, for the purposes of this Act, accrue during such possession to the trustee or any other person entitled to an estate or interest in the land under the settlement.",
       "((3)) Subsection (2) does not apply to a cause of action against \u2014": {
         "(a)": "a person in possession who is solely and absolutely entitled under the settlement to the land; or",
         "(b) 2 or more persons in possession who are absolutely entitled under the settlement to the land as joint tenants or as tenants in common.": {
-          "context48821644": "Effect of expiration of limitation period Part 5"
+          "optional-context39821644": "Effect of expiration of limitation period Part 5"
         }
       }
     }
@@ -518,13 +592,13 @@
       "(a)": "if the person does not commence an action to recover the land before the expiry of the limitation period provided for under this Act; or",
       "(b) if \u2014": {
         "(i) a court extends the time in which the person can commence an action to recover the land; and": {
-          "context49110653": "(ii) the person does not commence an action to recover the land before the expiry of the extended period."
+          "optional-context40110653": "(ii) the person does not commence an action to recover the land before the expiry of the extended period."
         }
       }
     },
     "(76) No title by adverse possession against Crown": {
-      "context492655": "Despite any law that is, or has been, in effect the right, title or interest of the Crown to, or in, any land is not affected in any way by any possession of such land adverse to the Crown, and is to be taken as never having been so affected.",
-      "context492656": "Part 5 Effect of expiration of limitation period"
+      "optional-context402655": "Despite any law that is, or has been, in effect the right, title or interest of the Crown to, or in, any land is not affected in any way by any possession of such land adverse to the Crown, and is to be taken as never having been so affected.",
+      "optional-context402656": "Part 5 Effect of expiration of limitation period"
     },
     "(77) Future interests in land": {
       "((1)) If \u2014": {
@@ -541,7 +615,7 @@
       "((1)) If land is held upon trust including a trust for sale and \u2014": {
         "(a)": "the limitation period for an action by the trustee to recover the land has expired; or",
         "(b) a court extends the time in which the trustee can commence an action to recover the land and the trustee does not commence an action to recover the land before the expiry of the extended period, the estate of the trustee is not extinguished so long as the right of action to recover the land of any person entitled to a beneficial interest in the land or in the proceeds of sale either has not accrued or has not been barred by this Act; but if every such right of action has been so barred the estate of the trustee is extinguished.": {
-          "context49401669": "Effect of expiration of limitation period Part 5"
+          "optional-context40401669": "Effect of expiration of limitation period Part 5"
         }
       },
       "((2))": "If land is held upon trust including a trust for sale, an action to recover the land may be brought by the trustee on behalf of any person entitled to a beneficial interest in possession in the land or in the proceeds of sale whose right of action has not been barred by this Act even though the right of action of the trustee would apart from this provision have been barred by this Act."
@@ -554,7 +628,7 @@
       "((3))": "The plaintiff in an extension application has the burden of proving that a court should extend the relevant limitation period."
     },
     "(80) Grounds in equity upon which to refuse relief preserved": {
-      "context511678": "Nothing in this Act affects any equitable jurisdiction to refuse relief on the ground of laches, acquiescence or otherwise."
+      "optional-context421678": "Nothing in this Act affects any equitable jurisdiction to refuse relief on the ground of laches, acquiescence or otherwise."
     },
     "(81) Counterclaims \u2014 commencement": {
       "((1))": "A counterclaim in an action (except a counterclaim solely by way of defence) is, for the purposes of this Act, a separate action.",
@@ -562,50 +636,43 @@
       "((3))": "If a defendant in an action makes a counterclaim against a plaintiff in the action and then joins another person as a party against whom the counterclaim is made the counterclaim is to be taken to have commenced as against the other person when the other person is joined as a party to the counterclaim."
     },
     "(82) Joint causes of action": {
-      "context513684": "If, were it not for this Act, 2 or more persons would have a cause of action jointly but, because of this Act, an action on the",
-      "context513685": "Miscellaneous Part 6 cause of action cannot be commenced by one or more of them, an action on the cause of action may nonetheless be commenced by the other or others of them and judgment may be given accordingly."
+      "optional-context423684": "If, were it not for this Act, 2 or more persons would have a cause of action jointly but, because of this Act, an action on the",
+      "optional-context423685": "Miscellaneous Part 6 cause of action cannot be commenced by one or more of them, an action on the cause of action may nonetheless be commenced by the other or others of them and judgment may be given accordingly."
     },
     "(83) Joint liability": {
-      "context514687": "If, were it not for this Act, 2 or more persons would be liable on a cause of action jointly but, because of this Act, an action on the cause of action cannot be commenced against one or more of them, an action on the cause of action may nonetheless be commenced against the other or others of them and judgment may be given accordingly."
+      "optional-context424687": "If, were it not for this Act, 2 or more persons would be liable on a cause of action jointly but, because of this Act, an action on the cause of action cannot be commenced against one or more of them, an action on the cause of action may nonetheless be commenced against the other or others of them and judgment may be given accordingly."
     },
     "(84) Formal entry and claim For the purposes of this Act \u2014": {
       "(a)": "a formal entry on land is not of itself possession or evidence of possession of the land; and",
       "(b)": "a claim in respect of land does not preserve a cause of action to recover the land."
     },
     "(85) Other beneficiaries": {
-      "context516692": "If a beneficiary under a trust brings an action in relation to the trust (beneficiary 1\u2019s action), any other beneficiary under the trust (beneficiary 2) is not entitled to derive from beneficiary 1\u2019s action any benefit for which, because of this Act, beneficiary 2 could not have commenced an action when beneficiary 1\u2019s action was commenced."
+      "optional-context426692": "If a beneficiary under a trust brings an action in relation to the trust (beneficiary 1\u2019s action), any other beneficiary under the trust (beneficiary 2) is not entitled to derive from beneficiary 1\u2019s action any benefit for which, because of this Act, beneficiary 2 could not have commenced an action when beneficiary 1\u2019s action was commenced."
     },
     "(86) Limited right to recover tax": {
       "((1))": "This section applies in respect of an action by a person (a claimant) to recover, or in relation to the recovery of, any money paid by way of tax or purported tax."
     }
   },
-  "heading179115": "Part 7 \u2014 Transitional provisions",
-  "heading18116": "Division 1 \u2014 Provisions for Civil Liability",
-  "heading19117": "Legislation Amendment (Child Sexual",
-  "Abuse Actions) Act 2018": {
-    "(89)": "Terms used 50",
-    "(90)": "Application of section 6A 51",
-    "(91)": "Previously barred causes of action 51",
-    "(92)": "Previously settled causes of action 52"
-  },
-  "heading213123": "Notes",
-  "heading22124": "Compilation table 54",
-  "Defined terms": {
-    "context24126": "As at 01 Jul 2024 Official Version page v",
-    "context24127": "An Act to provide for time limits for commencing civil legal proceedings and arbitrations, and for related purposes."
-  },
-  "heading25911255": "Division 1 Preliminary",
-  "heading26256": "Part 2 \u2014 Limitation periods",
-  "Part 3": {
-    "((1))": "Divisions 2 and 3 have effect subject to Part 3.",
-    "((2)) Subsection (1) is subject to section 28(5).": {
-      "(12) When actions commence": {
-        "((1))": "In this Part a reference to the commencement of an action is a reference to the issue in the appropriate court of a writ or other originating application in relation to the action.",
-        "((2))": "Nothing in subsection (1) affects the operation of section 88."
-      }
+  "heading169115": "Part 7 \u2014 Transitional provisions",
+  "heading17116": "Division 1 \u2014 Provisions for Civil Liability",
+  "Legislation Amendment (Child Sexual": {
+    "Abuse Actions) Act 2018": {
+      "(89)": "Terms used 50",
+      "(90)": "Application of section 6A 51",
+      "(91)": "Previously barred causes of action 51",
+      "(92)": "Previously settled causes of action 52"
     }
   },
-  "heading311510353": "Part 3 \u2014 Extension or shortening of limitation periods",
+  "Notes": {
+    "optional-context49778": "This is a compilation of the Limitation Act 2005 and includes amendments made by other written laws. For provisions that have come into operation see the compilation table."
+  },
+  "Defined terms": {
+    "optional-context21126": "As at 01 Jul 2024 Official Version page v",
+    "optional-context21127": "An Act to provide for time limits for commencing civil legal proceedings and arbitrations, and for related purposes."
+  },
+  "heading22911255": "Division 1 Preliminary",
+  "heading23256": "Part 2 \u2014 Limitation periods",
+  "heading271510353": "Part 3 \u2014 Extension or shortening of limitation periods",
   "Division 1 \u2014 Extension for persons under 18 years when cause of action accrues": {
     "(30) Limitation periods applicable to persons under 15 when cause of action accrues": {
       "((1))": "If a person is under 15 years of age when a cause of action accrues to the person, an action on that cause of action cannot be commenced if 6 years have elapsed since the cause of action accrued.",
@@ -637,7 +704,7 @@
       },
       "((2))": "Subsection (1) does not apply if Part 2 Division 3 provides for a longer limitation period for commencing the action.",
       "((3)) In subsection (1) \u2014": {
-        "context3332377": "defendant includes a person for whom a defendant is vicariously liable;",
+        "optional-context2932377": "defendant includes a person for whom a defendant is vicariously liable;",
         "person in a close relationship, in relation to person A, means \u2014": {
           "(a) a person (person B) who at law has responsibility for \u2014": {
             "(i)": "the long-term care, welfare and development of person A before person A reaches 18 years of age; or"
@@ -646,60 +713,14 @@
             "(i)": "for person A or person B not to commence an action against person C; or"
           }
         },
-        "context3332381": "Extension for persons with mental disability Division 2",
-        "context3332382": "(ii) the day to day care, welfare and development of person A before person A reaches 18 years of age;",
-        "context3332383": "or",
-        "context3332386": "(ii) for person A not to wish to divulge the conduct or events in respect of which an action against person C would be founded."
+        "optional-context2932381": "Extension for persons with mental disability Division 2",
+        "optional-context2932382": "(ii) the day to day care, welfare and development of person A before person A reaches 18 years of age;",
+        "optional-context2932383": "or",
+        "optional-context2932386": "(ii) for person A not to wish to divulge the conduct or events in respect of which an action against person C would be founded."
       }
     },
     "(34) Defamation": {
-      "context334388": "Sections 30, 31, 32 and 33 do not apply to an action relating to the publication of defamatory matter."
-    }
-  },
-  "Extension by courts Division 3": {
-    "(d) in the case of an action under the Fatal Accidents": {
-      "context380440": "Act 1959 to be brought by a person under section 9(1) of that Act, means that person;"
-    },
-    "(e) in the case of an action of a kind to which the Law": {
-      "Reform (Miscellaneous Provisions) Act 1941 section 4 applies, means either the deceased person or a personal representative of that person.": {
-        "(40) Court may extend time to commence defamation actions": {
-          "((1))": "A plaintiff may apply to a court for leave to commence an action relating to the publication of defamatory matter even though one year has elapsed since the publication.",
-          "((2))": "Subject to subsection (3), on an application a court, if satisfied that it was not reasonable in the circumstances for the plaintiff to have commenced an action in relation to the matter complained of within one year from the publication, must extend the time in which the action can be commenced.",
-          "((3))": "An action relating to the publication of defamatory matter cannot be commenced if 3 years have elapsed since the publication."
-        },
-        "(41) Court may extend time to commence action by person under": {
-          "18 when cause of action accrues, with guardian": {
-            "((1))": "A plaintiff who was under 18 years of age when a cause of action accrued to that person may apply to a court for leave to commence an action even though the limitation period provided for under this Act has expired.",
-            "((2))": "Subject to subsection (3), on an application a court may extend the time in which the action can be commenced up to when the plaintiff reaches 21 years of age.",
-            "((3))": "A court is not to extend time on an application unless the court is satisfied that in the circumstances it was unreasonable for a",
-            "((4))": "This section does not apply to an action relating to the publication of defamatory matter."
-          },
-          "context38101452": "Division 3 Extension by courts guardian of the plaintiff not to commence the action within the limitation period for the action."
-        },
-        "(42) Court may extend time to commence action by person with a mental disability, with guardian": {
-          "((1))": "A plaintiff who suffers a mental disability at any time after a cause of action accrues to that person may apply to a court for leave to commence an action even though the limitation period provided for under this Act has expired.",
-          "((2))": "Subject to subsection (3), on an application a court may extend the time in which the action can be commenced up to 12 years from when the cause of action accrued.",
-          "((3))": "A court is not to extend time on an application unless the court is satisfied that in the circumstances it was unreasonable for a guardian of the plaintiff not to commence the action within the limitation period for the action.",
-          "((4))": "This section does not apply to an action relating to the publication of defamatory matter."
-        },
-        "(43) Jurisdiction and procedure": {
-          "((1)) Subject to subsection (2), an extension application is to be made by summons in the jurisdiction in which \u2014": {
-            "(a)": "the existing action, if any, has been brought; or",
-            "(b)": "the proposed action would be brought if the application were successful, as is relevant to the case."
-          },
-          "((2))": "An extension application in respect of an arbitration for a difference or matter under an arbitration provision is to be made by summons to the Supreme Court.",
-          "context38103464": "Extension or shortening by agreement Division 4",
-          "((3))": "The plaintiff is to serve a copy of the summons on each person against whom the action that is the subject of the extension application is brought or proposed to be brought.",
-          "((4))": "Despite subsection (1), the Supreme Court may give leave to bring an action in any court which seems to it to be the appropriate court.",
-          "((5))": "An extension application can be sought or determined at any time before or after the issue, or close of, pleadings."
-        },
-        "(44) Further matters for court\u2019s consideration on extension applications": {
-          "When deciding, on an extension application, whether to extend the time for the commencement of an action, a court is to have regard to \u2014": {
-            "(a)": "whether the delay in commencing the proposed action, whatever the merit of the reasons for that delay, would unacceptably diminish the prospects of a fair trial of the action; and",
-            "(b)": "whether extending the time would significantly prejudice the defendant (other than by reason only of the commencement of the proposed action)."
-          }
-        }
-      }
+      "optional-context294388": "Sections 30, 31, 32 and 33 do not apply to an action relating to the publication of defamatory matter."
     }
   },
   "Division 3 Extension by courts": {
@@ -718,19 +739,62 @@
         "(a)": "in the case of a person who is under 18 years of age when the cause of action accrues, means either that person or a guardian of that person;",
         "(b)": "in the case of a person with a mental disability, means either that person or a guardian of that person;",
         "(c) in the case of an action under the Fatal Accidents": {
-          "context37202437": "Act 1959 to be brought by a personal representative of a deceased person, means the personal representative;"
+          "optional-context32202437": "Act 1959 to be brought by a personal representative of a deceased person, means the personal representative;",
+          "optional-context32202438": "Extension by courts Division 3"
+        },
+        "(d) in the case of an action under the Fatal Accidents": {
+          "optional-context32203440": "Act 1959 to be brought by a person under section 9(1) of that Act, means that person;"
+        },
+        "(e) in the case of an action of a kind to which the Law": {
+          "Reform (Miscellaneous Provisions) Act 1941 section 4 applies, means either the deceased person or a personal representative of that person.": {
+            "(40) Court may extend time to commence defamation actions": {
+              "((1))": "A plaintiff may apply to a court for leave to commence an action relating to the publication of defamatory matter even though one year has elapsed since the publication.",
+              "((2))": "Subject to subsection (3), on an application a court, if satisfied that it was not reasonable in the circumstances for the plaintiff to have commenced an action in relation to the matter complained of within one year from the publication, must extend the time in which the action can be commenced.",
+              "((3))": "An action relating to the publication of defamatory matter cannot be commenced if 3 years have elapsed since the publication."
+            },
+            "(41)": "Court may extend time to commence action by person under",
+            "(42) Court may extend time to commence action by person with a mental disability, with guardian": {
+              "((1))": "A plaintiff who suffers a mental disability at any time after a cause of action accrues to that person may apply to a court for leave to commence an action even though the limitation period provided for under this Act has expired.",
+              "((2))": "Subject to subsection (3), on an application a court may extend the time in which the action can be commenced up to 12 years from when the cause of action accrued.",
+              "((3))": "A court is not to extend time on an application unless the court is satisfied that in the circumstances it was unreasonable for a guardian of the plaintiff not to commence the action within the limitation period for the action.",
+              "((4))": "This section does not apply to an action relating to the publication of defamatory matter."
+            },
+            "(43) Jurisdiction and procedure": {
+              "((1)) Subject to subsection (2), an extension application is to be made by summons in the jurisdiction in which \u2014": {
+                "(a)": "the existing action, if any, has been brought; or",
+                "(b)": "the proposed action would be brought if the application were successful, as is relevant to the case."
+              },
+              "((2))": "An extension application in respect of an arbitration for a difference or matter under an arbitration provision is to be made by summons to the Supreme Court.",
+              "((3))": "The plaintiff is to serve a copy of the summons on each person against whom the action that is the subject of the extension application is brought or proposed to be brought.",
+              "((4))": "Despite subsection (1), the Supreme Court may give leave to bring an action in any court which seems to it to be the appropriate court.",
+              "((5))": "An extension application can be sought or determined at any time before or after the issue, or close of, pleadings."
+            },
+            "(44)": "Further matters for court\u2019s consideration on extension applications"
+          },
+          "18 when cause of action accrues, with guardian": {
+            "((1))": "A plaintiff who was under 18 years of age when a cause of action accrued to that person may apply to a court for leave to commence an action even though the limitation period provided for under this Act has expired.",
+            "((2))": "Subject to subsection (3), on an application a court may extend the time in which the action can be commenced up to when the plaintiff reaches 21 years of age.",
+            "((3))": "A court is not to extend time on an application unless the court is satisfied that in the circumstances it was unreasonable for a",
+            "((4))": "This section does not apply to an action relating to the publication of defamatory matter."
+          },
+          "optional-context32204452": "Division 3 Extension by courts guardian of the plaintiff not to commence the action within the limitation period for the action.",
+          "optional-context32204464": "Extension or shortening by agreement Division 4",
+          "When deciding, on an extension application, whether to extend the time for the commencement of an action, a court is to have regard to \u2014": {
+            "(a)": "whether the delay in commencing the proposed action, whatever the merit of the reasons for that delay, would unacceptably diminish the prospects of a fair trial of the action; and",
+            "(b)": "whether extending the time would significantly prejudice the defendant (other than by reason only of the commencement of the proposed action)."
+          }
         }
       }
     }
   },
-  "heading39011478": "Division 5 Extension by confirmation",
+  "heading33011478": "Division 5 Extension by confirmation",
   "Division 6 \u2014 Extension of limitation periods \u2014 other matters": {
     "(52) Persons with mental disability under 18 when cause of action accrues \u2014 most beneficial limitation period applies If \u2014": {
       "(a)": "a person is under 18 years of age when a cause of action accrues to the person;",
       "(b)": "during any time after that time the person is suffering a mental disability; and",
       "(c) different limitation periods for commencing an action on the cause of action are provided for under section 7 or": {
-        "context4202512": "Division 1 or 2, the limitation period for commencing the action is the longer of those limitation periods.",
-        "context4202513": "Extension of limitation periods \u2014 other matters Division 6"
+        "optional-context3602512": "Division 1 or 2, the limitation period for commencing the action is the longer of those limitation periods.",
+        "optional-context3602513": "Extension of limitation periods \u2014 other matters Division 6"
       }
     },
     "(53) Limitation period in case of death of certain persons if cause of action accrues to certain other persons": {
@@ -747,71 +811,14 @@
         "(a)": "removes an arbitrator or umpire;",
         "(b)": "restrains a party or an arbitrator or umpire from proceeding with an arbitration; or",
         "(c) sets aside an arbitral award, the court may at the same time or within 6 months afterwards, whether or not the limitation period provided for under this Act for commencing an action with respect to the difference or matter under arbitration has expired, order that the whole or any part of the time between the commencement of the arbitration and the making of the order under this section does not count in the reckoning of the limitation period.": {
-          "context42202525": "Division 6 Extension of limitation periods \u2014 other matters"
+          "optional-context36202525": "Division 6 Extension of limitation periods \u2014 other matters"
         }
       },
       "((2))": "If, after the expiration of a limitation period provided for under this Act, a court makes an order under this section, the expiration of the first limitation period has no effect for the purposes of this Act."
     }
   },
-  "heading4221527": "Part 4 \u2014 Accrual of particular causes of action",
-  "Workers Compensation and Injury Management": {
-    "context45556": "Act 2023 section 124 has determined for the purposes of",
-    "Part 7 Division 2 of that Act that the degree of permanent whole of person impairment resulting from the injury is at least 25%.": {
-      "((4A)) Subsection (4) applies to an injury that \u2014": {
-        "(a)": "before 14 November 2005, is a disability as defined in the Workers\u2019 Compensation and Injury Management"
-      }
-    }
-  },
-  "Act 1981; or": {
-    "(b) on or after 14 November 2005 and before the commencement of the Workers Compensation and": {
-      "context460562": "Injury Management Act 2023 Part 7 Division 2, is an injury as defined in the Workers\u2019 Compensation and"
-    }
-  },
-  "Injury Management Act 1981; or": {
-    "(c) on or after the commencement of the Workers": {
-      "context470565": "Compensation and Injury Management Act 2023 Part 7",
-      "Division 2, is an injury from employment for the purposes of that Act.": {
-        "((5)) For the purposes of this section a person\u2019s knowledge includes knowledge which the person might reasonably have been expected to acquire \u2014": {
-          "(a)": "from facts observable or ascertainable by the person; or",
-          "(b)": "from facts ascertainable by the person with the help of medical or other appropriate expert advice which it is reasonable for the person to seek, but a person is not to be fixed under this subsection with knowledge of a fact ascertainable only with the help of expert advice so long as the person has taken all reasonable steps to obtain (and, where appropriate, to act on) that advice.",
-          "[Section 56 amended: No. 21 of 2023 s. 657.]": {
-            "(57) Survival of certain actions": {
-              "((1))": "If a person dies as a result of a personal injury other than an injury that is attributable to the inhalation of asbestos or silica dust but, immediately before the death, a cause of action relating to the personal injury had not accrued under section 55, the cause of action relating to the personal injury is to be taken as having accrued when the person died.",
-              "((2))": "If a person dies as a result of a personal injury that is attributable to the inhalation of asbestos or silica dust but, immediately before the death, a cause of action relating to the personal injury had not accrued under section 56, the cause of action relating to the personal injury is to be taken as having accrued when the person died."
-            },
-            "(58)": "Contributions between tortfeasors",
-            "(59)": "Debts repayable on demand",
-            "(60) Successive wrongs to goods If \u2014": {
-              "(a)": "a cause of action for the conversion or detention of goods accrues to a person;",
-              "(b)": "possession of the goods is not recovered by the person or by a person claiming through the person; and",
-              "(c)": "a further cause of action for the conversion or detention of the goods or a cause of action to recover the proceeds of sale of the goods accrues to the person or to a person claiming through the person, the cause of action for the further conversion or detention or to recover the proceeds of sale accrues when the cause of action mentioned in paragraph (a) accrues."
-            },
-            "(61)": "Equitable interests",
-            "(62)": "Future interests of beneficiaries under trusts",
-            "(63)": "Matters referable to arbitration",
-            "(64)": "Arbitral awards"
-          },
-          "context47010573": "Division 1 Accrual of certain causes of action other than to recover land",
-          "context47010575": "[Section 57 amended: No. 21 of 2023 s. 658.]",
-          "context47010577": "A cause of action for contribution under the Law Reform (Contributory Negligence and Tortfeasors\u2019 Contribution)",
-          "Act 1947 section 7 accrues to a person (person A) \u2014": {
-            "(a)": "in the case where person A is liable in respect of the damage for which contribution is claimed by judgment of a court or by arbitral award \u2014 when the judgment is given or the award is made, whether or not, in the case of a judgment, the judgment is afterwards varied as to quantum of damages; or",
-            "(b)": "in any other case, if person A makes an agreement with a person having a cause of action for the damage for which the cause of action for contribution arises, which agreement fixes, as between the parties to the agreement, the amount of the liability in respect of the damage of person A or a person through whom person A claims \u2014"
-          },
-          "context47010581": "when the agreement is made.",
-          "context47010583": "A cause of action for the repayment of a debt repayable on demand accrues when there is a failure to comply with a demand for repayment.",
-          "context47010589": "A cause of action to enforce an equitable estate or interest in land accrues, for the purposes of this Act, in the same manner and circumstances as, and when, a cause of action to recover the land would accrue if the estate or interest were a legal estate or interest.",
-          "context47010591": "A cause of action of a beneficiary relating to a future interest in trust property accrues when the beneficiary becomes entitled to immediate possession of the property.",
-          "If, under an arbitration provision, a cause of action with respect to any difference or matter referable to arbitration under the arbitration provision \u2014": {
-            "(a)": "does not accrue until the making of an arbitral award or the happening of some other event in or relating to the arbitration; or",
-            "(b)": "does not accrue at all, the cause of action nevertheless accrues, for the purposes of the application of this Act to an arbitration under the arbitration provision, when it would have accrued but for that arbitration provision."
-          },
-          "context47010597": "A cause of action to enforce an arbitral award accrues when default in observance of the award first occurs, being the default in respect of which the action is brought."
-        }
-      }
-    }
-  },
-  "heading4941671": "Part 6 Miscellaneous",
+  "heading3621527": "Part 4 \u2014 Accrual of particular causes of action",
+  "heading4041671": "Part 6 Miscellaneous",
   "Part 6 Miscellaneous": {
     "((2)) Any judgment by a court in favour of a claimant is to be for only that part of the amount claimed which the court is satisfied \u2014": {
       "(a)": "has not been charged directly to or recovered directly from another person or, if it has been so charged or recovered, has been refunded to the other person;",
@@ -828,24 +835,23 @@
         },
         "((3))": "The person to whom the refund is to be made has the burden of satisfying a taxing authority as to the matters mentioned in subsection (2).",
         "((4)) In this section \u2014": {
-          "context52103709": "taxing authority means a person who or which under an Act is responsible for the assessment or collection of any tax."
+          "optional-context43103709": "taxing authority means a person who or which under an Act is responsible for the assessment or collection of any tax.",
+          "optional-context43103710": "Miscellaneous Part 6"
         }
-      }
-    }
-  },
-  "Miscellaneous Part 6": {
-    "(88) Arbitrations \u2014 commencement": {
-      "((1)) For the purposes of this Act \u2014": {
-        "(a) if an arbitration provision requires or permits a party to the arbitration to give notice in writing to another party \u2014": {
-          "(i)": "requiring the other party to appoint or concur in appointing an arbitrator; or",
-          "context53000715": "(ii) requiring the other party to submit or concur in submitting a difference or matter to a person named or designated in the provisions for arbitration as arbitrator;",
-          "context53000716": "or"
-        },
-        "(b)": "if, in a case to which paragraph (a) does not apply, a party to the arbitration takes a step required or permitted by an arbitration provision for the purpose of bringing a difference or matter before an arbitrator and gives to another party notice in writing of the taking of the step, the arbitration is to be taken to have commenced, as between the party giving the notice and the party to whom the notice is given, when the notice is given."
       },
-      "((2)) For the purpose of subsection (1), a notice is given when the notice is given \u2014": {
-        "(a)": "in accordance with the Interpretation Act 1984 section 76; or",
-        "(b)": "in a manner required or permitted by the provisions for arbitration, whichever occurs first."
+      "(88) Arbitrations \u2014 commencement": {
+        "((1)) For the purposes of this Act \u2014": {
+          "(a) if an arbitration provision requires or permits a party to the arbitration to give notice in writing to another party \u2014": {
+            "(i)": "requiring the other party to appoint or concur in appointing an arbitrator; or"
+          },
+          "optional-context43110715": "(ii) requiring the other party to submit or concur in submitting a difference or matter to a person named or designated in the provisions for arbitration as arbitrator;",
+          "optional-context43110716": "or",
+          "(b)": "if, in a case to which paragraph (a) does not apply, a party to the arbitration takes a step required or permitted by an arbitration provision for the purpose of bringing a difference or matter before an arbitrator and gives to another party notice in writing of the taking of the step, the arbitration is to be taken to have commenced, as between the party giving the notice and the party to whom the notice is given, when the notice is given."
+        },
+        "((2)) For the purpose of subsection (1), a notice is given when the notice is given \u2014": {
+          "(a)": "in accordance with the Interpretation Act 1984 section 76; or",
+          "(b)": "in a manner required or permitted by the provisions for arbitration, whichever occurs first."
+        }
       }
     }
   },
@@ -863,102 +869,116 @@
               },
               "((4))": "If an action on the previously settled cause of action is commenced, the settlement agreement and each agreement relating to the settlement, other than a contract of insurance, is, despite any written or other law, void to the extent to which it relates to the child sexual abuse the subject of the cause of action.",
               "((5))": "A party to an agreement that is wholly or partly void under subsection (4) cannot seek to recover an amount paid by or for the party under the agreement on the basis that the agreement is void to that extent.",
-              "((6))": "The court dealing with the action may, if satisfied that it is just and reasonable to do so, take into account any amount paid"
+              "((6))": "The court dealing with the action may, if satisfied that it is just and reasonable to do so, take into account any amount paid",
+              "((7)) For the purposes of subsection (6), amounts paid under an agreement are taken to relate to the child sexual abuse the subject of the cause of action to the extent of 50% if the agreement \u2014": {
+                "(a)": "does not relate solely to that child sexual abuse; and",
+                "(b)": "does not expressly deal with the extent to which the agreement and amounts paid under it relate to that child sexual abuse."
+              }
             }
-          }
+          },
+          "optional-context47000770": "Transitional provisions Part 7",
+          "optional-context47000771": "Division 1 under an agreement that is wholly or partly void under this section, to the extent to which the amount relates to the child sexual abuse the subject of the cause of action.",
+          "optional-context47000775": "[Section 92 inserted: No. 3 of 2018 s. 12.]"
         }
       }
     }
   },
+  "heading4400724": "Part 7 \u2014 Transitional provisions [Heading inserted: No. 3 of 2018 s. 12.]",
   "Division 1 \u2014 Provisions for Civil Liability Legislation": {
     "Amendment (Child Sexual Abuse Actions) Act 2018 [Heading inserted: No. 3 of 2018 s. 12.]": {
       "(89) Terms used In this Division \u2014": {
-        "context5500728": "child sexual abuse has the meaning given in section 6A(1);",
-        "context5500729": "child sexual abuse action has the meaning given in section 6A(1);",
-        "context5500730": "child sexual abuse cause of action has the meaning given in section 6A(1);",
-        "context5500731": "commencement day means the day on which the Civil Liability",
-        "context5500732": "Legislation Amendment (Child Sexual Abuse Actions) Act 2018 section 12 comes into operation;",
-        "context5500733": "previously barred cause of action means a child sexual abuse cause of action that was statute barred immediately before commencement day;",
-        "context5500734": "previously settled cause of action means a child sexual abuse cause of action that was settled after it was statute barred but before commencement day;",
+        "optional-context4600728": "child sexual abuse has the meaning given in section 6A(1);",
+        "optional-context4600729": "child sexual abuse action has the meaning given in section 6A(1);",
+        "optional-context4600730": "child sexual abuse cause of action has the meaning given in section 6A(1);",
+        "optional-context4600731": "commencement day means the day on which the Civil Liability",
+        "optional-context4600732": "Legislation Amendment (Child Sexual Abuse Actions) Act 2018 section 12 comes into operation;",
+        "optional-context4600733": "previously barred cause of action means a child sexual abuse cause of action that was statute barred immediately before commencement day;",
+        "optional-context4600734": "previously settled cause of action means a child sexual abuse cause of action that was settled after it was statute barred but before commencement day;",
         "statute barred, in relation to a child sexual abuse cause of action, means that action on the cause of action cannot be maintained \u2014": {
           "(a)": "under one of the provisions referred to in section 6A(3);",
           "(b)": "because a limitation period applicable to the action under this or any other Act has expired."
         },
-        "context5500737": "or",
-        "context5500739": "[Section 89 inserted: No. 3 of 2018 s. 12.]"
-      }
-    }
-  },
-  "Transitional provisions Part 7": {
-    "Division 1 under an agreement that is wholly or partly void under this section, to the extent to which the amount relates to the child sexual abuse the subject of the cause of action.": {
-      "((7)) For the purposes of subsection (6), amounts paid under an agreement are taken to relate to the child sexual abuse the subject of the cause of action to the extent of 50% if the agreement \u2014": {
-        "(a)": "does not relate solely to that child sexual abuse; and",
-        "(b) does not expressly deal with the extent to which the agreement and amounts paid under it relate to that child sexual abuse.": {
-          "context58001775": "[Section 92 inserted: No. 3 of 2018 s. 12.]"
+        "optional-context4600737": "or",
+        "optional-context4600739": "[Section 89 inserted: No. 3 of 2018 s. 12.]",
+        "optional-context4600740": "Transitional provisions Part 7",
+        "Provisions for Civil Liability Legislation Amendment (Child Division 1": {
+          "(s)": "90"
         }
+      },
+      "(90) Application of section 6A": {
+        "optional-context4601744": "Section 6A applies in relation to a child sexual abuse action regardless of when the act or omission constituting child sexual abuse occurred.",
+        "optional-context4601745": "[Section 90 inserted: No. 3 of 2018 s. 12.]"
+      },
+      "(91) Previously barred causes of action": {
+        "((1)) An action on a previously barred cause of action may be commenced even though one or more of the following apply \u2014": {
+          "(a)": "the action was statute barred before commencement day;",
+          "(b)": "an action on the cause of action had commenced but was discontinued or not finalised before commencement day;",
+          "(c)": "a judgment was given before commencement day in relation to the cause of action on the ground that the action was statute barred;",
+          "(d)": "an action on the cause of action was dismissed before commencement day on the ground that the action was statute barred."
+        },
+        "((2))": "Application may be made to a court with jurisdiction to deal with the action to set aside a judgment referred to in subsection (1)(c) or (d) (the previous judgment). An application may be made prior to the commencement of the action.",
+        "((3))": "The court may, if satisfied that it is just and reasonable to do so, set aside the previous judgment to the extent to which it relates to the action.",
+        "((4))": "If the previous judgment is wholly or partly set aside, a person who paid an amount under the judgment cannot seek to recover that amount on the basis of the judgment having been set aside to that extent.",
+        "((5))": "If an action on a previously barred cause of action is commenced, the court dealing with the action may, if satisfied that it is just and reasonable to do so, take into account any"
       }
     }
   },
-  "heading580010776": "Notes Compilation table",
-  "Notes": {
-    "context60778": "This is a compilation of the Limitation Act 2005 and includes amendments made by other written laws. For provisions that have come into operation see the compilation table."
-  },
+  "heading470003776": "Notes Compilation table",
   "Compilation table": {
-    "context61780": "Short title Number Assent Commencement and year Limitation Act 2005 19 of 2005 15 Nov 2005 15 Nov 2005 (see s. 2)",
-    "context61781": "Civil Liability Legislation 3 of 2018 19 Apr 2018 1 Jul 2018 (see s. 2(b) and Amendment (Child Sexual Gazette 29 Jun 2018 p. 2434)"
+    "optional-context50780": "Short title Number Assent Commencement and year Limitation Act 2005 19 of 2005 15 Nov 2005 15 Nov 2005 (see s. 2)",
+    "optional-context50781": "Civil Liability Legislation 3 of 2018 19 Apr 2018 1 Jul 2018 (see s. 2(b) and Amendment (Child Sexual Gazette 29 Jun 2018 p. 2434)",
+    "optional-context50782": "Abuse Actions) Act 2018",
+    "optional-context50783": "Pt. 4",
+    "optional-context50784": "Workers Compensation and 21 of 2023 24 Oct 2023 1 Jul 2024 (see s. 2(d) and Injury Management SL 2024/34 cl. 2)",
+    "optional-context50785": "Act 2023 Pt. 15 Div. 3",
+    "optional-context50786": "Subdiv. 9 [This is a list of terms defined and the provisions where they are defined.",
+    "optional-context50787": "The list is not part of the law.]"
   },
-  "heading611782": "Abuse Actions) Act 2018",
-  "Pt. 4": {
-    "context63784": "Workers Compensation and 21 of 2023 24 Oct 2023 1 Jul 2024 (see s. 2(d) and Injury Management SL 2024/34 cl. 2)"
-  },
-  "Act 2023 Pt. 15 Div. 3": {
-    "context64786": "Subdiv. 9 [This is a list of terms defined and the provisions where they are defined.",
-    "context64787": "The list is not part of the law.]",
-    "context64788": "Defined term Provision(s)",
-    "context64789": "action........................................................................................... 3(1), 21(1), 22(1)",
-    "context64790": "arbitral award ................................................................................................... 3(1)",
-    "context64791": "arbitration provision ......................................................................................... 3(1)",
-    "context64792": "beneficiary 1\u2019s action .......................................................................................... 85 beneficiary 2 ....................................................................................................... 85 cause of action (childbirth) .............................................................................. 7(1)",
-    "context64793": "child .............................................................................................................. 6A(1)",
-    "context64794": "child sexual abuse ................................................................................... 6A(1), 89 child sexual abuse action ........................................................................ 6A(1), 89 child sexual abuse cause of action ............................................... 6A(1), 6A(6), 89 claimant .......................................................................................................... 86(1)",
-    "context64795": "commencement day ................................................................................... 3(1), 89 defendant ..................................................................................... 3(1), 33(3), 36(4)",
-    "context64796": "equitable action .............................................................................................. 27(2)",
-    "context64797": "extension application ....................................................................................... 3(1)",
-    "context64798": "future interest ................................................................................................... 3(1)",
-    "context64799": "guardian .................................................................................................. 3(1), 3(1)",
-    "context64800": "income .............................................................................................................. 3(1)",
-    "context64801": "land ....................................................................................................... 3(1), 73(1)",
-    "context64802": "limitation provision .......................................................................................... 9(2)",
-    "context64803": "mental disability ............................................................................................... 3(1)",
-    "context64804": "mortgage .......................................................................................................... 3(1)",
-    "context64805": "mortgagee ........................................................................................................ 3(1)",
-    "context64806": "mortgagor ......................................................................................................... 3(1)",
-    "context64807": "person A .................................. 3(2), 3(3), 33(1), 36(1), 46(1), 49, 50(1), 53(1), 58 person B ........................................................................... 3(3), 33(3), 36(4), 53(2)",
-    "context64808": "person C ......................................................................................................... 33(3)",
-    "context64809": "person in a close relationship .............................................................. 33(3), 36(4)",
-    "context64810": "person to whom the cause of action accrues .................................................. 39(5)",
-    "context64811": "person A .................................................................................................. 3(1), 3(1)",
-    "context64812": "person B ......................................................................................................... 46(1)",
-    "context64813": "person C ......................................................................................................... 46(1)",
-    "context64814": "personal injury ................................................................................................. 3(1)",
-    "context64815": "personal representative..................................................................................... 3(1)",
-    "context64816": "plaintiff ............................................................................................................ 3(1)",
-    "context64817": "previous judgment .......................................................................................... 91(2)",
-    "context64818": "previously barred cause of action ........................................................................ 89 previously settled cause of action ....................................................................... 89 principal money ............................................................................................... 3(1)",
-    "context64819": "rent ................................................................................................................... 3(1)",
-    "context64820": "rentcharge ........................................................................................................ 3(1)",
-    "context64821": "settlement ....................................................................................................... 73(1)",
-    "context64822": "settlement agreement ..................................................................................... 92(1)",
-    "context64823": "statute barred ....................................................................................................... 89 tax .................................................................................................................... 3(1)",
-    "context64824": "taxing authority .............................................................................................. 87(4)",
-    "context64825": "tenant A ............................................................................................................ 3(6)",
-    "context64826": "tenant B ............................................................................................................ 3(6)",
-    "context64827": "trust .................................................................................................................. 3(1)",
-    "context64828": "trustee ............................................................................................................... 3(1)",
-    "context64829": "\u00a9 State of Western Australia 2024.",
-    "context64830": "This work is licensed under a Creative Commons Attribution 4.0 International Licence (CC BY 4.0).",
-    "context64831": "To view relevant information and for a link to a copy of the licence, visit www.legislation.wa.gov.au.",
-    "context64832": "Attribute work as: \u00a9 State of Western Australia 2024.",
-    "context64833": "By Authority: GEOFF O. LAWN, Government Printer"
+  "Defined term Provision(s)": {
+    "optional-context51789": "action........................................................................................... 3(1), 21(1), 22(1)",
+    "optional-context51790": "arbitral award ................................................................................................... 3(1)",
+    "optional-context51791": "arbitration provision ......................................................................................... 3(1)",
+    "optional-context51792": "beneficiary 1\u2019s action .......................................................................................... 85 beneficiary 2 ....................................................................................................... 85 cause of action (childbirth) .............................................................................. 7(1)",
+    "optional-context51793": "child .............................................................................................................. 6A(1)",
+    "optional-context51794": "child sexual abuse ................................................................................... 6A(1), 89 child sexual abuse action ........................................................................ 6A(1), 89 child sexual abuse cause of action ............................................... 6A(1), 6A(6), 89 claimant .......................................................................................................... 86(1)",
+    "optional-context51795": "commencement day ................................................................................... 3(1), 89 defendant ..................................................................................... 3(1), 33(3), 36(4)",
+    "optional-context51796": "equitable action .............................................................................................. 27(2)",
+    "optional-context51797": "extension application ....................................................................................... 3(1)",
+    "optional-context51798": "future interest ................................................................................................... 3(1)",
+    "optional-context51799": "guardian .................................................................................................. 3(1), 3(1)",
+    "optional-context51800": "income .............................................................................................................. 3(1)",
+    "optional-context51801": "land ....................................................................................................... 3(1), 73(1)",
+    "optional-context51802": "limitation provision .......................................................................................... 9(2)",
+    "optional-context51803": "mental disability ............................................................................................... 3(1)",
+    "optional-context51804": "mortgage .......................................................................................................... 3(1)",
+    "optional-context51805": "mortgagee ........................................................................................................ 3(1)",
+    "optional-context51806": "mortgagor ......................................................................................................... 3(1)",
+    "optional-context51807": "person A .................................. 3(2), 3(3), 33(1), 36(1), 46(1), 49, 50(1), 53(1), 58 person B ........................................................................... 3(3), 33(3), 36(4), 53(2)",
+    "optional-context51808": "person C ......................................................................................................... 33(3)",
+    "optional-context51809": "person in a close relationship .............................................................. 33(3), 36(4)",
+    "optional-context51810": "person to whom the cause of action accrues .................................................. 39(5)",
+    "optional-context51811": "person A .................................................................................................. 3(1), 3(1)",
+    "optional-context51812": "person B ......................................................................................................... 46(1)",
+    "optional-context51813": "person C ......................................................................................................... 46(1)",
+    "optional-context51814": "personal injury ................................................................................................. 3(1)",
+    "optional-context51815": "personal representative..................................................................................... 3(1)",
+    "optional-context51816": "plaintiff ............................................................................................................ 3(1)",
+    "optional-context51817": "previous judgment .......................................................................................... 91(2)",
+    "optional-context51818": "previously barred cause of action ........................................................................ 89 previously settled cause of action ....................................................................... 89 principal money ............................................................................................... 3(1)",
+    "optional-context51819": "rent ................................................................................................................... 3(1)",
+    "optional-context51820": "rentcharge ........................................................................................................ 3(1)",
+    "optional-context51821": "settlement ....................................................................................................... 73(1)",
+    "optional-context51822": "settlement agreement ..................................................................................... 92(1)",
+    "optional-context51823": "statute barred ....................................................................................................... 89 tax .................................................................................................................... 3(1)",
+    "optional-context51824": "taxing authority .............................................................................................. 87(4)",
+    "optional-context51825": "tenant A ............................................................................................................ 3(6)",
+    "optional-context51826": "tenant B ............................................................................................................ 3(6)",
+    "optional-context51827": "trust .................................................................................................................. 3(1)",
+    "optional-context51828": "trustee ............................................................................................................... 3(1)",
+    "optional-context51829": "\u00a9 State of Western Australia 2024.",
+    "optional-context51830": "This work is licensed under a Creative Commons Attribution 4.0 International Licence (CC BY 4.0).",
+    "optional-context51831": "To view relevant information and for a link to a copy of the licence, visit www.legislation.wa.gov.au.",
+    "optional-context51832": "Attribute work as: \u00a9 State of Western Australia 2024.",
+    "optional-context51833": "By Authority: GEOFF O. LAWN, Government Printer"
   }
 }

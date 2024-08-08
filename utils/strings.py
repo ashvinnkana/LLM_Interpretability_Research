@@ -1,5 +1,5 @@
 nlt_source_path = 'tokenizers/{}'
-csv_results_path = 'results/{}_{}_responses.csv'
+csv_results_path = 'results/{}_{}_{}.csv'
 structured_data_path = 'data/{}/{}_{}_{}.{}'
 logging_config_file = 'logging.conf'
 

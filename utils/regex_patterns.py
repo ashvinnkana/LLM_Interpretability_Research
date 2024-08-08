@@ -30,3 +30,6 @@ float_alpha_bullet = r'^(\d+)\.([a-z])$'
 simple_number_bullet = r'^(\d+)$'
 simple_alpha_bullet = r'^([a-z])$'
 part_division_headings = r"(?:Division|Part) \d+ — "
+function_words_ending = (r'\b(?:\w+\s)*(or|is|are|were|was|a|and|these|where|but|nor|yet|the|an|some|that|am|has|have'
+                         r'|do|does|had|in|on|at|with|it|they|this|then|here|there|why)\b[.!?]?')
+ending_with_numbers = r'\d+$'

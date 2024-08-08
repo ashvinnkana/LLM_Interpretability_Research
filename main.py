@@ -37,31 +37,39 @@ def create_results_dataframe(results, question_id, extract_version):
     # Extract model names
     model_names = [model['model_id'] for model in constants.groq_supported_llm_list]
 
-    # Define the multi-index columns
-    metrics = ['rouge1', 'rougeL']
-    columns = pd.MultiIndex.from_product([model_names, metrics], names=['model', 'metric'])
-
     # Prepare data dynamically
-    data = []
-    for key in results.keys():
-        row = []
+    data_rouge1 = []
+    data_rougeL = []
+    for key in results[0].keys():
+        avg_rouge1 = []
+        avg_rougeL = []
         for idx in range(len(constants.groq_supported_llm_list)):
             try:
-                row.append(results[key][idx]['rouge1'])
-                row.append(results[key][idx]['rougeL'])
+                rouge1_scores = [results[i][key][idx]['rouge1'] for i in range(len(results))]
+                rougeL_scores = [results[i][key][idx]['rougeL'] for i in range(len(results))]
+
+                avg_rouge1.append(sum(rouge1_scores) / len(rouge1_scores))
+                avg_rougeL.append(sum(rougeL_scores) / len(rougeL_scores))
             except TypeError as e:
                 logging.error(logging_messages.error_saving_response.format(e))
-                row.append(None)
-                row.append(None)
+                avg_rouge1.append(None)
+                avg_rougeL.append(None)
                 continue
-        data.append(row)
+        data_rouge1.append(avg_rouge1)
+        data_rougeL.append(avg_rougeL)
 
     # Index for the rows
-    index = list(results.keys())
+    index = list(results[0].keys())
 
-    # Create the DataFrame
-    df = pd.DataFrame(data, index=index, columns=columns)
-    df.to_csv(strings.csv_results_path.format(question_id, extract_version))
+    # Create DataFrame for rouge1
+    df_rouge1 = pd.DataFrame(data_rouge1, index=index, columns=model_names)
+    print(f'Rouge 1 Metric Results:\n{df_rouge1}\n')
+    df_rouge1.to_csv(strings.csv_results_path.format(question_id, extract_version, 'rouge1'))
+
+    # Create DataFrame for rougeL
+    df_rougeL = pd.DataFrame(data_rougeL, index=index, columns=model_names)
+    print(f'Rouge L Metric Results:\n{df_rougeL}\n')
+    df_rougeL.to_csv(strings.csv_results_path.format(question_id, extract_version, 'rougeL'))
 
 
 def get_response(query, docs, topic, llm, ref_answer):
@@ -127,7 +135,7 @@ def upsert_v0_structured_json_v1(pdf_path):
                            'extract_v1', 'v0', 'json')
     try:
         logging.info(logging_messages.upserting_chunks.format(constants.json_structured_tag, pdf_path))
-        embedder.encode_upsert_vectordb(json_structured_dataset, 10, json_structured_vectordb)
+        embedder.encode_upsert_vectordb(json_structured_dataset, 5, json_structured_vectordb)
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
@@ -158,11 +166,13 @@ def main():
                   "for actions to recover land from the time the right to recover the land accrues, reflecting the "
                   "period during which continuous adverse possession must be maintained to claim ownership.")
 
-    results = generate_responses(question, ref_answer)
+    results = []
+    for i in range(5):
+        logging.info(f'GENERATED RESPONSES 0{i + 1}')
+        logging.info(logging_messages.sub_divider)
+        results.append(generate_responses(question, ref_answer))
 
     create_results_dataframe(results, 'question_01', 'extract_v1')
-
-    return
 
 
 if __name__ == '__main__':

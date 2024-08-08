@@ -40,6 +40,7 @@ def extract_v1(pdf_path):
     node_route = []
     bullet_root_indexes = {}
 
+    logging.info(logging_messages.classify_sentences)
     for index, sentence in enumerate(content_sentences):
         if is_heading(sentence):
             node_route, latest_head_index = process_heading(extracted_data, sentence, index, node_route)

@@ -15,6 +15,17 @@ from models.node import Node
 
 
 def save_preprocessed_data(type_, data, unstructured_file_path, extract_version, struct_version, file_extension):
+    """
+    Save preprocessed data to a structured file path.
+
+    Parameters:
+    type_ (str): The type of data being processed.
+    data (str): The preprocessed data to be saved.
+    unstructured_file_path (str): The file path of the unstructured data.
+    extract_version (str): The version of the extraction process.
+    struct_version (str): The version of the structure format.
+    file_extension (str): The file extension for the structured file.
+    """
     file_name = (unstructured_file_path.split('/')[-1]).split('.')[0]
     structured_file_path = strings.structured_data_path.format(type_, file_name, extract_version, struct_version, file_extension)
     with open(structured_file_path, 'w') as file:
@@ -170,7 +181,7 @@ def is_heading(phrase):
         return False
 
     # Check if the last character is not a symbol
-    if phrase[-1] in string.punctuation:
+    if phrase[-1] in (set(string.punctuation) - {']', ')', '—'}):
         return False
 
     if re.search(regex_patterns.part_division_headings, phrase):
@@ -179,6 +190,12 @@ def is_heading(phrase):
     # Check if the number of words is 6 or less
     words = phrase.split()
     if len(words) > 6:
+        return False
+
+    if re.search(regex_patterns.ending_with_numbers, phrase):
+        return False
+
+    if re.search(regex_patterns.function_words_ending, phrase):
         return False
 
     return True
@@ -572,6 +589,7 @@ def group_sentences(phrases):
     Group phrases into sentences, handling cases like bullets and special ending characters.
     - phrases: List of phrases to be grouped.
     """
+    logging.info(logging_messages.group_sentences)
     sentences = []
     temp = None
 
