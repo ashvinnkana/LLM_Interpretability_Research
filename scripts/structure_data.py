@@ -6,6 +6,7 @@ from utils import logging_messages
 from utils.functions import get_file_name
 from utils.functions import chunk_by_word_limit, build_dataset
 from utils.functions import get_node_dict, get_html_node_string
+from utils.functions import get_node_dict_v2, build_dataset_v2
 
 
 def none_v0(data, pdf_path):
@@ -33,6 +34,23 @@ def json_v0(data, pdf_path):
     json_string = json.dumps(json_dict, indent=2)
 
     return build_dataset(json_dict, file_name, is_dict=True), json_string
+
+
+def json_v1(data, pdf_path):
+    """
+    STRUCTURE : JSON
+    Chunking all based on 2 levels that has dict
+    """
+    logging.info(logging_messages.display_structuring_version.format('JSON', '1'))
+    file_name = get_file_name(pdf_path)
+
+    json_dict = {}
+    for node in data:
+        json_dict = {**json_dict, **get_node_dict_v2(node)}
+
+    json_string = json.dumps(json_dict, indent=2)
+
+    return build_dataset_v2(json_dict, file_name), json_string
 
 
 def html_v0(data, pdf_path):

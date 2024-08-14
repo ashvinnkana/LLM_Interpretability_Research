@@ -3,6 +3,8 @@ import nltk
 import logging
 import pdfplumber
 import string
+import fitz
+
 from rouge_score import rouge_scorer
 
 from datasets import Dataset
@@ -27,7 +29,8 @@ def save_preprocessed_data(type_, data, unstructured_file_path, extract_version,
     file_extension (str): The file extension for the structured file.
     """
     file_name = (unstructured_file_path.split('/')[-1]).split('.')[0]
-    structured_file_path = strings.structured_data_path.format(type_, file_name, extract_version, struct_version, file_extension)
+    structured_file_path = strings.structured_data_path.format(type_, file_name, extract_version, struct_version,
+                                                               file_extension)
     with open(structured_file_path, 'w') as file:
         file.write(data)
 
@@ -217,7 +220,8 @@ def process_unordered_bullet(structured_data, sentence, value, index, node_route
     """
     Processes an unordered bullet point and updates the structured data and node route.
     """
-    unordered_bullet_node = Node('ubullet' + ''.join(str(i) for i in node_route) + str(index), value, 'unordered_bullet')
+    unordered_bullet_node = Node('ubullet' + ''.join(str(i) for i in node_route) + str(index), value,
+                                 'unordered_bullet')
     idx = add_node_child(structured_data, node_route, unordered_bullet_node)
     node_route.append(idx)
     return node_route
@@ -277,9 +281,42 @@ def get_node_value(stack, node_route):
     Returns the value of the node.
     """
     node = stack[node_route[0]]  # Start from the root node
-    for idx in node_route[1:]:   # Traverse the path to the desired node
+    for idx in node_route[1:]:  # Traverse the path to the desired node
         node = node.children[idx]
-    return node.value            # Return the value of the final node
+    return node.value  # Return the value of the final node
+
+
+def get_node_children(stack, node_route):
+    node = stack[node_route[0]]  # Start from the root node
+    for idx in node_route[1:]:  # Traverse the path to the parent node
+        node = node.children[idx]  # Add the new child node
+    return node.children
+
+
+def get_node_dict_v2(node):
+    children_node = {}
+    # Recursively process each child node
+    if len(node.children) != 0:
+        for child in node.children:
+            # Merge the child node dictionary into the children_node dictionary
+            children_node = {**children_node, **get_node_dict_v2(child)}
+
+    if len(children_node.keys()) == 1:
+        if not starts_with_bullet(list(children_node.keys())[0]):
+            node.value += '; ' + list(children_node.keys())[0]
+            children_node = children_node[list(children_node.keys())[0]]
+
+    temp = {}
+    if len(node.children) == 0:
+        if node.type_ >= 40:
+            key, value = is_bullet(node.value)
+            temp[key] = value
+        elif node.type_ in [0, 1, 2, 3]:
+            temp[node.value] = None
+    else:
+        temp[node.value] = children_node
+
+    return temp
 
 
 def get_node_key(stack, node_route):
@@ -290,9 +327,9 @@ def get_node_key(stack, node_route):
     Returns the key of the node.
     """
     node = stack[node_route[0]]  # Start from the root node
-    for idx in node_route[1:]:   # Traverse the path to the desired node
+    for idx in node_route[1:]:  # Traverse the path to the desired node
         node = node.children[idx]
-    return node.key              # Return the key of the final node
+    return node.key  # Return the key of the final node
 
 
 def get_node_type(stack, node_route):
@@ -303,9 +340,9 @@ def get_node_type(stack, node_route):
     Returns the type of the node.
     """
     node = stack[node_route[0]]  # Start from the root node
-    for idx in node_route[1:]:   # Traverse the path to the desired node
+    for idx in node_route[1:]:  # Traverse the path to the desired node
         node = node.children[idx]
-    return node.type_            # Return the type of the final node
+    return node.type_  # Return the type of the final node
 
 
 def set_node_value(stack, node_route, new_value):
@@ -316,9 +353,9 @@ def set_node_value(stack, node_route, new_value):
     - new_value: The new value to be set for the node.
     """
     node = stack[node_route[0]]  # Start from the root node
-    for idx in node_route[1:]:   # Traverse the path to the desired node
+    for idx in node_route[1:]:  # Traverse the path to the desired node
         node = node.children[idx]
-    node.value = new_value       # Set the new value for the final node
+    node.value = new_value  # Set the new value for the final node
 
 
 def add_node_child(stack, node_route, new_node):
@@ -330,10 +367,10 @@ def add_node_child(stack, node_route, new_node):
     Returns the index of the newly added child node.
     """
     node = stack[node_route[0]]  # Start from the root node
-    for idx in node_route[1:]:   # Traverse the path to the parent node
+    for idx in node_route[1:]:  # Traverse the path to the parent node
         node = node.children[idx]
     node.children.append(new_node)  # Add the new child node
-    return len(node.children) - 1   # Return the index of the newly added child
+    return len(node.children) - 1  # Return the index of the newly added child
 
 
 def get_previous_bullet(bullet):
@@ -418,7 +455,7 @@ def is_bullet(phrase):
         match = re.match(pattern, phrase, re.IGNORECASE)
         if match:
             if key in ['numbered_lettered', 'numbered_numbered']:
-                bullet = match.group(1) + '.' + match.group(2)   # Bullet type or symbol
+                bullet = match.group(1) + '.' + match.group(2)  # Bullet type or symbol
                 text_after_bullet = match.group(3).strip() if len(match.groups()) > 2 else match.group(2).strip()
                 return bullet, text_after_bullet
             if key in ['numbered', 'lettered', 'single_letter', 'mixed_numbered', 'mixed_numbered_dot']:
@@ -426,12 +463,13 @@ def is_bullet(phrase):
                 text_after_bullet = match.group(2).strip()  # Text after the bullet
                 return bullet, text_after_bullet
             if key in ['parentheses_number']:
-                bullet = '('+match.group(1)+')'  # Bullet type or symbol
+                bullet = '(' + match.group(1) + ')'  # Bullet type or symbol
                 text_after_bullet = match.group(2).strip()  # Text after the bullet
                 return bullet, text_after_bullet
             elif key in ['mixed_numbered_parentheses']:
-                bullet = match.group(1) + '(' + match.group(2) + ')'   # Bullet type or symbol
-                text_after_bullet = match.group(3).strip() if len(match.groups()) > 2 else match.group(2).strip()  # Text after the bullet
+                bullet = match.group(1) + '(' + match.group(2) + ')'  # Bullet type or symbol
+                text_after_bullet = match.group(3).strip() if len(match.groups()) > 2 else match.group(
+                    2).strip()  # Text after the bullet
                 return bullet, text_after_bullet
             elif key in ['bullet_symbol', '*', '-', '•']:
                 bullet = '*'  # Bullet type or symbol
@@ -462,18 +500,143 @@ def extract_pdf_raw_text(pdf_path):
                     content_phrases_by_pages.append(text.split('\n'))
     except Exception as e:
         logging.error(logging_messages.error_extracting.format(e))
+        return None, None
 
     return content_phrases_by_pages, extracted_text
 
 
-def clean_non_alpha_char(elements):
-    """Clean the elements by removing non-alphabetic characters and extract the cleaned elements."""
+def extract_pdf_metadata(pdf_path):
+    logging.info(logging_messages.extracting_file.format(pdf_path))
+    # Open the PDF file
+    doc = fitz.open(pdf_path)
+
+    pages_list = []
+    # Iterate through the pages
+    try:
+        for page in doc:
+            spans_list = []
+            blocks = page.get_text("dict")["blocks"]
+            for block in blocks:
+                if 'lines' in block:
+                    for line in block["lines"]:
+                        for span in line["spans"]:
+                            spans_list.append(span)
+
+            pages_list.append(spans_list)
+    except Exception as e:
+        logging.error(logging_messages.error_extracting.format(e))
+        return None
+
+    return pages_list
+
+
+def get_level_path(level, current_level_path):
+    level_path = []
+    for lvl in current_level_path:
+        level_path.append(lvl)
+        if lvl == level:
+            break
+
+    return level_path
+
+
+def classify_page_text_by_levels(pages_list):
+    logging.info(logging_messages.classify_levels)
+    type_level = {}
+    level = 1
+
+    classified_pages = []
+
+    for page in pages_list:
+        classified_spans = []
+        for span in page:
+            key = strings.classify_level_string.format(span['flags'], span['color'], span['font'], span['size'])
+            if key not in type_level:
+                type_level[key] = level
+                span['level'] = level
+                level += 1
+
+            span['level'] = type_level[key]
+
+            if len(classified_spans) == 0:
+                classified_spans.append(span)
+            elif span['text'].strip() == '':
+                if classified_spans[-1]['text'].strip() != '':
+                    classified_spans.append(span)
+            elif classified_spans[-1]['text'].strip() == '':
+                classified_spans.append(span)
+            elif span['level'] == classified_spans[-1]['level']:
+                classified_spans[-1]['text'] += span['text']
+            else:
+                classified_spans.append(span)
+
+        classified_pages.append(classified_spans)
+
+    return classified_pages
+
+
+def classify_page_text_by_types(formatted_pages):
+    logging.info(logging_messages.classify_sentences)
+    type_classified_pages = []
+
+    available_bullet_index = 40
+    found_bullets = {}
+    for span in formatted_pages:
+        bullet, value = is_bullet(span['text'])
+        if bullet is not None:
+            previous_bullet = get_previous_bullet(bullet)
+            if previous_bullet is not None:
+                if previous_bullet in found_bullets:
+                    span['type_index'] = found_bullets[previous_bullet]
+                    found_bullets[bullet] = found_bullets[previous_bullet]
+                else:
+                    span['type_index'] = available_bullet_index
+                    found_bullets[bullet] = available_bullet_index
+                    available_bullet_index += 1
+            else:
+                span['type_index'] = available_bullet_index
+                found_bullets[bullet] = available_bullet_index
+                available_bullet_index += 1
+
+        elif span['text'][0].isupper():
+            if ends_with_special(span['text'].strip()):
+                span['type_index'] = 3
+            else:
+                span['type_index'] = 0
+        else:
+            if ends_with_special(span['text'].strip()):
+                span['type_index'] = 2
+            else:
+                span['type_index'] = 1
+
+        type_classified_pages.append(span)
+
+    return type_classified_pages
+
+
+def clean_non_alpha_char_list(elements):
+    """Clean the elements by removing non-alphabetic characters and extract the cleaned list of elements."""
     return [re.sub(regex_patterns.alpha_characters_only, '', element) for element in elements]
+
+
+def clean_non_alpha_char_single(element):
+    """Clean the elements by removing non-alphabetic characters and extract the cleaned element."""
+    return re.sub(regex_patterns.alpha_characters_only_v2, '', element, flags=re.IGNORECASE)
 
 
 def get_candidates(page, start_idx, end_idx):
     """Extract and clean candidates from a specific section of each page."""
-    return clean_non_alpha_char(page[start_idx:end_idx]) if len(page) >= constants.header_estimated_size else []
+    return clean_non_alpha_char_list(page[start_idx:end_idx]) if len(page) >= constants.header_estimated_size else []
+
+
+def get_candidates_v2(page, end_count):
+    """Extract and clean candidates from a specific section of each page."""
+    if len(page) > end_count:
+        return [strings.header_footer_level_setup_string
+                .format(str(span['level']), clean_non_alpha_char_single(span['text'].strip()))
+                for span in page if span['text'].strip()][:end_count]
+    else:
+        return []
 
 
 def filter_candidates(counter, threshold):
@@ -485,6 +648,13 @@ def extract_candidates(pages, start_idx, end_idx, counter):
     """Extract candidates from each page and update the counter."""
     for page in pages:
         candidates = get_candidates(page, start_idx, end_idx)
+        counter.update(candidates)
+
+
+def extract_candidates_v2(pages, end_count, counter):
+    """Extract candidates from each page and update the counter."""
+    for page in pages:
+        candidates = get_candidates_v2(page, end_count)
         counter.update(candidates)
 
 
@@ -503,6 +673,26 @@ def extract_headers_and_footers(pages):
     filtered_footers = filter_candidates(footer_counter, constants.header_footer_occurrence_accept_threshold)
 
     return filtered_headers, filtered_footers
+
+
+def extract_headers_and_footers_v2(pages):
+    logging.info(logging_messages.identify_header_footer)
+
+    header_footer_counter = Counter()
+
+    extract_candidates_v2(pages, constants.header_footer_estimated_size_v2, header_footer_counter)
+
+    filtered_headers_footers = filter_candidates(header_footer_counter,
+                                                 constants.header_footer_occurrence_accept_threshold_v2)
+
+    header_footer_levels = []
+
+    for x in filtered_headers_footers:
+        level = int(x[0].split('->')[0])
+        if level not in header_footer_levels:
+            header_footer_levels.append(level)
+
+    return header_footer_levels
 
 
 def is_header_or_footer(line, headers, footers):
@@ -542,6 +732,114 @@ def remove_header_footer(pages, headers, footers):
     return content_pages
 
 
+def remove_header_footer_v2(pages, header_footer_levels):
+    logging.info(logging_messages.remove_header_footer)
+    cleaned_data = []
+    for index, page in enumerate(pages):
+        if len(page) > 6:
+            count = 0
+        else:
+            count = 10
+        for span in page:
+            if span['level'] in header_footer_levels and span['text'].strip() != '' and count < 10:
+                count += 1
+            else:
+                cleaned_data.append(span)
+                continue
+
+    return cleaned_data
+
+
+def clean_text_by_formats_v2(cleaned_data):
+    logging.info(logging_messages.group_sentences)
+    formatted_data = []
+    temp_span = None
+    not_ended = False
+    for span in cleaned_data:
+        if temp_span is None:
+            if span['text'].strip() == '':
+                continue
+            if ends_with_special(span['text'].strip()):
+                formatted_data.append(span)
+            else:
+                if not_ended_with_special(span['text'].strip()):
+                    not_ended = True
+                temp_span = span
+            continue
+        if (span['text'].strip() == '' or (span['text'][0].isupper() and not not_ended)
+                or starts_with_bullet(span['text'])):
+            formatted_data.append(temp_span)
+            if span['text'].strip() == '':
+                temp_span = None
+                not_ended = False
+                continue
+            else:
+                temp_span = span
+        else:
+            if not_ended_with_special(span['text'].strip()):
+                not_ended = True
+            else:
+                not_ended = False
+            temp_span['text'] += span['text']
+
+        if ends_with_special(temp_span['text'].strip()):
+            formatted_data.append(temp_span)
+            temp_span = None
+            not_ended = False
+
+    return formatted_data
+
+
+def clean_text_by_types_v2(type_formatted_pages):
+    clean_data = {
+        0: type_formatted_pages
+    }
+    version = 1
+    need_merges = True
+    while need_merges:
+        clean_data[version] = []
+        need_merges = False
+        for span in clean_data[version - 1]:
+            if len(clean_data[version]) != 0:
+                if span['type_index'] == 1:
+                    if clean_data[version][-1]['type_index'] == 0:
+                        clean_data[version][-1]['text'] += f" {span['text']}"
+                        continue
+                    elif clean_data[version][-1]['type_index'] == 1:
+                        clean_data[version][-1]['text'] += f" {span['text']}"
+                        continue
+                elif span['type_index'] == 2:
+                    if clean_data[version][-1]['type_index'] == 0:
+                        clean_data[version][-1]['text'] += f" {span['text']}"
+                        clean_data[version][-1]['type_index'] = 3
+                        need_merges = True
+                        continue
+                    elif clean_data[version][-1]['type_index'] == 1:
+                        clean_data[version][-1]['text'] += f" {span['text']}"
+                        clean_data[version][-1]['type_index'] = 2
+                        need_merges = True
+                        continue
+            clean_data[version].append(span)
+        version += 1
+
+    extractable_data = []
+
+    for span in clean_data[version - 1]:
+        if len(extractable_data) != 0:
+            if span['type_index'] == 3:
+                if extractable_data[-1]['type_index'] == 0:
+                    extractable_data[-1]['text'] += f" {span['text']}"
+                    extractable_data[-1]['type_index'] = 3
+                    continue
+                elif extractable_data[-1]['type_index'] == 1:
+                    extractable_data[-1]['text'] += f" {span['text']}"
+                    extractable_data[-1]['type_index'] = 2
+                    continue
+        extractable_data.append(span)
+
+    return extractable_data
+
+
 def download_nltk_resources():
     """Download necessary NLTK resources."""
     for package in constants.nltk_resource_packages:
@@ -562,6 +860,14 @@ def starts_with_bullet(phrase):
 def ends_with_special(phrase):
     """Check if the phrase ends with special characters."""
     return bool(re.search(regex_patterns.ends_with_special, phrase))
+
+
+def ends_with_special_v2(phrase):
+    return phrase[-1] in [';', '.', '—']
+
+
+def not_ended_with_special(phrase):
+    return phrase[-1] in [':', '-', ',']
 
 
 def clean(text):
@@ -626,6 +932,16 @@ def build_dataset(chunks, file_name, is_dict):
     return Dataset.from_list(chunk_dictlist)
 
 
+def build_dataset_v2(chunks, file_name):
+    """
+    Convert chunks of text into a dataset format compatible with the 'datasets' library.
+    - chunks: List of text chunks to be converted.
+    - file_name: The name of the source file.
+    """
+    chunk_dictlist = create_chunk_dictlist_v2(chunks, file_name)
+    return Dataset.from_list(chunk_dictlist)
+
+
 def create_chunk_dictlist(chunks, file_name, is_dict=False):
     """
     Create a list of dictionaries for each chunk, suitable for creating a dataset.
@@ -650,6 +966,36 @@ def create_chunk_dictlist(chunks, file_name, is_dict=False):
                            }}
                           for i, chunk_content in enumerate(chunks)]
     return chunk_dictlist
+
+
+def create_chunk_dictlist_v2(json_dict, file_name):
+    chunks = []
+    for head_lvl1 in json_dict['structured_data'].keys():
+        chunks += process_chunks(json_dict['structured_data'][head_lvl1], head_lvl1, 1, chunks)
+
+    chunk_dictlist = [{'id': str(i + 1),
+                       'metadata': {
+                           'content': str(chunk),
+                           'source': file_name
+                       }}
+                      for i, chunk in enumerate(chunks)]
+
+    return chunk_dictlist
+
+
+def process_chunks(list_, heading, level, chunks_):
+    if level <= constants.chunk_level_set:
+        if isinstance(list_, dict):
+            for attach_head in list_.keys():
+                new_heading = heading + ' >> ' + attach_head
+                chunks_ = process_chunks(list_[attach_head], new_heading, level + 1, chunks_)
+            return chunks_
+        else:
+            chunks_.append({heading: list_})
+            return chunks_
+    else:
+        chunks_.append({heading: list_})
+        return chunks_
 
 
 def group_sentences(phrases):

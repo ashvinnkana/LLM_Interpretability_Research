@@ -24,7 +24,10 @@ embedder = EMBEDDER(constants.embedder)
 fastai_interface = GROQ()
 
 unstructured_vectordb = PINECONE(strings.unstructured_0_index)
+
 v1_json_structured_vectordb = PINECONE(strings.structured_JSON_1_index)
+v2_json_structured_vectordb = PINECONE(strings.structured_JSON_2_index)
+
 v1_html_structured_vectordb = PINECONE(strings.structured_HTML_1_index)
 
 
@@ -33,7 +36,7 @@ def legal_llm_response(question, docs):
     print(f'{constants.aus_legal_llm}\n{legal_llm.generate(question, docs)}\n')
 
 
-def create_results_dataframe(results, question_id, extract_version):
+def create_results_dataframe(results, question_id):
     logging.info(logging_messages.saving_responses)
     # Extract model names
     model_names = [model['model_id'] for model in constants.groq_supported_llm_list]
@@ -65,12 +68,12 @@ def create_results_dataframe(results, question_id, extract_version):
     # Create DataFrame for rouge1
     df_rouge1 = pd.DataFrame(data_rouge1, index=index, columns=model_names)
     print(f'Rouge 1 Metric Results:\n{df_rouge1}\n')
-    df_rouge1.to_csv(strings.csv_results_path.format(question_id, extract_version, 'rouge1'))
+    df_rouge1.to_csv(strings.csv_results_path.format(question_id, 'rouge1'))
 
     # Create DataFrame for rougeL
     df_rougeL = pd.DataFrame(data_rougeL, index=index, columns=model_names)
     print(f'Rouge L Metric Results:\n{df_rougeL}\n')
-    df_rougeL.to_csv(strings.csv_results_path.format(question_id, extract_version, 'rougeL'))
+    df_rougeL.to_csv(strings.csv_results_path.format(question_id, 'rougeL'))
 
 
 def get_response(query, docs, topic, llm, ref_answer):
@@ -105,16 +108,21 @@ def generate_responses(question, ref_answer):
     response_scores['unstructured'] = non_legal_llm_responses(question, unstructured_docs, ref_answer)
 
     # get responses for json_structured data
-    logging.info(logging_messages.generating_response.format('JSON-STRUCTURED'))
+    logging.info(logging_messages.generating_response.format('JSON-STRUCTURED-V1'))
     v1_json_structured_vectordb.connect()
     json_structured_docs = v1_json_structured_vectordb.get_docs(query_embeds, 5)
-    response_scores['json-structured'] = non_legal_llm_responses(question, json_structured_docs, ref_answer)
+    response_scores['json-structured-v1'] = non_legal_llm_responses(question, json_structured_docs, ref_answer)
+
+    logging.info(logging_messages.generating_response.format('JSON-STRUCTURED-V2'))
+    v2_json_structured_vectordb.connect()
+    json_structured_docs = v2_json_structured_vectordb.get_docs(query_embeds, 5)
+    response_scores['json-structured-v2'] = non_legal_llm_responses(question, json_structured_docs, ref_answer)
 
     # get responses for html_structured data
-    logging.info(logging_messages.generating_response.format('HTML-STRUCTURED'))
+    logging.info(logging_messages.generating_response.format('HTML-STRUCTURED-V1'))
     v1_html_structured_vectordb.connect()
     html_structured_docs = v1_html_structured_vectordb.get_docs(query_embeds, 5)
-    response_scores['html-structured'] = non_legal_llm_responses(question, html_structured_docs, ref_answer)
+    response_scores['html-structured-v1'] = non_legal_llm_responses(question, html_structured_docs, ref_answer)
 
     logging.info(logging_messages.main_divider)
     return response_scores
@@ -132,6 +140,20 @@ def upsert_v0_unstructured_v0(pdf_path):
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.unstructured_tag, pdf_path, e))
+
+
+def upsert_v1_structured_json_v2(pdf_path):
+    v2_json_structured_vectordb.connect()
+    node_data = extract_data.extract_v2(pdf_path)
+    json_structured_dataset, json_string = structure_data.json_v1(node_data, pdf_path)
+    save_preprocessed_data('structured_data', json_string, pdf_path,
+                           'extract_v2', 'v1', 'json')
+    try:
+        logging.info(logging_messages.upserting_chunks.format(constants.json_structured_tag, pdf_path))
+        embedder.encode_upsert_vectordb(json_structured_dataset, 5, v2_json_structured_vectordb)
+        logging.info(logging_messages.status_success)
+    except Exception as e:
+        logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
 
 
 def upsert_v0_structured_json_v1(pdf_path):
@@ -178,6 +200,9 @@ def upsert_all_data():
         logging.info(logging_messages.sub_divider)
         upsert_v0_structured_html_v1(pdf_path)
 
+        logging.info(logging_messages.sub_divider)
+        upsert_v1_structured_json_v2(pdf_path)
+
         logging.info(logging_messages.main_divider)
 
 
@@ -197,7 +222,7 @@ def main():
         logging.info(logging_messages.sub_divider)
         results.append(generate_responses(question, ref_answer))
 
-    create_results_dataframe(results, 'question_01', 'extract_v1')
+    create_results_dataframe(results, 'question_01')
 
 
 if __name__ == '__main__':

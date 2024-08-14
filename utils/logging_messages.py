@@ -6,6 +6,7 @@ identify_header_footer = '- Identifying Headers & Footers'
 remove_header_footer = '- Removing Headers & Footers'
 group_sentences = '- Group phrases to make sentences'
 classify_sentences = '- classify sentences to headings, bullet lists, contents'
+classify_levels = '- classify sentences to levels based on font metadata'
 
 extracting_file = '- Extracting PDF File: {}'
 error_extracting = '-- Error during text extraction: {}'
