@@ -14,12 +14,10 @@ class GROQ:
     def set_model(self, model):
         self.model = model
 
-    def generate_response(self, query: str, docs: list[str], topic: str):
+    def generate_response(self, query: str, docs: str, topic: str):
         system_message = (
-            f"You are a helpful assistant that answers questions in one sentence about {topic} using the "
-            "context provided below.\n\n"
-            "CONTEXT:\n"
-            "\n---\n".join(docs)
+            f"You are a helpful assistant that answers questions in two sentences about {topic} using the "
+            f"context provided below.\n\nCONTEXT:\n{docs}"
         )
         messages = [
             {"role": "system", "content": system_message},

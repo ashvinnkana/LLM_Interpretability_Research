@@ -36,7 +36,7 @@ def json_v0(data, pdf_path):
     return build_dataset(json_dict, file_name, is_dict=True), json_string
 
 
-def json_v1(data, pdf_path):
+def json_v1(data, pdf_path, embedder):
     """
     STRUCTURE : JSON
     Chunking all based on 2 levels that has dict
@@ -45,12 +45,12 @@ def json_v1(data, pdf_path):
     file_name = get_file_name(pdf_path)
 
     json_dict = {}
-    for node in data:
-        json_dict = {**json_dict, **get_node_dict_v2(node)}
+    for index, node in enumerate(data):
+        json_dict = {**json_dict, **get_node_dict_v2(node, index+1)}
 
     json_string = json.dumps(json_dict, indent=2)
 
-    return build_dataset_v2(json_dict, file_name), json_string
+    return build_dataset_v2(json_dict, file_name, embedder), json_string
 
 
 def html_v0(data, pdf_path):

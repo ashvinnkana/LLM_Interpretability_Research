@@ -22,7 +22,9 @@ footer_tag = 'footer'
 
 header_footer_estimated_size_v2 = 6
 header_footer_occurrence_accept_threshold_v2 = 1
-chunk_level_set = 2
+
+# keep it lower for small unstructured file
+chunk_window_size = 2
 
 unstructured_tag = 'UNSTRUCTURED'
 json_structured_tag = 'JSON_STRUCTURED'

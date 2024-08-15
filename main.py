@@ -15,6 +15,7 @@ from models.groq_client import GROQ
 from utils.functions import download_nltk_resources
 from utils.functions import save_preprocessed_data
 from utils.functions import get_rouge_scores
+from utils.functions import process_docs, v1_json_process_docs
 
 # setup
 download_nltk_resources()
@@ -97,32 +98,45 @@ def non_legal_llm_responses(question, docs, ref_anw):
     return response_scores
 
 
-def generate_responses(question, ref_answer):
-    response_scores = {}
+def get_docs(question):
+    docs = {}
     query_embeds = embedder.encode(question)
+
+    unstructured_vectordb.connect()
+    docs['unstructured'] = process_docs(unstructured_vectordb.get_docs(query_embeds, 5))
+
+    v1_json_structured_vectordb.connect()
+    docs['json-structured-v1'] = process_docs(v1_json_structured_vectordb.get_docs(query_embeds, 5))
+
+    v2_json_structured_vectordb.connect()
+    docs['json-structured-v2'] = v1_json_process_docs(v2_json_structured_vectordb.get_docs(query_embeds, 5))
+
+    v1_html_structured_vectordb.connect()
+    docs['html-structured-v1'] = process_docs(v1_html_structured_vectordb.get_docs(query_embeds, 5))
+
+    return docs
+
+
+def generate_responses(question, docs, ref_answer):
+    response_scores = {}
 
     # get responses for unstructured data
     logging.info(logging_messages.generating_response.format('UNSTRUCTURED'))
-    unstructured_vectordb.connect()
-    unstructured_docs = unstructured_vectordb.get_docs(query_embeds, 5)
-    response_scores['unstructured'] = non_legal_llm_responses(question, unstructured_docs, ref_answer)
+    response_scores['unstructured'] = non_legal_llm_responses(question, docs['unstructured'], ref_answer)
 
     # get responses for json_structured data
+    logging.info(logging_messages.sub_divider)
     logging.info(logging_messages.generating_response.format('JSON-STRUCTURED-V1'))
-    v1_json_structured_vectordb.connect()
-    json_structured_docs = v1_json_structured_vectordb.get_docs(query_embeds, 5)
-    response_scores['json-structured-v1'] = non_legal_llm_responses(question, json_structured_docs, ref_answer)
+    response_scores['json-structured-v1'] = non_legal_llm_responses(question, docs['json-structured-v1'], ref_answer)
 
+    logging.info(logging_messages.sub_divider)
     logging.info(logging_messages.generating_response.format('JSON-STRUCTURED-V2'))
-    v2_json_structured_vectordb.connect()
-    json_structured_docs = v2_json_structured_vectordb.get_docs(query_embeds, 5)
-    response_scores['json-structured-v2'] = non_legal_llm_responses(question, json_structured_docs, ref_answer)
+    response_scores['json-structured-v2'] = non_legal_llm_responses(question, docs['json-structured-v2'], ref_answer)
 
     # get responses for html_structured data
+    logging.info(logging_messages.sub_divider)
     logging.info(logging_messages.generating_response.format('HTML-STRUCTURED-V1'))
-    v1_html_structured_vectordb.connect()
-    html_structured_docs = v1_html_structured_vectordb.get_docs(query_embeds, 5)
-    response_scores['html-structured-v1'] = non_legal_llm_responses(question, html_structured_docs, ref_answer)
+    response_scores['html-structured-v1'] = non_legal_llm_responses(question, docs['html-structured-v1'], ref_answer)
 
     logging.info(logging_messages.main_divider)
     return response_scores
@@ -145,7 +159,7 @@ def upsert_v0_unstructured_v0(pdf_path):
 def upsert_v1_structured_json_v2(pdf_path):
     v2_json_structured_vectordb.connect()
     node_data = extract_data.extract_v2(pdf_path)
-    json_structured_dataset, json_string = structure_data.json_v1(node_data, pdf_path)
+    json_structured_dataset, json_string = structure_data.json_v1(node_data, pdf_path, embedder)
     save_preprocessed_data('structured_data', json_string, pdf_path,
                            'extract_v2', 'v1', 'json')
     try:
@@ -208,19 +222,22 @@ def upsert_all_data():
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    # upsert_all_data()
+    upsert_all_data()
 
-    question = "What is the section that states the limitation period for a continuous adverse possession in WA?"
+    question = ("What is the section that states the limitation period for a continuous adverse possession of land in "
+                "WA?")
     ref_answer = ("The limitation period for a continuous adverse possession in Western Australia is stated in Section "
                   "19, subsection 1 of the Limitation Act 2005. This section specifies a 12-year limitation period "
                   "for actions to recover land from the time the right to recover the land accrues, reflecting the "
                   "period during which continuous adverse possession must be maintained to claim ownership.")
 
+    docs = get_docs(question)
+
     results = []
-    for i in range(5):
+    for i in range(1):
         logging.info(f'GENERATED RESPONSES 0{i + 1}')
         logging.info(logging_messages.sub_divider)
-        results.append(generate_responses(question, ref_answer))
+        results.append(generate_responses(question, docs, ref_answer))
 
     create_results_dataframe(results, 'question_01')
 

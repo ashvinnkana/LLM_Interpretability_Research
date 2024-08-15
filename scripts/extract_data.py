@@ -11,7 +11,7 @@ from utils.functions import extract_headers_and_footers, remove_header_footer
 from utils.functions import group_sentences
 from utils.functions import is_heading, is_bullet
 from utils.functions import process_heading, process_ordered_bullet, process_unordered_bullet, process_context
-from utils.functions import get_level_path, add_node_child
+from utils.functions import get_level_path, add_node_child, get_node_children
 from utils.functions import extract_pdf_metadata, classify_page_text_by_levels
 from utils.functions import extract_headers_and_footers_v2, remove_header_footer_v2
 from utils.functions import clean_text_by_types_v2, clean_text_by_formats_v2, classify_page_text_by_types

@@ -1,9 +1,11 @@
+import json
 import re
 import nltk
 import logging
 import pdfplumber
 import string
 import fitz
+import ast
 
 from rouge_score import rouge_scorer
 
@@ -293,16 +295,18 @@ def get_node_children(stack, node_route):
     return node.children
 
 
-def get_node_dict_v2(node):
+def get_node_dict_v2(node, index):
     children_node = {}
     # Recursively process each child node
     if len(node.children) != 0:
-        for child in node.children:
+        for index, child in enumerate(node.children):
             # Merge the child node dictionary into the children_node dictionary
-            children_node = {**children_node, **get_node_dict_v2(child)}
+            children_node = {**children_node, **get_node_dict_v2(child, index+1)}
 
     if len(children_node.keys()) == 1:
-        if not starts_with_bullet(list(children_node.keys())[0]):
+        if (not starts_with_bullet(list(children_node.keys())[0]) and
+                (not children_node[list(children_node.keys())[0]] is None) and
+                    (not isinstance(children_node[list(children_node.keys())[0]], str))):
             node.value += '; ' + list(children_node.keys())[0]
             children_node = children_node[list(children_node.keys())[0]]
 
@@ -311,10 +315,16 @@ def get_node_dict_v2(node):
         if node.type_ >= 40:
             key, value = is_bullet(node.value)
             temp[key] = value
-        elif node.type_ in [0, 1, 2, 3]:
-            temp[node.value] = None
+        elif node.type_ == 0:
+            temp['heading'+str(index)] = node.value
+        elif node.type_ in [1, 2, 3]:
+            temp['content'+str(index)] = node.value
     else:
-        temp[node.value] = children_node
+        children_keys = list(children_node.keys())
+        if len(children_keys) == 1 and children_keys[0].startswith('content'):
+            temp[node.value] = children_node[children_keys[0]]
+        else:
+            temp[node.value] = children_node
 
     return temp
 
@@ -599,12 +609,12 @@ def classify_page_text_by_types(formatted_pages):
                 available_bullet_index += 1
 
         elif span['text'][0].isupper():
-            if ends_with_special(span['text'].strip()):
+            if ends_with_special_v2(span['text'].strip()):
                 span['type_index'] = 3
             else:
                 span['type_index'] = 0
         else:
-            if ends_with_special(span['text'].strip()):
+            if ends_with_special_v2(span['text'].strip()):
                 span['type_index'] = 2
             else:
                 span['type_index'] = 1
@@ -759,7 +769,7 @@ def clean_text_by_formats_v2(cleaned_data):
         if temp_span is None:
             if span['text'].strip() == '':
                 continue
-            if ends_with_special(span['text'].strip()):
+            if ends_with_special_v2(span['text'].strip()):
                 formatted_data.append(span)
             else:
                 if not_ended_with_special(span['text'].strip()):
@@ -782,7 +792,7 @@ def clean_text_by_formats_v2(cleaned_data):
                 not_ended = False
             temp_span['text'] += span['text']
 
-        if ends_with_special(temp_span['text'].strip()):
+        if ends_with_special_v2(temp_span['text'].strip()):
             formatted_data.append(temp_span)
             temp_span = None
             not_ended = False
@@ -932,13 +942,13 @@ def build_dataset(chunks, file_name, is_dict):
     return Dataset.from_list(chunk_dictlist)
 
 
-def build_dataset_v2(chunks, file_name):
+def build_dataset_v2(chunks, file_name, embedder):
     """
     Convert chunks of text into a dataset format compatible with the 'datasets' library.
     - chunks: List of text chunks to be converted.
     - file_name: The name of the source file.
     """
-    chunk_dictlist = create_chunk_dictlist_v2(chunks, file_name)
+    chunk_dictlist = create_chunk_dictlist_v2(chunks, file_name, embedder)
     return Dataset.from_list(chunk_dictlist)
 
 
@@ -968,14 +978,15 @@ def create_chunk_dictlist(chunks, file_name, is_dict=False):
     return chunk_dictlist
 
 
-def create_chunk_dictlist_v2(json_dict, file_name):
+def create_chunk_dictlist_v2(json_dict, file_name, embedder):
     chunks = []
     for head_lvl1 in json_dict['structured_data'].keys():
-        chunks += process_chunks(json_dict['structured_data'][head_lvl1], head_lvl1, 1, chunks)
+        process_chunks(json_dict['structured_data'][head_lvl1], head_lvl1, 1, chunks, embedder)
 
-    chunk_dictlist = [{'id': str(i + 1),
+    chunk_dictlist = [{'id': file_name.split('.')[0] + '-' + str(i + 1),
                        'metadata': {
-                           'content': str(chunk),
+                           'title': list(chunk.keys())[0],
+                           'content': str(chunk[list(chunk.keys())[0]]),
                            'source': file_name
                        }}
                       for i, chunk in enumerate(chunks)]
@@ -983,19 +994,55 @@ def create_chunk_dictlist_v2(json_dict, file_name):
     return chunk_dictlist
 
 
-def process_chunks(list_, heading, level, chunks_):
-    if level <= constants.chunk_level_set:
+def process_chunks(list_, heading, level, chunks_, embedder):
+    content = {heading: list_}
+    if level <= constants.chunk_window_size:
         if isinstance(list_, dict):
             for attach_head in list_.keys():
                 new_heading = heading + ' >> ' + attach_head
-                chunks_ = process_chunks(list_[attach_head], new_heading, level + 1, chunks_)
+                chunks_ = process_chunks(list_[attach_head], new_heading, level + 1, chunks_, embedder)
             return chunks_
         else:
-            chunks_.append({heading: list_})
+            chunks_.append(content)
             return chunks_
     else:
-        chunks_.append({heading: list_})
+        chunks_.append(content)
         return chunks_
+
+
+def process_docs(docs):
+    return "\n----\n".join(docs)
+
+
+def update_nested_dict(d, keys, value):
+    # The first key to start processing
+    key = keys[0]
+
+    # If there's only one key left in the list, assign the value
+    if len(keys) == 1:
+        d[key] = value
+    else:
+        # If the key does not exist or it's not a dictionary, create a dictionary for it
+        if key not in d or not isinstance(d[key], dict):
+            d[key] = {}
+
+        # Recursively call the function with the rest of the keys
+        update_nested_dict(d[key], keys[1:], value)
+
+
+def v1_json_process_docs(docs):
+    structured_docs = {}
+    for doc in docs:
+        heading_str, context = doc.split('<||SEP||>')
+        try:
+            context = ast.literal_eval(context)
+        except (ValueError, SyntaxError):
+            print(f"{context}: The string is not a valid dictionary format.")
+
+        headings = heading_str.split(' >> ')
+        update_nested_dict(structured_docs, headings, context)
+
+    return json.dumps(structured_docs)
 
 
 def group_sentences(phrases):

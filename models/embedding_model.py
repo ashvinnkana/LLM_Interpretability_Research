@@ -1,6 +1,7 @@
 import torch
 from semantic_router.encoders import HuggingFaceEncoder
 from tqdm.auto import tqdm
+from transformers import AutoTokenizer
 
 
 class EMBEDDER:
@@ -10,6 +11,9 @@ class EMBEDDER:
 
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.encoder.device = device
+
+        # Load the tokenizer separately using the model name
+        self.tokenizer = AutoTokenizer.from_pretrained(name)
 
     def get_encoder_device(self):
         return self.encoder.device
@@ -38,3 +42,7 @@ class EMBEDDER:
             vectors = list(zip(batch["id"], embeds, batch["metadata"]))
 
             db_client.upsert(vectors)
+
+    def count_tokens(self, text):
+        tokens = self.tokenizer.encode(text)
+        return len(tokens)

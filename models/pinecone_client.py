@@ -51,7 +51,7 @@ class PINECONE:
 
         # get doc text
         try:
-            docs = [f'CHUNK SOURCED FROM {chunk['metadata']['source']}\n\n{chunk['metadata']['content']}'
+            docs = [f'{chunk['metadata']['title']}<||SEP||>{chunk['metadata']['content']}'
                     for chunk in res["matches"]]
         except KeyError:
             docs = [chunk['metadata']['content'] for chunk in res["matches"]]
