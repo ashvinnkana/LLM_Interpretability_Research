@@ -6,9 +6,6 @@ groq_supported_llm_list = [
     {'model_id': 'llama3-70b-8192',
      'developer': 'Meta',
      'context_window': '8192'},
-    {'model_id': 'mixtral-8x7b-32768',
-     'developer': 'Mistral',
-     'context_window': '32768'},
     {'model_id': 'gemma-7b-it',
      'developer': 'Google',
      'context_window': '8192'},
@@ -24,7 +21,8 @@ header_footer_estimated_size_v2 = 6
 header_footer_occurrence_accept_threshold_v2 = 1
 
 # keep it lower for small unstructured file
-chunk_window_size = 2
+chunk_window_size = 1
+chunk_token_limit = 1300
 
 unstructured_tag = 'UNSTRUCTURED'
 json_structured_tag = 'JSON_STRUCTURED'

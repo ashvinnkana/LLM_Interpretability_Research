@@ -1,3 +1,4 @@
+import json
 import logging.config
 
 import pandas as pd
@@ -15,7 +16,7 @@ from models.groq_client import GROQ
 from utils.functions import download_nltk_resources
 from utils.functions import save_preprocessed_data
 from utils.functions import get_rouge_scores
-from utils.functions import process_docs, v1_json_process_docs
+from utils.functions import process_docs, v2_json_process_docs
 
 # setup
 download_nltk_resources()
@@ -109,8 +110,7 @@ def get_docs(question):
     docs['json-structured-v1'] = process_docs(v1_json_structured_vectordb.get_docs(query_embeds, 5))
 
     v2_json_structured_vectordb.connect()
-    docs['json-structured-v2'] = v1_json_process_docs(v2_json_structured_vectordb.get_docs(query_embeds, 5))
-
+    docs['json-structured-v2'] = v2_json_process_docs(v2_json_structured_vectordb.get_docs(query_embeds, 5))
     v1_html_structured_vectordb.connect()
     docs['html-structured-v1'] = process_docs(v1_html_structured_vectordb.get_docs(query_embeds, 5))
 
@@ -224,8 +224,8 @@ def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
     upsert_all_data()
 
-    question = ("What is the section that states the limitation period for a continuous adverse possession of land in "
-                "WA?")
+    question = ("What is the section that states the limitation period for a continuous adverse possession to "
+                "recover a land in WA?")
     ref_answer = ("The limitation period for a continuous adverse possession in Western Australia is stated in Section "
                   "19, subsection 1 of the Limitation Act 2005. This section specifies a 12-year limitation period "
                   "for actions to recover land from the time the right to recover the land accrues, reflecting the "
@@ -234,7 +234,7 @@ def main():
     docs = get_docs(question)
 
     results = []
-    for i in range(1):
+    for i in range(5):
         logging.info(f'GENERATED RESPONSES 0{i + 1}')
         logging.info(logging_messages.sub_divider)
         results.append(generate_responses(question, docs, ref_answer))

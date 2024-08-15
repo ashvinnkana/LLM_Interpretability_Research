@@ -1,17 +1,21 @@
 import json
 import re
+import copy
 import nltk
 import logging
 import pdfplumber
 import string
 import fitz
 import ast
+import math
 
 from rouge_score import rouge_scorer
 
 from datasets import Dataset
 from nltk.tokenize import sent_tokenize
 from collections import Counter
+
+from transformers import AutoTokenizer
 
 from utils import strings, constants, regex_patterns, logging_messages
 
@@ -932,27 +936,27 @@ def get_file_name(path):
     return path.split('/')[-1]
 
 
-def build_dataset(chunks, file_name, is_dict):
+def build_dataset(chunks, file_name, type_, is_dict):
     """
     Convert chunks of text into a dataset format compatible with the 'datasets' library.
     - chunks: List of text chunks to be converted.
     - file_name: The name of the source file.
     """
-    chunk_dictlist = create_chunk_dictlist(chunks, file_name, is_dict)
+    chunk_dictlist = create_chunk_dictlist(chunks, file_name, type_, is_dict)
     return Dataset.from_list(chunk_dictlist)
 
 
-def build_dataset_v2(chunks, file_name, embedder):
+def build_dataset_v2(chunks, file_name, embedder, type_):
     """
     Convert chunks of text into a dataset format compatible with the 'datasets' library.
     - chunks: List of text chunks to be converted.
     - file_name: The name of the source file.
     """
-    chunk_dictlist = create_chunk_dictlist_v2(chunks, file_name, embedder)
+    chunk_dictlist = create_chunk_dictlist_v2(chunks, file_name, embedder, type_)
     return Dataset.from_list(chunk_dictlist)
 
 
-def create_chunk_dictlist(chunks, file_name, is_dict=False):
+def create_chunk_dictlist(chunks, file_name, type_, is_dict=False):
     """
     Create a list of dictionaries for each chunk, suitable for creating a dataset.
     - chunks: List or dict of text chunks to be converted.
@@ -968,6 +972,10 @@ def create_chunk_dictlist(chunks, file_name, is_dict=False):
                                'source': file_name
                            }}
                           for i, key in enumerate(keys)]
+        save_preprocessed_data('structured_data/chunks/by_key_headings',
+                               json.dumps(chunk_dictlist, indent=2), '/' + file_name,
+                               'extract_v1', f'{type_}_v0', 'json')
+
     else:
         chunk_dictlist = [{'id': str(i + 1),
                            'metadata': {
@@ -975,21 +983,142 @@ def create_chunk_dictlist(chunks, file_name, is_dict=False):
                                'source': file_name
                            }}
                           for i, chunk_content in enumerate(chunks)]
+        save_preprocessed_data('structured_data/chunks/by_word_limit',
+                               json.dumps(chunk_dictlist, indent=2), '/' + file_name,
+                               'extract_v0', f'{type_}_v0', 'json')
     return chunk_dictlist
 
 
-def create_chunk_dictlist_v2(json_dict, file_name, embedder):
+def process_chunks_to_lowest_node(list_, heading, chunks_, embedder):
+    data = {}
+    update_nested_dict(data, heading, list_)
+    token_count = embedder.count_tokens(json.dumps(data))
+    if token_count > constants.chunk_token_limit:
+        if isinstance(list_, dict):
+            for attach_head in list_.keys():
+                new_heading = heading.copy()
+                new_heading.append(attach_head)
+                chunks_ = process_chunks_to_lowest_node(list_[attach_head], new_heading, chunks_, embedder)
+            return chunks_
+        else:
+            chunks_.append(data)
+            return chunks_
+    else:
+        chunks_.append(data)
+        return chunks_
+
+
+def merge_dicts(dict1, dict2):
+    for key in dict2:
+        if key in dict1:
+            if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
+                merge_dicts(dict1[key], dict2[key])
+            else:
+                dict1[key] = dict2[key]
+        else:
+            dict1[key] = dict2[key]
+    return dict1
+
+
+def segment_text_by_sentences(text, num_sections):
+    # Split the text into sentences
+    sentences = re.split(r'(?<=[.!?]) +', text)
+    # Calculate the approximate number of sentences per section
+    sentences_per_section = len(sentences) // num_sections
+
+    segments = []
+    start = 0
+
+    # Loop to create sections
+    for i in range(num_sections - 1):
+        # Calculate the end index for this section
+        end = start + sentences_per_section
+        # Join the sentences to form a segment
+        segment = ' '.join(sentences[start:end])
+        segments.append(segment)
+        start = end
+
+    # Handle the last segment, which may contain the remaining sentences
+    segments.append(' '.join(sentences[start:]))
+
+    return segments
+
+
+def merge_chunks_to_token_limit(chunks, embedder):
+    merged_chunks = []
+    temp_chunk = {}
+    for chunk in chunks:
+        chunk_token_count = embedder.count_tokens(json.dumps(chunk))
+        if chunk_token_count < constants.chunk_token_limit:
+            # Create a deep copy of temp
+            temp_copy = copy.deepcopy(temp_chunk)
+            test_chunk = merge_dicts(temp_copy, chunk)
+            test_token_count = embedder.count_tokens(json.dumps(test_chunk))
+            if test_token_count < constants.chunk_token_limit:
+                temp_chunk = test_chunk
+            else:
+                merged_chunks.append(temp_chunk)
+                temp_chunk = chunk
+        else:
+            merged_chunks.append(temp_chunk)
+            temp_chunk = {}
+
+            # handle big chunk text strings
+            segments = math.ceil(chunk_token_count / constants.chunk_token_limit)
+            headings = []
+            while isinstance(chunk, dict):
+                head = list(chunk.keys())[0]
+                headings.append(head)
+                chunk = chunk[head]
+
+            segmented_contents = segment_text_by_sentences(chunk, segments)
+            for content in segmented_contents:
+                sub_chunk = {}
+                update_nested_dict(sub_chunk, headings, content)
+                merged_chunks.append(sub_chunk)
+
+    if temp_chunk != {}:
+        merged_chunks.append(temp_chunk)
+
+    return merged_chunks
+
+
+def title_chunks(chunks):
+    titled_chunks = []
+    for chunk in chunks:
+        title = ''
+        while isinstance(chunk, dict) and len(chunk.keys()) == 1:
+            head = list(chunk.keys())[0]
+            if title == '':
+                title = head
+            else:
+                title += ' >> ' + head
+            chunk = chunk[head]
+
+        titled_chunks.append({'title': title, 'content': chunk})
+
+    return titled_chunks
+
+
+def create_chunk_dictlist_v2(json_dict, file_name, embedder, type_):
     chunks = []
     for head_lvl1 in json_dict['structured_data'].keys():
-        process_chunks(json_dict['structured_data'][head_lvl1], head_lvl1, 1, chunks, embedder)
+        process_chunks_to_lowest_node(json_dict['structured_data'][head_lvl1], [head_lvl1], chunks, embedder)
+
+    limit_merged_chunks = merge_chunks_to_token_limit(chunks, embedder)
+    chunk_title_content = title_chunks(limit_merged_chunks)
 
     chunk_dictlist = [{'id': file_name.split('.')[0] + '-' + str(i + 1),
                        'metadata': {
-                           'title': list(chunk.keys())[0],
-                           'content': str(chunk[list(chunk.keys())[0]]),
+                           'title': chunk['title'],
+                           'content': str(chunk['content']),
                            'source': file_name
                        }}
-                      for i, chunk in enumerate(chunks)]
+                      for i, chunk in enumerate(chunk_title_content)]
+
+    save_preprocessed_data('structured_data/chunks/by_token_limit',
+                           json.dumps(chunk_dictlist, indent=2), '/' + file_name,
+                           'extract_v2', f'{type_}_v1', 'json')
 
     return chunk_dictlist
 
@@ -1030,7 +1159,22 @@ def update_nested_dict(d, keys, value):
         update_nested_dict(d[key], keys[1:], value)
 
 
-def v1_json_process_docs(docs):
+def update_nested_dict_v2(d, keys, value):
+    key = keys[0]
+
+    # If there's only one key left in the list, merge the value if it's a dict or directly assign
+    if len(keys) == 1:
+        if isinstance(value, dict) and isinstance(d.get(key), dict):
+            merge_dicts(d[key], value)
+        else:
+            d[key] = value
+    else:
+        if key not in d or not isinstance(d[key], dict):
+            d[key] = {}
+        update_nested_dict_v2(d[key], keys[1:], value)
+
+
+def v2_json_process_docs(docs):
     structured_docs = {}
     for doc in docs:
         heading_str, context = doc.split('<||SEP||>')
@@ -1040,7 +1184,10 @@ def v1_json_process_docs(docs):
             print(f"{context}: The string is not a valid dictionary format.")
 
         headings = heading_str.split(' >> ')
-        update_nested_dict(structured_docs, headings, context)
+        if heading_str == '':
+            merge_dicts(structured_docs, context)
+        else:
+            update_nested_dict_v2(structured_docs, headings, context)
 
     return json.dumps(structured_docs)
 

@@ -17,7 +17,7 @@ def none_v0(data, pdf_path):
     logging.info(logging_messages.display_no_structuring.format('0'))
     file_name = get_file_name(pdf_path)
     chunks = chunk_by_word_limit(data)
-    return build_dataset(chunks, file_name, is_dict=False)
+    return build_dataset(chunks, file_name, 'UNSTRUCT', is_dict=False)
 
 
 def json_v0(data, pdf_path):
@@ -33,7 +33,7 @@ def json_v0(data, pdf_path):
 
     json_string = json.dumps(json_dict, indent=2)
 
-    return build_dataset(json_dict, file_name, is_dict=True), json_string
+    return build_dataset(json_dict, file_name, 'JSON', is_dict=True), json_string
 
 
 def json_v1(data, pdf_path, embedder):
@@ -50,7 +50,7 @@ def json_v1(data, pdf_path, embedder):
 
     json_string = json.dumps(json_dict, indent=2)
 
-    return build_dataset_v2(json_dict, file_name, embedder), json_string
+    return build_dataset_v2(json_dict, file_name, embedder, 'JSON'), json_string
 
 
 def html_v0(data, pdf_path):
@@ -67,4 +67,4 @@ def html_v0(data, pdf_path):
 
     html_string = f'<html><body>\n{'\n'.join(html_format)}\n</body></html>'
 
-    return build_dataset(html_format, file_name, is_dict=False), html_string
+    return build_dataset(html_format, file_name, 'HTML', is_dict=False), html_string
