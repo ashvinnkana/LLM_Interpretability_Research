@@ -93,8 +93,6 @@ def get_response(query, message, llm, ref_answer):
 
 
 def non_legal_llm_responses(question, message, ref_anw):
-    print(message)
-    print(question)
     response_scores = {}
     for index, llm in enumerate(constants.groq_supported_llm_list):
         response_scores[index] = get_response(question, message, index, ref_anw)
@@ -243,7 +241,7 @@ def upsert_all_data():
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    # upsert_all_data()
+    upsert_all_data()
 
     question = ("What is the section that states the limitation period for a continuous adverse possession to "
                 "recover a land in WA?")
@@ -258,7 +256,7 @@ def main():
     logging.info(logging_messages.main_divider)
 
     results = []
-    for i in range(1):
+    for i in range(5):
         logging.info(f'GENERATED RESPONSES 0{i + 1}')
         logging.info(logging_messages.sub_divider)
         results.append(generate_responses(question, docs, ref_answer))

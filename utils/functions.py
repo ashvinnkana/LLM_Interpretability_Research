@@ -981,12 +981,14 @@ def create_chunk_dictlist(chunks, file_name, type_, is_html=False):
                       for i, chunk_content in enumerate(chunks)]
 
     root_dir = 'structured_data/chunks/by_word_limit'
+    extract_version = 'extract_v0'
     if is_html:
         root_dir = 'structured_data/chunks/by_key_headings'
+        extract_version = 'extract_v1'
 
     save_preprocessed_data(root_dir,
                            json.dumps(chunk_dictlist, indent=2), '/' + file_name,
-                           'extract_v0', f'{type_}_v0', 'json')
+                           extract_version, f'{type_}_v0', 'json')
     return chunk_dictlist
 
 

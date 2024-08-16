@@ -7,7 +7,7 @@ from utils.functions import get_node_children
 def run_tests():
     class TestExtraction(unittest.TestCase):
         def test_with_extracted_headings(self):
-            input_pdf = './../data/unstructured_data/Limitation_Act_2005.pdf'
+            input_pdf = './test_data/Limitation_Act_2005.pdf'
             input_node_route = [0, 1, 0, 0]
             output_expected = [
                 'Part 1  Preliminary',
