@@ -1223,7 +1223,7 @@ def convert_string_to_dict(context):
         return context
 
 
-def v2_json_process_docs(docs):
+def merge_chunks_v2(docs):
     structured_docs = {}
     for doc in docs:
         heading_str, context = doc.split('<||SEP||>')
@@ -1235,7 +1235,43 @@ def v2_json_process_docs(docs):
         else:
             update_nested_dict_v2(structured_docs, headings, context)
 
-    return json.dumps(structured_docs)
+    return structured_docs
+
+
+def v2_json_process_docs(docs):
+    return json.dumps(merge_chunks_v2(docs))
+
+
+def convert_sub_html_content(data, level):
+    html_string = ''
+    if isinstance(data, dict):
+        keys = list(data.keys())
+        html_string += '<ul>'
+        for key in keys:
+            html_string += f'<li><h{level}>{key}</h{level}>'
+            html_string += convert_sub_html_content(data[key], level + 1)
+            html_string += '</li>'
+        html_string += '</ul>'
+    else:
+        html_string += f'<p>{data}</p>'
+
+    return html_string
+
+
+def convert_to_html(structured_docs):
+    head_keys = list(structured_docs.keys())
+    html_string = ''
+    for head in head_keys:
+        html_string += f'<div><h1>{head}</h1>'
+        html_string += convert_sub_html_content(structured_docs[head], 2)
+        html_string += '</div>'
+
+    return html_string
+
+
+def v2_html_process_docs(docs):
+    structured_docs = merge_chunks_v2(docs)
+    return convert_to_html(structured_docs)
 
 
 def group_sentences(phrases):

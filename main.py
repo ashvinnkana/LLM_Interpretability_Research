@@ -1,4 +1,3 @@
-import json
 import logging.config
 
 import pandas as pd
@@ -17,7 +16,7 @@ from utils.functions import download_nltk_resources
 from utils.functions import save_preprocessed_data
 from utils.functions import get_rouge_scores
 from utils.functions import v1_json_process_docs, v2_json_process_docs
-from utils.functions import v1_html_process_docs, unstruct_process_docs
+from utils.functions import v1_html_process_docs, v2_html_process_docs, unstruct_process_docs
 
 # setup
 download_nltk_resources()
@@ -29,9 +28,9 @@ fastai_interface = GROQ()
 unstructured_vectordb = PINECONE(strings.unstructured_0_index)
 
 v1_json_structured_vectordb = PINECONE(strings.structured_JSON_1_index)
-v2_json_structured_vectordb = PINECONE(strings.structured_JSON_2_index)
-
 v1_html_structured_vectordb = PINECONE(strings.structured_HTML_1_index)
+
+v2_structured_vectordb = PINECONE(strings.structured_v2_index)
 
 
 def legal_llm_response(question, docs):
@@ -110,8 +109,9 @@ def get_docs(question):
     v1_json_structured_vectordb.connect()
     docs['json-structured-v1'] = v1_json_process_docs(v1_json_structured_vectordb.get_docs(query_embeds, 5))
 
-    v2_json_structured_vectordb.connect()
-    docs['json-structured-v2'] = v2_json_process_docs(v2_json_structured_vectordb.get_docs(query_embeds, 5))
+    v2_structured_vectordb.connect()
+    docs['json-structured-v2'] = v2_json_process_docs(v2_structured_vectordb.get_docs(query_embeds, 5))
+    docs['html-structured-v2'] = v2_html_process_docs(v2_structured_vectordb.get_docs(query_embeds, 5))
 
     v1_html_structured_vectordb.connect()
     docs['html-structured-v1'] = v1_html_process_docs(v1_html_structured_vectordb.get_docs(query_embeds, 5))
@@ -157,6 +157,14 @@ def generate_responses(question, docs, ref_answer):
                                                                         docs['html-structured-v1']),
                                                                     ref_answer)
 
+    logging.info(logging_messages.sub_divider)
+    logging.info(logging_messages.generating_response.format('HTML-STRUCTURED-V2'))
+    response_scores['html-structured-v2'] = non_legal_llm_responses(strings.html_question.format(question),
+                                                                    strings.html_llm_message.format(
+                                                                        topic,
+                                                                        docs['html-structured-v2']),
+                                                                    ref_answer)
+
     logging.info(logging_messages.main_divider)
     return response_scores
 
@@ -175,15 +183,15 @@ def upsert_v0_unstructured_v0(pdf_path):
         logging.error(logging_messages.error_upserting.format(constants.unstructured_tag, pdf_path, e))
 
 
-def upsert_v1_structured_json_v2(pdf_path):
-    v2_json_structured_vectordb.connect()
+def upsert_extract_v2(pdf_path):
+    v2_structured_vectordb.connect()
     node_data = extract_data.extract_v2(pdf_path)
     json_structured_dataset, json_string = structure_data.json_v1(node_data, pdf_path, embedder)
     save_preprocessed_data('structured_data', json_string, pdf_path,
                            'extract_v2', 'v1', 'json')
     try:
         logging.info(logging_messages.upserting_chunks.format(constants.json_structured_tag, pdf_path))
-        embedder.encode_upsert_vectordb(json_structured_dataset, 5, v2_json_structured_vectordb)
+        embedder.encode_upsert_vectordb(json_structured_dataset, 5, v2_structured_vectordb)
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
@@ -234,7 +242,7 @@ def upsert_all_data():
         upsert_v0_structured_html_v1(pdf_path)
 
         logging.info(logging_messages.sub_divider)
-        upsert_v1_structured_json_v2(pdf_path)
+        upsert_extract_v2(pdf_path)
 
         logging.info(logging_messages.main_divider)
 
@@ -254,6 +262,7 @@ def main():
     logging.info(logging_messages.main_divider)
     logging.info(logging_messages.fetching_docs.format(question))
     docs = get_docs(question)
+
     logging.info(logging_messages.main_divider)
 
     results = []
