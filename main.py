@@ -16,7 +16,8 @@ from models.groq_client import GROQ
 from utils.functions import download_nltk_resources
 from utils.functions import save_preprocessed_data
 from utils.functions import get_rouge_scores
-from utils.functions import process_docs, v2_json_process_docs
+from utils.functions import v1_json_process_docs, v2_json_process_docs
+from utils.functions import v1_html_process_docs, unstruct_process_docs
 
 # setup
 download_nltk_resources()
@@ -78,12 +79,12 @@ def create_results_dataframe(results, question_id):
     df_rougeL.to_csv(strings.csv_results_path.format(question_id, 'rougeL'))
 
 
-def get_response(query, docs, topic, llm, ref_answer):
+def get_response(query, message, llm, ref_answer):
     logging.info(logging_messages.generating_response_with.format(constants.groq_supported_llm_list[llm]['model_id']))
     fastai_interface.set_model(constants.groq_supported_llm_list[llm]['model_id'])
 
     try:
-        response = fastai_interface.generate_response(query, docs, topic)
+        response = fastai_interface.generate_response(query, message)
         logging.info(logging_messages.response_display.format(response))
         return get_rouge_scores(ref_answer, response)
     except RateLimitError as e:
@@ -91,10 +92,12 @@ def get_response(query, docs, topic, llm, ref_answer):
         return None
 
 
-def non_legal_llm_responses(question, docs, ref_anw):
+def non_legal_llm_responses(question, message, ref_anw):
+    print(message)
+    print(question)
     response_scores = {}
     for index, llm in enumerate(constants.groq_supported_llm_list):
-        response_scores[index] = get_response(question, docs, 'LAW', index, ref_anw)
+        response_scores[index] = get_response(question, message, index, ref_anw)
 
     return response_scores
 
@@ -104,39 +107,57 @@ def get_docs(question):
     query_embeds = embedder.encode(question)
 
     unstructured_vectordb.connect()
-    docs['unstructured'] = process_docs(unstructured_vectordb.get_docs(query_embeds, 5))
+    docs['unstructured'] = unstruct_process_docs(unstructured_vectordb.get_docs(query_embeds, 5))
 
     v1_json_structured_vectordb.connect()
-    docs['json-structured-v1'] = process_docs(v1_json_structured_vectordb.get_docs(query_embeds, 5))
+    docs['json-structured-v1'] = v1_json_process_docs(v1_json_structured_vectordb.get_docs(query_embeds, 5))
 
     v2_json_structured_vectordb.connect()
     docs['json-structured-v2'] = v2_json_process_docs(v2_json_structured_vectordb.get_docs(query_embeds, 5))
+
     v1_html_structured_vectordb.connect()
-    docs['html-structured-v1'] = process_docs(v1_html_structured_vectordb.get_docs(query_embeds, 5))
+    docs['html-structured-v1'] = v1_html_process_docs(v1_html_structured_vectordb.get_docs(query_embeds, 5))
 
     return docs
 
 
 def generate_responses(question, docs, ref_answer):
     response_scores = {}
+    topic = 'LAW'
 
     # get responses for unstructured data
     logging.info(logging_messages.generating_response.format('UNSTRUCTURED'))
-    response_scores['unstructured'] = non_legal_llm_responses(question, docs['unstructured'], ref_answer)
+    response_scores['unstructured'] = non_legal_llm_responses(strings.unstructured_question.format(question),
+                                                              strings.unstructured_llm_message.format(
+                                                                  topic,
+                                                                  docs['unstructured']),
+                                                              ref_answer)
 
     # get responses for json_structured data
     logging.info(logging_messages.sub_divider)
     logging.info(logging_messages.generating_response.format('JSON-STRUCTURED-V1'))
-    response_scores['json-structured-v1'] = non_legal_llm_responses(question, docs['json-structured-v1'], ref_answer)
+    response_scores['json-structured-v1'] = non_legal_llm_responses(strings.json_question.format(question),
+                                                                    strings.json_llm_message.format(
+                                                                        topic,
+                                                                        docs['json-structured-v1']),
+                                                                    ref_answer)
 
     logging.info(logging_messages.sub_divider)
     logging.info(logging_messages.generating_response.format('JSON-STRUCTURED-V2'))
-    response_scores['json-structured-v2'] = non_legal_llm_responses(question, docs['json-structured-v2'], ref_answer)
+    response_scores['json-structured-v2'] = non_legal_llm_responses(strings.json_question.format(question),
+                                                                    strings.json_llm_message.format(
+                                                                        topic,
+                                                                        docs['json-structured-v2']),
+                                                                    ref_answer)
 
     # get responses for html_structured data
     logging.info(logging_messages.sub_divider)
     logging.info(logging_messages.generating_response.format('HTML-STRUCTURED-V1'))
-    response_scores['html-structured-v1'] = non_legal_llm_responses(question, docs['html-structured-v1'], ref_answer)
+    response_scores['html-structured-v1'] = non_legal_llm_responses(strings.html_question.format(question),
+                                                                    strings.html_llm_message.format(
+                                                                        topic,
+                                                                        docs['html-structured-v1']),
+                                                                    ref_answer)
 
     logging.info(logging_messages.main_divider)
     return response_scores
@@ -222,7 +243,7 @@ def upsert_all_data():
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    upsert_all_data()
+    # upsert_all_data()
 
     question = ("What is the section that states the limitation period for a continuous adverse possession to "
                 "recover a land in WA?")
@@ -231,10 +252,13 @@ def main():
                   "for actions to recover land from the time the right to recover the land accrues, reflecting the "
                   "period during which continuous adverse possession must be maintained to claim ownership.")
 
+    logging.info(logging_messages.main_divider)
+    logging.info(logging_messages.fetching_docs.format(question))
     docs = get_docs(question)
+    logging.info(logging_messages.main_divider)
 
     results = []
-    for i in range(5):
+    for i in range(1):
         logging.info(f'GENERATED RESPONSES 0{i + 1}')
         logging.info(logging_messages.sub_divider)
         results.append(generate_responses(question, docs, ref_answer))

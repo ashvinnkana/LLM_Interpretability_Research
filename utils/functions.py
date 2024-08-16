@@ -305,12 +305,12 @@ def get_node_dict_v2(node, index):
     if len(node.children) != 0:
         for index, child in enumerate(node.children):
             # Merge the child node dictionary into the children_node dictionary
-            children_node = {**children_node, **get_node_dict_v2(child, index+1)}
+            children_node = {**children_node, **get_node_dict_v2(child, index + 1)}
 
     if len(children_node.keys()) == 1:
         if (not starts_with_bullet(list(children_node.keys())[0]) and
                 (not children_node[list(children_node.keys())[0]] is None) and
-                    (not isinstance(children_node[list(children_node.keys())[0]], str))):
+                (not isinstance(children_node[list(children_node.keys())[0]], str))):
             node.value += '; ' + list(children_node.keys())[0]
             children_node = children_node[list(children_node.keys())[0]]
 
@@ -320,9 +320,9 @@ def get_node_dict_v2(node, index):
             key, value = is_bullet(node.value)
             temp[key] = value
         elif node.type_ == 0:
-            temp['heading'+str(index)] = node.value
+            temp['heading' + str(index)] = node.value
         elif node.type_ in [1, 2, 3]:
-            temp['content'+str(index)] = node.value
+            temp['content' + str(index)] = node.value
     else:
         children_keys = list(children_node.keys())
         if len(children_keys) == 1 and children_keys[0].startswith('content'):
@@ -936,13 +936,23 @@ def get_file_name(path):
     return path.split('/')[-1]
 
 
-def build_dataset(chunks, file_name, type_, is_dict):
+def build_dataset(chunks, file_name, type_, is_html):
     """
     Convert chunks of text into a dataset format compatible with the 'datasets' library.
     - chunks: List of text chunks to be converted.
     - file_name: The name of the source file.
     """
-    chunk_dictlist = create_chunk_dictlist(chunks, file_name, type_, is_dict)
+    chunk_dictlist = create_chunk_dictlist(chunks, file_name, type_, is_html)
+    return Dataset.from_list(chunk_dictlist)
+
+
+def build_dataset_v1(chunks, file_name, type_, is_dict):
+    """
+    Convert chunks of text into a dataset format compatible with the 'datasets' library.
+    - chunks: List of text chunks to be converted.
+    - file_name: The name of the source file.
+    """
+    chunk_dictlist = create_chunk_dictlist_v1(chunks, file_name, type_, is_dict)
     return Dataset.from_list(chunk_dictlist)
 
 
@@ -956,7 +966,31 @@ def build_dataset_v2(chunks, file_name, embedder, type_):
     return Dataset.from_list(chunk_dictlist)
 
 
-def create_chunk_dictlist(chunks, file_name, type_, is_dict=False):
+def create_chunk_dictlist(chunks, file_name, type_, is_html=False):
+    """
+    Create a list of dictionaries for each chunk, suitable for creating a dataset.
+    - chunks: List or dict of text chunks to be converted.
+    - file_name: The name of the source file.
+    - is_dict: Boolean indicating whether chunks are a dictionary.
+    """
+    chunk_dictlist = [{'id': str(i + 1),
+                       'metadata': {
+                           'content': chunk_content,
+                           'source': file_name
+                       }}
+                      for i, chunk_content in enumerate(chunks)]
+
+    root_dir = 'structured_data/chunks/by_word_limit'
+    if is_html:
+        root_dir = 'structured_data/chunks/by_key_headings'
+
+    save_preprocessed_data(root_dir,
+                           json.dumps(chunk_dictlist, indent=2), '/' + file_name,
+                           'extract_v0', f'{type_}_v0', 'json')
+    return chunk_dictlist
+
+
+def create_chunk_dictlist_v1(chunks, file_name, type_, is_dict=False):
     """
     Create a list of dictionaries for each chunk, suitable for creating a dataset.
     - chunks: List or dict of text chunks to be converted.
@@ -968,7 +1002,7 @@ def create_chunk_dictlist(chunks, file_name, type_, is_dict=False):
         keys = [key for key in chunks.keys() if isinstance(chunks[key], dict)]
         chunk_dictlist = [{'id': str(i + 1),
                            'metadata': {
-                               'content': f'{key} : {str(chunks[key])}',
+                               'content': f"{{'{key}' : {str(chunks[key])}}}",
                                'source': file_name
                            }}
                           for i, key in enumerate(keys)]
@@ -976,16 +1010,6 @@ def create_chunk_dictlist(chunks, file_name, type_, is_dict=False):
                                json.dumps(chunk_dictlist, indent=2), '/' + file_name,
                                'extract_v1', f'{type_}_v0', 'json')
 
-    else:
-        chunk_dictlist = [{'id': str(i + 1),
-                           'metadata': {
-                               'content': chunk_content,
-                               'source': file_name
-                           }}
-                          for i, chunk_content in enumerate(chunks)]
-        save_preprocessed_data('structured_data/chunks/by_word_limit',
-                               json.dumps(chunk_dictlist, indent=2), '/' + file_name,
-                               'extract_v0', f'{type_}_v0', 'json')
     return chunk_dictlist
 
 
@@ -1139,8 +1163,23 @@ def process_chunks(list_, heading, level, chunks_, embedder):
         return chunks_
 
 
-def process_docs(docs):
-    return "\n----\n".join(docs)
+def unstruct_process_docs(docs):
+    return '\n----\n'.join(docs)
+
+
+def v1_json_process_docs(docs):
+    merged_docs = ''
+    for doc in docs:
+        if merged_docs == '':
+            merged_docs = json.dumps(convert_string_to_dict(doc))
+        else:
+            merged_docs += ', ' + json.dumps(convert_string_to_dict(doc))
+
+    return merged_docs
+
+
+def v1_html_process_docs(docs):
+    return '<li>' + '</li><li>'.join(docs) + '</li>'
 
 
 def update_nested_dict(d, keys, value):
@@ -1174,14 +1213,19 @@ def update_nested_dict_v2(d, keys, value):
         update_nested_dict_v2(d[key], keys[1:], value)
 
 
+def convert_string_to_dict(context):
+    try:
+        return ast.literal_eval(context)
+    except (ValueError, SyntaxError):
+        print(f"{context}: The string is not a valid dictionary format.")
+        return context
+
+
 def v2_json_process_docs(docs):
     structured_docs = {}
     for doc in docs:
         heading_str, context = doc.split('<||SEP||>')
-        try:
-            context = ast.literal_eval(context)
-        except (ValueError, SyntaxError):
-            print(f"{context}: The string is not a valid dictionary format.")
+        context = convert_string_to_dict(context)
 
         headings = heading_str.split(' >> ')
         if heading_str == '':

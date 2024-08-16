@@ -14,13 +14,9 @@ class GROQ:
     def set_model(self, model):
         self.model = model
 
-    def generate_response(self, query: str, docs: str, topic: str):
-        system_message = (
-            f"You are a helpful assistant that answers questions in two sentences about {topic} using the "
-            f"context provided below.\n\nCONTEXT:\n{docs}"
-        )
+    def generate_response(self, query: str, message: str):
         messages = [
-            {"role": "system", "content": system_message},
+            {"role": "system", "content": message},
             {"role": "user", "content": query}
         ]
         # generate response

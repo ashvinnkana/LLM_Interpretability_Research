@@ -4,7 +4,7 @@ import json
 from utils import logging_messages
 
 from utils.functions import get_file_name
-from utils.functions import chunk_by_word_limit, build_dataset
+from utils.functions import chunk_by_word_limit, build_dataset, build_dataset_v1
 from utils.functions import get_node_dict, get_html_node_string
 from utils.functions import get_node_dict_v2, build_dataset_v2
 
@@ -17,7 +17,7 @@ def none_v0(data, pdf_path):
     logging.info(logging_messages.display_no_structuring.format('0'))
     file_name = get_file_name(pdf_path)
     chunks = chunk_by_word_limit(data)
-    return build_dataset(chunks, file_name, 'UNSTRUCT', is_dict=False)
+    return build_dataset(chunks, file_name, 'UNSTRUCT', is_html=False)
 
 
 def json_v0(data, pdf_path):
@@ -33,7 +33,7 @@ def json_v0(data, pdf_path):
 
     json_string = json.dumps(json_dict, indent=2)
 
-    return build_dataset(json_dict, file_name, 'JSON', is_dict=True), json_string
+    return build_dataset_v1(json_dict, file_name, 'JSON', is_dict=True), json_string
 
 
 def json_v1(data, pdf_path, embedder):
@@ -67,4 +67,4 @@ def html_v0(data, pdf_path):
 
     html_string = f'<html><body>\n{'\n'.join(html_format)}\n</body></html>'
 
-    return build_dataset(html_format, file_name, 'HTML', is_dict=False), html_string
+    return build_dataset(html_format, file_name, 'HTML', is_html=True), html_string

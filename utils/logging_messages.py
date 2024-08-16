@@ -2,6 +2,8 @@ nltk_resource_downloaded = '>> NLTK resource {} is already downloaded'
 nltk_resource_downloading = '>> Downloading NLTK resource {} ...'
 status_success = '-- STATUS - SUCCESS'
 
+fetching_docs = '>> Fetching Docs from VectorDB for Query: {}'
+
 identify_header_footer = '- Identifying Headers & Footers'
 remove_header_footer = '- Removing Headers & Footers'
 group_sentences = '- Group phrases to make sentences'

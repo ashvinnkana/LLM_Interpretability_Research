@@ -15,3 +15,29 @@ unstructured_pdf_paths = [
 
 header_footer_level_setup_string = '{}->{}'
 classify_level_string = '{}-{}-{}-{}'
+
+unstructured_llm_message = (
+    'SYSTEM MESSAGE:\n'
+    'You are a helpful assistant that answers questions in two sentences about {} using the context provided.\n\n'
+    'CONTEXT:\n{}')
+
+unstructured_question = 'QUESTION: {}'
+
+html_llm_message = (
+    '<SYSTEM-MESSAGE>'
+    'You are a helpful assistant that answers questions in two sentences about {} using the context provided.'
+    '</SYSTEM-MESSAGE>'
+    '<CONTEXT>'
+    '<ul>{}</ul>'
+    '</CONTEXT>')
+
+html_question = '<QUESTION>{}</QUESTION>'
+
+json_llm_message = (
+    '{{'
+    '"SYSTEM-MESSAGE":"You are a helpful assistant that answers questions in two sentences about {} using the context '
+    'provided",'
+    '"CONTEXT":{}'
+    '}}')
+
+json_question = '{{"QUESTION":"{}"}}'
