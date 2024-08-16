@@ -243,12 +243,13 @@ def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
     upsert_all_data()
 
-    question = ("What is the section that states the limitation period for a continuous adverse possession to "
-                "recover a land in WA?")
-    ref_answer = ("The limitation period for a continuous adverse possession in Western Australia is stated in Section "
-                  "19, subsection 1 of the Limitation Act 2005. This section specifies a 12-year limitation period "
-                  "for actions to recover land from the time the right to recover the land accrues, reflecting the "
-                  "period during which continuous adverse possession must be maintained to claim ownership.")
+    question = ("Which section of the law specifies the limitation period for initiating an action to recover land "
+                "that has been under continuous adverse possession?")
+
+    ref_answer = ("Section 19 of the Limitation Act 2005 specifies that the limitation period for initiating an "
+                  "action to recover land is 12 years from the date when the cause of action first accrued. This "
+                  "means that if the land has been under continuous adverse possession, the rightful owner must take "
+                  "legal action within 12 years, or they may lose the right to recover the property.")
 
     logging.info(logging_messages.main_divider)
     logging.info(logging_messages.fetching_docs.format(question))
