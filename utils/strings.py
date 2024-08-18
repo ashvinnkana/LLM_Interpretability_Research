@@ -33,6 +33,13 @@ unstructured_llm_message = (
 
 unstructured_question = 'QUESTION: {}'
 
+md_llm_message = (
+    '# SYSTEM MESSAGE:\n'
+    'You are a helpful assistant that answers questions in two sentences about {} using the context provided.\n\n'
+    '# CONTEXT:\n{}')
+
+md_question = '# QUESTION:\n{}'
+
 html_llm_message = (
     '<SYSTEM-MESSAGE>'
     'You are a helpful assistant that answers questions in two sentences about {} using the context provided.'

@@ -1274,6 +1274,35 @@ def v2_html_process_docs(docs):
     return convert_to_html(structured_docs)
 
 
+def convert_sub_markdown_content(data, level):
+    md_string = ''
+    if isinstance(data, dict):
+        keys = list(data.keys())
+        for key in keys:
+            md_head_tag = '#'
+            md_string += f'{md_head_tag * level} {key}\n'
+            md_string += convert_sub_markdown_content(data[key], level + 1)
+    else:
+        md_string += f'{data}\n\n'
+
+    return md_string
+
+
+def convert_to_markdown(structured_docs):
+    head_keys = list(structured_docs.keys())
+    md_string = ''
+    for head in head_keys:
+        md_string += f'# {head}\n'
+        md_string += convert_sub_markdown_content(structured_docs[head], 2)
+
+    return md_string
+
+
+def v2_markdown_process_docs(docs):
+    structured_docs = merge_chunks_v2(docs)
+    return convert_to_markdown(structured_docs)
+
+
 def group_sentences(phrases):
     """
     Group phrases into sentences, handling cases like bullets and special ending characters.

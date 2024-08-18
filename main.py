@@ -10,7 +10,7 @@ from utils.functions import save_preprocessed_data
 from utils.functions import get_rouge_scores, create_results_dataframe, visualize_rouge_results
 from utils import strings
 from models.pinecone_client import PINECONE
-from utils.functions import v1_json_process_docs, v2_json_process_docs
+from utils.functions import v1_json_process_docs, v2_json_process_docs, v2_markdown_process_docs
 from utils.functions import v1_html_process_docs, v2_html_process_docs, unstruct_process_docs
 
 # setup
@@ -40,6 +40,11 @@ format_lists = [
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v1_html_process_docs,
      'vector_db': v1_html_structured_vectordb},
+    {'id': 'md-structured-v2',
+     'query_str': strings.md_question,
+     'llm_msg_str': strings.md_llm_message,
+     'get_docs_func': v2_markdown_process_docs,
+     'vector_db': v2_structured_vectordb},
     {'id': 'json-structured-v2',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
@@ -75,9 +80,8 @@ def upsert_v0_unstructured_v0(pdf_path):
 def upsert_extract_v2(pdf_path):
     v2_structured_vectordb.connect()
     node_data = extract_data.extract_v2(pdf_path)
-    json_structured_dataset, json_string = structure_data.json_v1(node_data, pdf_path, embedder)
-    save_preprocessed_data('structured_data', json_string, pdf_path,
-                           'extract_v2', 'v1', 'json')
+    json_structured_dataset = structure_data.json_v1(node_data, pdf_path, embedder)
+
     try:
         logging.info(logging_messages.upserting_chunks.format(constants.json_structured_tag, pdf_path))
         embedder.encode_upsert_vectordb(json_structured_dataset, 5, v2_structured_vectordb)
