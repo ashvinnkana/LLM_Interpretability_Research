@@ -11,6 +11,8 @@ import math
 
 from rouge_score import rouge_scorer
 
+import pandas as pd
+import matplotlib.pyplot as plt
 from datasets import Dataset
 from nltk.tokenize import sent_tokenize
 from collections import Counter
@@ -103,7 +105,7 @@ def get_html_node_string(node, level):
     return html_string
 
 
-def extract_scores(score_dict, response):
+def extract_scores(score_dict):
     """
     Extract the F-measure scores from a dictionary of ROUGE scores.
 
@@ -118,7 +120,6 @@ def extract_scores(score_dict, response):
         :param response:
     """
     dict_ = {k: v.fmeasure for k, v in score_dict.items()}
-    dict_['response'] = response
     return dict_
 
 
@@ -128,13 +129,12 @@ def get_rouge_scores(ref_answer, response):
 
     Args:
         ref_answer (str): The reference text against which the response will be evaluated.
-        response (str): The generated response text that needs to be scored.
 
     Returns:
         dict: A dictionary containing the F-measure scores for the specified ROUGE metrics ('rouge1', 'rougeL').
     """
     scorer = rouge_scorer.RougeScorer(['rouge1', 'rougeL'], use_stemmer=True)
-    return extract_scores(scorer.score(ref_answer, response), response)
+    return extract_scores(scorer.score(ref_answer, response))
 
 
 def get_node_dict(node):
@@ -1307,3 +1307,71 @@ def group_sentences(phrases):
         sentences.append(temp)
 
     return sentences
+
+
+def create_results_dataframe(result_dict, metric):
+    # Initialize the data dictionary
+    data = {}
+
+    # Collect all format types dynamically
+    all_format_types = set()
+    for formats in result_dict.values():
+        all_format_types.update(formats.keys())
+
+    # Initialize empty lists in the data dictionary for each format type
+    for format_type in all_format_types:
+        data[format_type] = []
+
+    # Populate the data dictionary
+    for format_type in all_format_types:
+        for model, formats in result_dict.items():
+            if format_type in formats:
+                max_score = max(item[metric] for item in formats[format_type])
+            else:
+                max_score = None  # Use None if the format type is missing for a model
+            data[format_type].append(max_score)
+
+    # Create a DataFrame and transpose it to have models on the x-axis and formats on the y-axis
+    df = pd.DataFrame(data, index=result_dict.keys())
+    return df.T
+
+
+def visualize_rouge_results(rouge1_df, rougeL_df, format_lists, question_id):
+    # Ensure the order of formats
+    formats_order = [item['id'] for item in format_lists]
+    rouge1_df = rouge1_df.loc[formats_order]
+    rougeL_df = rougeL_df.loc[formats_order]
+
+    # List of models
+    models = rouge1_df.columns
+
+    # Plotting the line chart
+    plt.figure(figsize=(10, 6))
+
+    # Plot ROUGE-1 scores (solid lines)
+    for model in models:
+        plt.plot(formats_order, rouge1_df[model], label=f'{model} (ROUGE-1)', linestyle='-', marker='o')
+
+    # Plot ROUGE-L scores (dashed lines)
+    for model in models:
+        plt.plot(formats_order, rougeL_df[model], label=f'{model} (ROUGE-L)', linestyle='--', marker='o')
+
+    # Adding labels and title
+    plt.xlabel('Formats')
+    plt.ylabel('ROUGE Scores')
+    plt.title('ROUGE Scores by Model and Format')
+    plt.legend(loc='best')  # Place legend in the best location
+    plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+
+    # Adjust y-axis to the range of the data
+    plt.ylim(
+        min(rouge1_df.min().min(), rougeL_df.min().min()) - 0.05,
+        max(rouge1_df.max().max(), rougeL_df.max().max()) + 0.05
+    )
+    plt.grid(True)
+
+    # Show the plot
+    plt.tight_layout()
+    plt.savefig(f'results/{question_id}_rouge_scores_plot.png')  # Save plot as PNG file
+
+    plt.show()

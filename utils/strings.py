@@ -13,6 +13,16 @@ unstructured_pdf_paths = [
     './data/unstructured_data/Limitation_Act_2005.pdf'
 ]
 
+questions = [
+    {'id': 'question_01',
+     'query': 'Which section of the law in WA specifies the limitation period for initiating an action to recover '
+              'land that has been trespassed?',
+     'ref_answer': 'Section 19 of the Limitation Act 2005 specifies that the limitation period for initiating an '
+                   'action to recover land is 12 years from the date when the cause of action first accrued. This '
+                   'means that if the land has been under continuous adverse possession, the rightful owner must take '
+                   'legal action within 12 years, or they may lose the right to recover the property.'}
+]
+
 header_footer_level_setup_string = '{}->{}'
 classify_level_string = '{}-{}-{}-{}'
 

@@ -1,15 +1,27 @@
 from models.node import Node
+from models.groq_client import GROQ
+from models.openai_client import OpenAIGPT
+
 
 # outperforms all known language models for Australian law (perplexity : 8.01)
 aus_legal_llm = 'umarbutler/open-australian-legal-llm'
-groq_supported_llm_list = [
+
+groq_interface = GROQ()
+openai_interface = OpenAIGPT()
+
+non_legal_llm_list = [
     {'model_id': 'llama3-70b-8192',
      'developer': 'Meta',
-     'context_window': '8192'},
+     'client': groq_interface},
     {'model_id': 'gemma-7b-it',
      'developer': 'Google',
-     'context_window': '8192'},
+     'client': groq_interface},
+    {'model_id': 'gpt-3.5-turbo',
+     'developer': 'OpenAI',
+     'client': openai_interface},
 ]
+
+fetch_docs_count = 5
 
 header_estimated_size = 4
 footer_estimated_size = 4
