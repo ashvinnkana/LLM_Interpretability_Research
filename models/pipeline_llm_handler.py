@@ -5,19 +5,22 @@ set_seed(42)
 
 
 class LLM:
-    def __init__(self, model, task):
-        self.model = model
-        self.task = task
+    def __init__(self):
+        self.model = None
+        self.task = "question-answering"
 
         if torch.cuda.is_available():
             self.device = torch.device("cuda")  # Use GPU if available
         else:
             self.device = torch.device("cpu")  # Use CPU otherwise
 
-        self.generator = pipeline(task,
-                                  torch_dtype=torch.float32,
-                                  device=self.device,
-                                  model=model)
+    def set_model(self, model):
+        self.model = model
 
-    def generate(self, question, docs):
-        return self.generator(question, "\n---\n".join(docs), max_length=500)['answer']
+    def generate_response(self, query: str, message: str):
+        generator = pipeline(self.task,
+                             device=self.device,
+                             model=self.model,
+                             tokenizer=self.model)
+
+        return generator(query, message, max_length=500)['answer']

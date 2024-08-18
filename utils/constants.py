@@ -1,17 +1,21 @@
 from models.node import Node
 from models.groq_client import GROQ
 from models.openai_client import OpenAIGPT
-
+from models.pipeline_llm_handler import LLM
 
 # outperforms all known language models for Australian law (perplexity : 8.01)
 aus_legal_llm = 'umarbutler/open-australian-legal-llm'
 
 groq_interface = GROQ()
 openai_interface = OpenAIGPT()
+huggingface_interface = LLM()
 
 non_legal_llm_list = [
     {'model_id': 'llama3-70b-8192',
      'developer': 'Meta',
+     'client': groq_interface},
+    {'model_id': 'mixtral-8x7b-32768',
+     'developer': 'Mistral',
      'client': groq_interface},
     {'model_id': 'gemma-7b-it',
      'developer': 'Google',
@@ -20,6 +24,10 @@ non_legal_llm_list = [
      'developer': 'OpenAI',
      'client': openai_interface},
 ]
+
+"""{'model_id': 'deepset/roberta-base-squad2',
+     'developer': 'FAIR',
+     'client': huggingface_interface}"""
 
 fetch_docs_count = 5
 
@@ -34,7 +42,7 @@ header_footer_occurrence_accept_threshold_v2 = 1
 
 # keep it lower for small unstructured file
 chunk_window_size = 1
-chunk_token_limit = 1300
+chunk_token_limit = 900
 
 unstructured_tag = 'UNSTRUCTURED'
 json_structured_tag = 'JSON_STRUCTURED'
