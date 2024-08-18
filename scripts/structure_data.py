@@ -3,7 +3,7 @@ import json
 
 from utils import logging_messages
 
-from utils.functions import get_file_name, save_preprocessed_data, convert_to_html, convert_to_markdown
+from utils.functions import get_file_name, save_preprocessed_data, convert_to_html, convert_to_markdown, convert_to_toml
 from utils.functions import chunk_by_word_limit, build_dataset, build_dataset_v1
 from utils.functions import get_node_dict, get_html_node_string
 from utils.functions import get_node_dict_v2, build_dataset_v2
@@ -62,6 +62,11 @@ def json_v1(data, pdf_path, embedder):
 
     save_preprocessed_data('structured_data', md_string, pdf_path,
                            'extract_v2', 'v1', 'md')
+
+    toml_string = convert_to_toml(json_dict, [])
+
+    save_preprocessed_data('structured_data', toml_string, pdf_path,
+                           'extract_v2', 'v1', 'toml')
 
     return build_dataset_v2(json_dict, file_name, embedder, 'JSON')
 

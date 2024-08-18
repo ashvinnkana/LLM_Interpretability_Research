@@ -12,6 +12,7 @@ from utils import strings
 from models.pinecone_client import PINECONE
 from utils.functions import v1_json_process_docs, v2_json_process_docs, v2_markdown_process_docs
 from utils.functions import v1_html_process_docs, v2_html_process_docs, unstruct_process_docs
+from utils.functions import v2_toml_process_docs
 
 # setup
 download_nltk_resources()
@@ -29,38 +30,51 @@ format_lists = [
      'query_str': strings.unstructured_question,
      'llm_msg_str': strings.unstructured_llm_message,
      'get_docs_func': unstruct_process_docs,
-     'vector_db': unstructured_vectordb},
+     'vector_db': unstructured_vectordb,
+     'doc_count': 5},
     {'id': 'json-structured-v1',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v1_json_process_docs,
-     'vector_db': v1_json_structured_vectordb},
+     'vector_db': v1_json_structured_vectordb,
+     'doc_count': 5},
     {'id': 'html-structured-v1',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v1_html_process_docs,
-     'vector_db': v1_html_structured_vectordb},
+     'vector_db': v1_html_structured_vectordb,
+     'doc_count': 5},
+    {'id': 'toml-structured-v2',
+     'query_str': strings.toml_question,
+     'llm_msg_str': strings.toml_llm_message,
+     'get_docs_func': v2_toml_process_docs,
+     'vector_db': v2_structured_vectordb,
+     'doc_count': 2},
     {'id': 'md-structured-v2',
      'query_str': strings.md_question,
      'llm_msg_str': strings.md_llm_message,
      'get_docs_func': v2_markdown_process_docs,
-     'vector_db': v2_structured_vectordb},
+     'vector_db': v2_structured_vectordb,
+     'doc_count': 5},
     {'id': 'json-structured-v2',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v2_json_process_docs,
-     'vector_db': v2_structured_vectordb},
+     'vector_db': v2_structured_vectordb,
+     'doc_count': 5},
     {'id': 'html-structured-v2',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v2_html_process_docs,
-     'vector_db': v2_structured_vectordb}
+     'vector_db': v2_structured_vectordb,
+     'doc_count': 5}
 ]
 
 
 def legal_llm_response(question, docs):
-    legal_llm = LLM(constants.aus_legal_llm, 'question-answering')
-    print(f'{constants.aus_legal_llm}\n{legal_llm.generate(question, docs)}\n')
+    legal_llm = LLM()
+    legal_llm.set_model(constants.aus_legal_llm)
+    print(f'{constants.aus_legal_llm}\n{legal_llm.generate_response(question, docs)}\n')
 
 
 def upsert_v0_unstructured_v0(pdf_path):
@@ -141,6 +155,9 @@ def upsert_all_data():
 
 
 def main():
+    #upsert_extract_v2('./data/unstructured_data/Limitation_Act_2005.pdf')
+    #return
+
     print("RUNNING ON: ", embedder.get_encoder_device())
     # upsert_all_data()
 
@@ -155,7 +172,7 @@ def main():
         for format_ in format_lists:
             format_['vector_db'].connect()
             docs[format_['id']] = format_['get_docs_func'](format_['vector_db']
-                                                           .get_docs(query_embeds, constants.fetch_docs_count))
+                                                           .get_docs(query_embeds, format_['doc_count']))
         logging.info(logging_messages.main_divider)
         llm_format_scores = {}
         # generate responses

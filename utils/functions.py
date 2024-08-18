@@ -1303,6 +1303,27 @@ def v2_markdown_process_docs(docs):
     return convert_to_markdown(structured_docs)
 
 
+def convert_to_toml(structured_docs, headings):
+    head_keys = list(structured_docs.keys())
+    toml_string = ''
+    for head in head_keys:
+        new_headings = headings.copy()
+        new_headings.append(head)
+        if isinstance(structured_docs[head], dict):
+            toml_string += convert_to_toml(structured_docs[head], new_headings)
+        else:
+            toml_string += f'["{'.'.join(new_headings)}"]\n'
+            toml_string += f'title = "{head}"\n'
+            toml_string += f'description = "{structured_docs[head]}"\n\n'
+
+    return toml_string
+
+
+def v2_toml_process_docs(docs):
+    structured_docs = merge_chunks_v2(docs)
+    return convert_to_toml(structured_docs, ['Context'])
+
+
 def group_sentences(phrases):
     """
     Group phrases into sentences, handling cases like bullets and special ending characters.
@@ -1355,10 +1376,11 @@ def create_results_dataframe(result_dict, metric):
     for format_type in all_format_types:
         for model, formats in result_dict.items():
             if format_type in formats:
-                max_score = max(item[metric] for item in formats[format_type])
+                # Calculate the average score instead of the max score
+                avg_score = sum(item[metric] for item in formats[format_type]) / len(formats[format_type])
             else:
-                max_score = None  # Use None if the format type is missing for a model
-            data[format_type].append(max_score)
+                avg_score = None  # Use None if the format type is missing for a model
+            data[format_type].append(avg_score)
 
     # Create a DataFrame and transpose it to have models on the x-axis and formats on the y-axis
     df = pd.DataFrame(data, index=result_dict.keys())

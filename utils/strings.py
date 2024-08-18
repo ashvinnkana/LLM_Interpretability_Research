@@ -40,6 +40,17 @@ md_llm_message = (
 
 md_question = '# QUESTION:\n{}'
 
+toml_llm_message = (
+    '["SYSTEM MESSAGE"]\n'
+    'title = "System Message"\n'
+    'description = "You are a helpful assistant that answers questions in two sentences about {} using the [context] '
+    'provided."\n\n'
+    '{}')
+
+toml_question = ('["QUESTION"]\n'
+                 'title = "Question"\n'
+                 'description = "{}"\n\n')
+
 html_llm_message = (
     '<SYSTEM-MESSAGE>'
     'You are a helpful assistant that answers questions in two sentences about {} using the context provided.'
