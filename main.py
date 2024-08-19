@@ -1,3 +1,5 @@
+import copy
+import json
 import logging.config
 
 from utils import constants
@@ -5,7 +7,7 @@ from utils import logging_messages
 from scripts import extract_data, structure_data
 from models.pipeline_llm_handler import LLM
 from models.embedding_model import EMBEDDER
-from utils.functions import download_nltk_resources
+from utils.functions import download_nltk_resources, save_sample_docs
 from utils.functions import save_preprocessed_data
 from utils.functions import get_rouge_scores, create_results_dataframe, visualize_rouge_results
 from utils import strings
@@ -31,43 +33,43 @@ format_lists = [
      'llm_msg_str': strings.unstructured_llm_message,
      'get_docs_func': unstruct_process_docs,
      'vector_db': unstructured_vectordb,
-     'doc_count': 5},
+     'doc_count': 3},
     {'id': 'json-structured-v1',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v1_json_process_docs,
      'vector_db': v1_json_structured_vectordb,
-     'doc_count': 5},
+     'doc_count': 3},
     {'id': 'html-structured-v1',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v1_html_process_docs,
      'vector_db': v1_html_structured_vectordb,
-     'doc_count': 5},
+     'doc_count': 3},
     {'id': 'toml-structured-v2',
      'query_str': strings.toml_question,
      'llm_msg_str': strings.toml_llm_message,
      'get_docs_func': v2_toml_process_docs,
      'vector_db': v2_structured_vectordb,
-     'doc_count': 2},
+     'doc_count': 1},
     {'id': 'md-structured-v2',
      'query_str': strings.md_question,
      'llm_msg_str': strings.md_llm_message,
      'get_docs_func': v2_markdown_process_docs,
      'vector_db': v2_structured_vectordb,
-     'doc_count': 5},
+     'doc_count': 3},
     {'id': 'json-structured-v2',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v2_json_process_docs,
      'vector_db': v2_structured_vectordb,
-     'doc_count': 5},
+     'doc_count': 3},
     {'id': 'html-structured-v2',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v2_html_process_docs,
      'vector_db': v2_structured_vectordb,
-     'doc_count': 5}
+     'doc_count': 3}
 ]
 
 
@@ -155,9 +157,6 @@ def upsert_all_data():
 
 
 def main():
-    #upsert_extract_v2('./data/unstructured_data/Limitation_Act_2005.pdf')
-    #return
-
     print("RUNNING ON: ", embedder.get_encoder_device())
     # upsert_all_data()
 
@@ -173,6 +172,7 @@ def main():
             format_['vector_db'].connect()
             docs[format_['id']] = format_['get_docs_func'](format_['vector_db']
                                                            .get_docs(query_embeds, format_['doc_count']))
+        save_sample_docs(json.dumps(docs), quest['id'])
         logging.info(logging_messages.main_divider)
         llm_format_scores = {}
         # generate responses
@@ -200,6 +200,8 @@ def main():
                     except KeyError:
                         scores[format_['id']] = []
                         scores[format_['id']].append(score)
+
+                logging.info(scores)
                 logging.info(logging_messages.main_divider)
             llm_format_scores[llm['model_id']] = scores
             logging.info(logging_messages.main_divider)

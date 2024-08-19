@@ -17,8 +17,6 @@ from datasets import Dataset
 from nltk.tokenize import sent_tokenize
 from collections import Counter
 
-from transformers import AutoTokenizer
-
 from utils import strings, constants, regex_patterns, logging_messages
 
 from models.node import Node
@@ -41,6 +39,13 @@ def save_preprocessed_data(type_, data, unstructured_file_path, extract_version,
                                                                file_extension)
     with open(structured_file_path, 'w') as file:
         file.write(data)
+
+
+def save_sample_docs(docs, question_id):
+
+    sample_docs_path = strings.samples_docs_path.format(question_id)
+    with open(sample_docs_path, 'w') as file:
+        file.write(docs)
 
 
 def get_html_node_string(node, level):
@@ -1246,12 +1251,10 @@ def convert_sub_html_content(data, level):
     html_string = ''
     if isinstance(data, dict):
         keys = list(data.keys())
-        html_string += '<ul>'
         for key in keys:
-            html_string += f'<li><h{level}>{key}</h{level}>'
+            html_string += f'<div><h{level}>{key}</h{level}>'
             html_string += convert_sub_html_content(data[key], level + 1)
-            html_string += '</li>'
-        html_string += '</ul>'
+            html_string += '</div>'
     else:
         html_string += f'<p>{data}</p>'
 
