@@ -1231,7 +1231,8 @@ def convert_string_to_dict(context):
 def merge_chunks_v2(docs):
     structured_docs = {}
     for doc in docs:
-        heading_str, context = doc.split('<||SEP||>')
+        heading_str = doc['title']
+        context = doc['content']
         context = convert_string_to_dict(context)
 
         headings = heading_str.split(' >> ')
