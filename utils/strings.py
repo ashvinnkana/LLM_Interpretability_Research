@@ -5,10 +5,9 @@ samples_docs_path = 'data/samples/{}_docs_retrieved.json'
 logging_config_file = 'logging.conf'
 
 # vectordb index names
-unstructured_0_index = 'v0-unstructured-v0-extract-index'
-structured_JSON_1_index = 'v0-json-structured-v1-extract-index'
-structured_v2_index = 'structured-v2-extract-index'
-structured_HTML_1_index = 'v0-html-structured-v1-extract-index'
+extraction_v0_index = 'v0-extracted-data-index'
+extraction_v1_index = 'v1-extracted-data-index'
+extraction_v2_index = 'v2-extracted-data-index'
 
 unstructured_pdf_paths = [
     './data/unstructured_data/Limitation_Act_2005.pdf'

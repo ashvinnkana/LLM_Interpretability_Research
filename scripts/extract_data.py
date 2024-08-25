@@ -5,7 +5,8 @@ import itertools
 from utils import logging_messages, constants, regex_patterns
 
 from models.node import Node
-from utils.functions import extract_pdf_raw_text
+from utils.functions import extract_pdf_raw_text, get_file_name, get_node_dict_v2, save_all_format_structuring, \
+    build_dataset_v2
 from utils.functions import clean
 from utils.functions import extract_headers_and_footers, remove_header_footer
 from utils.functions import group_sentences
@@ -18,20 +19,12 @@ from utils.functions import clean_text_by_types_v2, clean_text_by_formats_v2, cl
 
 
 def extract_v0(pdf_path):
-    """extract raw text with some basic clean"""
     logging.info(logging_messages.display_extraction_version.format('0'))
     _, extracted_text = extract_pdf_raw_text(pdf_path)
     return clean(extracted_text)
 
 
 def extract_v1(pdf_path):
-    """
-    extract text Nodes by headings, ordered and unordered lists & content blocks
-    - remove headers and footers
-    - group phrases to make sentences
-    - process headings, bullets and contents
-    - hierarchical node object list
-    """
     logging.info(logging_messages.display_extraction_version.format('1'))
     pages, _ = extract_pdf_raw_text(pdf_path)
 
@@ -66,8 +59,10 @@ def extract_v1(pdf_path):
     return extracted_data
 
 
-def extract_v2(pdf_path):
-    logging.info(logging_messages.display_extraction_version.format('2 - METADATA EXTRACTION'))
+def extract_v2(pdf_path, embedder):
+    logging.info(logging_messages.display_extraction_version.format('2'))
+    file_name = get_file_name(pdf_path)
+
     pages = extract_pdf_metadata(pdf_path)
 
     lvl_classified_pages = classify_page_text_by_levels(pages)
@@ -95,4 +90,10 @@ def extract_v2(pdf_path):
             node_routes_history[''.join(current_level_path)] = current_node_route.copy()
             current_node_route.append(add_node_child(extracted_data, current_node_route, node))
 
-    return extracted_data
+    json_dict = {}
+    for index, node in enumerate(extracted_data):
+        json_dict = {**json_dict, **get_node_dict_v2(node, index + 1)}
+
+    save_all_format_structuring(json_dict['structured_data'], pdf_path, 'extract_v2')
+
+    return build_dataset_v2(json_dict, file_name, embedder, 'extract_v2')

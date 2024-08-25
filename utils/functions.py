@@ -23,22 +23,43 @@ from models.node import Node
 
 
 def save_preprocessed_data(type_, data, unstructured_file_path, extract_version, struct_version, file_extension):
-    """
-    Save preprocessed data to a structured file path.
-
-    Parameters:
-    type_ (str): The type of data being processed.
-    data (str): The preprocessed data to be saved.
-    unstructured_file_path (str): The file path of the unstructured data.
-    extract_version (str): The version of the extraction process.
-    struct_version (str): The version of the structure format.
-    file_extension (str): The file extension for the structured file.
-    """
     file_name = (unstructured_file_path.split('/')[-1]).split('.')[0]
     structured_file_path = strings.structured_data_path.format(type_, file_name, extract_version, struct_version,
                                                                file_extension)
     with open(structured_file_path, 'w') as file:
         file.write(data)
+
+
+def save_all_format_structuring(json_dict, pdf_path, extract_version):
+    json_string = json.dumps(json_dict, indent=2)
+
+    save_preprocessed_data('structured_data', json_string, pdf_path,
+                           extract_version, 'JSON', 'json')
+
+    html_string = convert_to_html(json_dict)
+
+    save_preprocessed_data('structured_data', html_string, pdf_path,
+                           extract_version, 'HTML', 'html')
+
+    md_string = convert_to_markdown(json_dict)
+
+    save_preprocessed_data('structured_data', md_string, pdf_path,
+                           extract_version, 'MD', 'md')
+
+    toml_string = convert_to_toml(json_dict, [])
+
+    save_preprocessed_data('structured_data', toml_string, pdf_path,
+                           extract_version, 'TOML', 'toml')
+
+    custom_1_string = convert_to_custom_v1(json_dict)
+
+    save_preprocessed_data('structured_data', custom_1_string, pdf_path,
+                           extract_version, 'CUSTOM_V1', 'html')
+
+    custom_2_string = convert_to_custom_v2(json_dict)
+
+    save_preprocessed_data('structured_data', custom_2_string, pdf_path,
+                           extract_version, 'CUSTOM_V2', 'json')
 
 
 def save_sample_docs(docs, question_id):
@@ -961,13 +982,13 @@ def build_dataset_v1(chunks, file_name, type_, is_dict):
     return Dataset.from_list(chunk_dictlist)
 
 
-def build_dataset_v2(chunks, file_name, embedder, type_):
+def build_dataset_v2(chunks, file_name, embedder, extract_version):
     """
     Convert chunks of text into a dataset format compatible with the 'datasets' library.
     - chunks: List of text chunks to be converted.
     - file_name: The name of the source file.
     """
-    chunk_dictlist = create_chunk_dictlist_v2(chunks, file_name, embedder, type_)
+    chunk_dictlist = create_chunk_dictlist_v2(chunks, file_name, embedder, extract_version)
     return Dataset.from_list(chunk_dictlist)
 
 
@@ -1131,7 +1152,7 @@ def title_chunks(chunks):
     return titled_chunks
 
 
-def create_chunk_dictlist_v2(json_dict, file_name, embedder, type_):
+def create_chunk_dictlist_v2(json_dict, file_name, embedder, extract_version):
     chunks = []
     for head_lvl1 in json_dict['structured_data'].keys():
         process_chunks_to_lowest_node(json_dict['structured_data'][head_lvl1], [head_lvl1], chunks, embedder)
@@ -1149,7 +1170,7 @@ def create_chunk_dictlist_v2(json_dict, file_name, embedder, type_):
 
     save_preprocessed_data('structured_data/chunks/by_token_limit',
                            json.dumps(chunk_dictlist, indent=2), '/' + file_name,
-                           'extract_v2', f'{type_}_v1', 'json')
+                           extract_version, 'chunks', 'json')
 
     return chunk_dictlist
 

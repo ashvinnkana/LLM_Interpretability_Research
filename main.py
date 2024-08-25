@@ -21,65 +21,64 @@ logging.config.fileConfig(strings.logging_config_file)
 
 embedder = EMBEDDER(constants.embedder)
 
-unstructured_vectordb = PINECONE(strings.unstructured_0_index)
-v1_json_structured_vectordb = PINECONE(strings.structured_JSON_1_index)
-v1_html_structured_vectordb = PINECONE(strings.structured_HTML_1_index)
-v2_structured_vectordb = PINECONE(strings.structured_v2_index)
+v0_extraction_vectordb = PINECONE(strings.extraction_v0_index)
+v1_extraction_vectordb = PINECONE(strings.extraction_v1_index)
+v2_extraction_vectordb = PINECONE(strings.extraction_v2_index)
 
 format_lists = [
     {'id': 'unstructured',
      'query_str': strings.unstructured_question,
      'llm_msg_str': strings.unstructured_llm_message,
      'get_docs_func': unstruct_process_docs,
-     'vector_db': unstructured_vectordb,
+     'vector_db': v0_extraction_vectordb,
      'doc_count': 3},
     {'id': 'json-structured-v1',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v1_json_process_docs,
-     'vector_db': v1_json_structured_vectordb,
+     'vector_db': v1_extraction_vectordb,
      'doc_count': 3},
     {'id': 'html-structured-v1',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v1_html_process_docs,
-     'vector_db': v1_html_structured_vectordb,
+     'vector_db': v1_extraction_vectordb,
      'doc_count': 3},
     {'id': 'toml-structured-v2',
      'query_str': strings.toml_question,
      'llm_msg_str': strings.toml_llm_message,
      'get_docs_func': v2_toml_process_docs,
-     'vector_db': v2_structured_vectordb,
+     'vector_db': v2_extraction_vectordb,
      'doc_count': 1},
     {'id': 'md-structured-v2',
      'query_str': strings.md_question,
      'llm_msg_str': strings.md_llm_message,
      'get_docs_func': v2_markdown_process_docs,
-     'vector_db': v2_structured_vectordb,
+     'vector_db': v2_extraction_vectordb,
      'doc_count': 3},
     {'id': 'json-structured-v2',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v2_json_process_docs,
-     'vector_db': v2_structured_vectordb,
+     'vector_db': v2_extraction_vectordb,
      'doc_count': 3},
     {'id': 'html-structured-v2',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v2_html_process_docs,
-     'vector_db': v2_structured_vectordb,
+     'vector_db': v2_extraction_vectordb,
      'doc_count': 3},
     {'id': 'custom-structured-v1',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v1_custom_process_docs,
-     'vector_db': v2_structured_vectordb,
+     'vector_db': v2_extraction_vectordb,
      'doc_count': 3},
     {'id': 'custom-structured-v2',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v2_custom_process_docs,
-     'vector_db': v2_structured_vectordb,
+     'vector_db': v2_extraction_vectordb,
      'doc_count': 3}
 ]
 
@@ -104,17 +103,6 @@ def upsert_v0_unstructured_v0(pdf_path):
         logging.error(logging_messages.error_upserting.format(constants.unstructured_tag, pdf_path, e))
 
 
-def upsert_extract_v2(pdf_path):
-    v2_structured_vectordb.connect()
-    node_data = extract_data.extract_v2(pdf_path)
-    json_structured_dataset = structure_data.json_v1(node_data, pdf_path, embedder)
-
-    try:
-        logging.info(logging_messages.upserting_chunks.format(constants.json_structured_tag, pdf_path))
-        embedder.encode_upsert_vectordb(json_structured_dataset, 5, v2_structured_vectordb)
-        logging.info(logging_messages.status_success)
-    except Exception as e:
-        logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
 
 
 def upsert_v0_structured_json_v1(pdf_path):
@@ -145,6 +133,18 @@ def upsert_v0_structured_html_v1(pdf_path):
         logging.error(logging_messages.error_upserting.format(constants.html_structured_tag, pdf_path, e))
 
 
+def upsert_extract_v2(pdf_path):
+    v2_extraction_vectordb.connect()
+    dataset = extract_data.extract_v2(pdf_path, embedder)
+
+    try:
+        logging.info(logging_messages.upserting_chunks.format('EXTRACT-V2', pdf_path))
+        embedder.encode_upsert_vectordb(dataset, 5, v2_extraction_vectordb)
+        logging.info(logging_messages.status_success)
+    except Exception as e:
+        logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
+
+
 def upsert_all_data():
     logging.info(logging_messages.main_upserting_datasets)
     logging.info(logging_messages.main_divider)
@@ -152,14 +152,11 @@ def upsert_all_data():
     for pdf_path in strings.unstructured_pdf_paths:
         logging.info(pdf_path)
 
-        logging.info(logging_messages.sub_divider)
-        upsert_v0_unstructured_v0(pdf_path)
+        # logging.info(logging_messages.sub_divider)
+        # upsert_extract_v0(pdf_path)
 
-        logging.info(logging_messages.sub_divider)
-        upsert_v0_structured_json_v1(pdf_path)
-
-        logging.info(logging_messages.sub_divider)
-        upsert_v0_structured_html_v1(pdf_path)
+        # logging.info(logging_messages.sub_divider)
+        # upsert_extract_v1(pdf_path)
 
         logging.info(logging_messages.sub_divider)
         upsert_extract_v2(pdf_path)
@@ -170,6 +167,8 @@ def upsert_all_data():
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
     upsert_all_data()
+
+    return
 
     logging.info(logging_messages.main_divider)
     topic = 'LAW'

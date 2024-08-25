@@ -5,7 +5,7 @@ from utils import logging_messages
 
 from utils.functions import get_file_name, save_preprocessed_data, convert_to_html, convert_to_markdown, convert_to_toml
 from utils.functions import chunk_by_word_limit, build_dataset, build_dataset_v1, convert_to_custom_v1
-from utils.functions import get_node_dict, get_html_node_string
+from utils.functions import get_node_dict, get_html_node_string, save_all_format_structuring
 from utils.functions import get_node_dict_v2, build_dataset_v2, convert_to_custom_v2
 
 
@@ -48,37 +48,9 @@ def json_v1(data, pdf_path, embedder):
     for index, node in enumerate(data):
         json_dict = {**json_dict, **get_node_dict_v2(node, index+1)}
 
-    json_string = json.dumps(json_dict, indent=2)
+    save_all_format_structuring(json_dict, pdf_path, 'extract_v2')
 
-    save_preprocessed_data('structured_data', json_string, pdf_path,
-                           'extract_v2', 'v1', 'json')
-
-    html_string = convert_to_html(json_dict)
-
-    save_preprocessed_data('structured_data', html_string, pdf_path,
-                           'extract_v2', 'v1', 'html')
-
-    md_string = convert_to_markdown(json_dict)
-
-    save_preprocessed_data('structured_data', md_string, pdf_path,
-                           'extract_v2', 'v1', 'md')
-
-    toml_string = convert_to_toml(json_dict, [])
-
-    save_preprocessed_data('structured_data', toml_string, pdf_path,
-                           'extract_v2', 'v1', 'toml')
-
-    custom_1_string = convert_to_custom_v1(json_dict)
-
-    save_preprocessed_data('structured_data', custom_1_string, pdf_path,
-                           'extract_v2', 'custom_v1', 'html')
-
-    custom_2_string = convert_to_custom_v2(json_dict)
-
-    save_preprocessed_data('structured_data', custom_2_string, pdf_path,
-                           'extract_v2', 'custom_v2', 'json')
-
-    return build_dataset_v2(json_dict, file_name, embedder, 'JSON')
+    return build_dataset_v2(json_dict, file_name, embedder, 'extract_v2', 'chunks')
 
 
 def html_v0(data, pdf_path):

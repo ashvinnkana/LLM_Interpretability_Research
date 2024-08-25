@@ -17,7 +17,7 @@ display_extraction_version = '(1) Extraction File (Version {})'
 display_structuring_version = '(2) {} Structuring Data (Version {})'
 display_no_structuring = '(2) Structuring: NONE (Version {})'
 
-upserting_chunks = '(3) Upserting {}-{} to VectorDB'
+upserting_chunks = '(2) Upserting {}-{} to VectorDB'
 error_upserting = '- Error during data upserting {}-{}: {}'
 
 generating_response = '>> Generating response [input: {}]:'
