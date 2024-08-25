@@ -4,9 +4,9 @@ import json
 from utils import logging_messages
 
 from utils.functions import get_file_name, save_preprocessed_data, convert_to_html, convert_to_markdown, convert_to_toml
-from utils.functions import chunk_by_word_limit, build_dataset, build_dataset_v1
+from utils.functions import chunk_by_word_limit, build_dataset, build_dataset_v1, convert_to_custom_v1
 from utils.functions import get_node_dict, get_html_node_string
-from utils.functions import get_node_dict_v2, build_dataset_v2
+from utils.functions import get_node_dict_v2, build_dataset_v2, convert_to_custom_v2
 
 
 def none_v0(data, pdf_path):
@@ -67,6 +67,16 @@ def json_v1(data, pdf_path, embedder):
 
     save_preprocessed_data('structured_data', toml_string, pdf_path,
                            'extract_v2', 'v1', 'toml')
+
+    custom_1_string = convert_to_custom_v1(json_dict)
+
+    save_preprocessed_data('structured_data', custom_1_string, pdf_path,
+                           'extract_v2', 'custom_v1', 'html')
+
+    custom_2_string = convert_to_custom_v2(json_dict)
+
+    save_preprocessed_data('structured_data', custom_2_string, pdf_path,
+                           'extract_v2', 'custom_v2', 'json')
 
     return build_dataset_v2(json_dict, file_name, embedder, 'JSON')
 

@@ -1278,6 +1278,38 @@ def v2_html_process_docs(docs):
     return convert_to_html(structured_docs)
 
 
+def convert_to_custom_v1(structured_docs):
+    head_keys = list(structured_docs.keys())
+    custom_string = ''
+    for head in head_keys:
+        custom_string += f'<div><h1>{head}</h1>'
+        custom_string += f'<p>{json.dumps(structured_docs[head])}</p>'
+        custom_string += '</div>'
+
+    return custom_string
+
+
+def v1_custom_process_docs(docs):
+    structured_docs = merge_chunks_v2(docs)
+    return convert_to_custom_v1(structured_docs)
+
+
+def convert_to_custom_v2(structured_docs):
+    head_keys = list(structured_docs.keys())
+    custom_string = ''
+    for head in head_keys:
+        custom_string += f'{{"{head}":{{"'
+        custom_string += convert_sub_html_content(structured_docs[head], 1)
+        custom_string += '"}}'
+
+    return custom_string
+
+
+def v2_custom_process_docs(docs):
+    structured_docs = merge_chunks_v2(docs)
+    return convert_to_custom_v2(structured_docs)
+
+
 def convert_sub_markdown_content(data, level):
     md_string = ''
     if isinstance(data, dict):

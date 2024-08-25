@@ -1,4 +1,3 @@
-import copy
 import json
 import logging.config
 
@@ -14,7 +13,7 @@ from utils import strings
 from models.pinecone_client import PINECONE
 from utils.functions import v1_json_process_docs, v2_json_process_docs, v2_markdown_process_docs
 from utils.functions import v1_html_process_docs, v2_html_process_docs, unstruct_process_docs
-from utils.functions import v2_toml_process_docs
+from utils.functions import v2_toml_process_docs, v1_custom_process_docs, v2_custom_process_docs
 
 # setup
 download_nltk_resources()
@@ -68,6 +67,18 @@ format_lists = [
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v2_html_process_docs,
+     'vector_db': v2_structured_vectordb,
+     'doc_count': 3},
+    {'id': 'custom-structured-v1',
+     'query_str': strings.html_question,
+     'llm_msg_str': strings.html_llm_message,
+     'get_docs_func': v1_custom_process_docs,
+     'vector_db': v2_structured_vectordb,
+     'doc_count': 3},
+    {'id': 'custom-structured-v2',
+     'query_str': strings.json_question,
+     'llm_msg_str': strings.json_llm_message,
+     'get_docs_func': v2_custom_process_docs,
      'vector_db': v2_structured_vectordb,
      'doc_count': 3}
 ]
@@ -158,7 +169,7 @@ def upsert_all_data():
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    # upsert_all_data()
+    upsert_all_data()
 
     logging.info(logging_messages.main_divider)
     topic = 'LAW'
@@ -181,7 +192,7 @@ def main():
             llm['client'].set_model(llm['model_id'])
             logging.info(logging_messages.sub_divider)
             scores = {}
-            for i in range(2):
+            for i in range(5):
                 logging.info(f'- Attempt 0{i + 1}')
                 for format_ in format_lists:
                     query = format_['query_str'].format(quest['query'])
