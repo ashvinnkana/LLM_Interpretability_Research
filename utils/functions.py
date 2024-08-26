@@ -1319,7 +1319,7 @@ def v2_html_process_docs(docs):
     return convert_to_html(structured_docs)
 
 
-def convert_to_custom_v1(structured_docs):
+def convert_to_custom1(structured_docs):
     head_keys = list(structured_docs.keys())
     custom_string = ''
     for head in head_keys:
@@ -1330,12 +1330,12 @@ def convert_to_custom_v1(structured_docs):
     return custom_string
 
 
-def v1_custom_process_docs(docs):
+def v2_custom1_process_docs(docs):
     structured_docs = merge_chunks_v2(docs)
-    return convert_to_custom_v1(structured_docs)
+    return convert_to_custom1(structured_docs)
 
 
-def convert_to_custom_v2(structured_docs):
+def convert_to_custom2(structured_docs):
     head_keys = list(structured_docs.keys())
     custom_v2 = {}
     for head in head_keys:
@@ -1344,9 +1344,30 @@ def convert_to_custom_v2(structured_docs):
     return json.dumps(custom_v2)
 
 
-def v2_custom_process_docs(docs):
+def v2_custom2_process_docs(docs):
     structured_docs = merge_chunks_v2(docs)
-    return convert_to_custom_v2(structured_docs)
+    return convert_to_custom2(structured_docs)
+
+
+def convert_to_custom3(structured_docs, headings):
+    head_keys = list(structured_docs.keys())
+    toml_string = ''
+    for head in head_keys:
+        new_headings = headings.copy()
+        new_headings.append(head)
+        if isinstance(structured_docs[head], dict):
+            toml_string += convert_to_toml(structured_docs[head], new_headings)
+        else:
+            toml_string += f'["{'.'.join(new_headings)}"]\n'
+            toml_string += f'title = "{head}"\n'
+            toml_string += f'description = "{convert_sub_html_content(structured_docs[head], 1)}"\n\n'
+
+    return toml_string
+
+
+def v2_custom3_process_docs(docs):
+    structured_docs = merge_chunks_v2(docs)
+    return convert_to_custom3(structured_docs, ['Context'])
 
 
 def convert_sub_markdown_content(data, level):
@@ -1498,6 +1519,6 @@ def visualize_rouge_results(rouge1_df, rougeL_df, format_lists, question_id):
 
     # Show the plot
     plt.tight_layout()
-    plt.savefig(f'results/{question_id}_rouge_scores_plot.png')  # Save plot as PNG file
+    plt.savefig(f'results/temp/{question_id}_rouge_scores_plot.png')  # Save plot as PNG file
 
     plt.show()

@@ -1,7 +1,7 @@
 from data.legal_llm_responses.legal_llm_responses import legal_llm_responses
 
 nlt_source_path = 'tokenizers/{}'
-csv_results_path = 'results/{}_{}.csv'
+csv_results_path = 'results/temp/{}_{}.csv'
 structured_data_path = 'data/{}/{}_{}_{}.{}'
 samples_docs_path = 'data/samples/{}_docs_retrieved.json'
 logging_config_file = 'logging.conf'
