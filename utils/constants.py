@@ -37,6 +37,7 @@ non_legal_llm_list = [
 ]
 
 fetch_docs_count = 5
+upsert_batch_size = 5
 
 header_estimated_size = 4
 footer_estimated_size = 4
@@ -49,13 +50,14 @@ header_footer_occurrence_accept_threshold_v2 = 1
 
 # keep it lower for small unstructured file
 chunk_window_size = 1
-chunk_token_limit = 900
+chunk_token_limit = 800
 
 unstructured_tag = 'UNSTRUCTURED'
 json_structured_tag = 'JSON_STRUCTURED'
 html_structured_tag = 'HTML_STRUCTURED'
 
 nltk_resource_packages = [
+    'stopwords',
     'punkt'
 ]
 
@@ -67,3 +69,5 @@ pinecone_dimension = 768
 latest_head_index = 0
 
 root_node_v2 = Node('root', 'structured_data', '')
+
+docs_language = 'english'

@@ -1,3 +1,5 @@
+from data.legal_llm_responses.legal_llm_responses import legal_llm_responses
+
 nlt_source_path = 'tokenizers/{}'
 csv_results_path = 'results/{}_{}.csv'
 structured_data_path = 'data/{}/{}_{}_{}.{}'
@@ -15,14 +17,9 @@ unstructured_pdf_paths = [
 
 questions = [
     {'id': 'question_01',
-     'query': 'Which section of the law in WA specifies the limitation period for initiating an action to recover '
-              'land that has been trespassed?',
-     'ref_answer': 'Section 19(1) of the Limitation Act 2005 specifies that the limitation period for initiating an '
-                   'action to recover land is 12 years from the date when the cause of action first accrued. This '
-                   'means that if the land has been trespassed, the rightful owner must take legal action within 12 '
-                   'years, or they may lose the right to recover the property. However, section 19(2) states an '
-                   'exception to legal proceedings initiated by the Crown or any individual asserting rights through '
-                   'the Crown.'}
+     'query': 'Which section of the law in WA specifies the limitation period for commencing an action to recover '
+              'land since the trespassing accrued?',
+     'ref_answer': legal_llm_responses['question_01']}
 ]
 
 header_footer_level_setup_string = '{}->{}'
@@ -30,44 +27,42 @@ classify_level_string = '{}-{}-{}-{}'
 
 unstructured_llm_message = (
     'SYSTEM MESSAGE:\n'
-    'You are a helpful assistant that answers questions in two sentences about {} using the context provided.\n\n'
+    'You are a helpful {} assistant that answers questions using the context provided.\n\n'
     'CONTEXT:\n{}')
 
-unstructured_question = 'QUESTION: {}'
+unstructured_question = 'QUESTION: {} (Answer in 150 Words)'
 
 md_llm_message = (
     '# SYSTEM MESSAGE:\n'
-    'You are a helpful assistant that answers questions in two sentences about {} using the context provided.\n\n'
+    'You are a helpful {} assistant that answers questions using the context provided.\n\n'
     '# CONTEXT:\n{}')
 
-md_question = '# QUESTION:\n{}'
+md_question = '# QUESTION:\n{} (Answer in 150 Words)'
 
 toml_llm_message = (
     '["SYSTEM MESSAGE"]\n'
     'title = "System Message"\n'
-    'description = "You are a helpful assistant that answers questions in two sentences about {} using the [context] '
-    'provided."\n\n'
+    'description = "You are a helpful {} assistant that answers questions using the [context] provided."\n\n'
     '{}')
 
 toml_question = ('["QUESTION"]\n'
                  'title = "Question"\n'
-                 'description = "{}"\n\n')
+                 'description = "{} (Answer in 150 Words)"\n\n')
 
 html_llm_message = (
     '<SYSTEM-MESSAGE>'
-    'You are a helpful assistant that answers questions in two sentences about {} using the context provided.'
+    'You are a helpful {} assistant that answers questions using the context provided.'
     '</SYSTEM-MESSAGE>'
     '<CONTEXT>'
-    '<ul>{}</ul>'
+    '{}'
     '</CONTEXT>')
 
-html_question = '<QUESTION>{}</QUESTION>'
+html_question = '<QUESTION>{} (Answer in 150 Words)</QUESTION>'
 
 json_llm_message = (
     '{{'
-    '"SYSTEM-MESSAGE":"You are a helpful assistant that answers questions in two sentences about {} using the context '
-    'provided",'
+    '"SYSTEM-MESSAGE":"You are a helpful {} assistant that answers questions using the context provided.",'
     '"CONTEXT":{}'
     '}}')
 
-json_question = '{{"QUESTION":"{}"}}'
+json_question = '{{"QUESTION":"{} (Answer in 150 Words)"}}'

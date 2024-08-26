@@ -5,27 +5,37 @@ import itertools
 from utils import logging_messages, constants, regex_patterns
 
 from models.node import Node
-from utils.functions import extract_pdf_raw_text, get_file_name, get_node_dict_v2, save_all_format_structuring, \
-    build_dataset_v2
+from utils.functions import extract_pdf_raw_text, get_file_name, get_node_dict_v2, \
+    build_dataset_v2, save_preprocessed_data, build_dataset_v0, get_node_dict, build_dataset_v1, \
+    save_all_format_structuring_v2, save_all_format_structuring_v1
 from utils.functions import clean
 from utils.functions import extract_headers_and_footers, remove_header_footer
 from utils.functions import group_sentences
 from utils.functions import is_heading, is_bullet
 from utils.functions import process_heading, process_ordered_bullet, process_unordered_bullet, process_context
-from utils.functions import get_level_path, add_node_child, get_node_children
+from utils.functions import get_level_path, add_node_child
 from utils.functions import extract_pdf_metadata, classify_page_text_by_levels
 from utils.functions import extract_headers_and_footers_v2, remove_header_footer_v2
 from utils.functions import clean_text_by_types_v2, clean_text_by_formats_v2, classify_page_text_by_types
 
 
-def extract_v0(pdf_path):
+def extract_v0(pdf_path, embedder):
     logging.info(logging_messages.display_extraction_version.format('0'))
+    file_name = get_file_name(pdf_path)
+
     _, extracted_text = extract_pdf_raw_text(pdf_path)
-    return clean(extracted_text)
+    cleaned_text = clean(extracted_text)
+
+    save_preprocessed_data('unstructured_data', cleaned_text, pdf_path,
+                           'extract_v0', 'UNSTRUCT', 'txt')
+
+    return build_dataset_v0(cleaned_text.split('\n'), file_name, embedder, 'extract_v0')
 
 
-def extract_v1(pdf_path):
+def extract_v1(pdf_path, embedder):
     logging.info(logging_messages.display_extraction_version.format('1'))
+    file_name = get_file_name(pdf_path)
+
     pages, _ = extract_pdf_raw_text(pdf_path)
 
     headers, footers = extract_headers_and_footers(pages)
@@ -56,7 +66,13 @@ def extract_v1(pdf_path):
         else:
             node_route = process_context(extracted_data, sentence, index, node_route)
 
-    return extracted_data
+    json_dict = {}
+    for node in extracted_data:
+        json_dict = {**json_dict, **get_node_dict(node)}
+
+    save_all_format_structuring_v1(json_dict, pdf_path, 'extract_v1')
+
+    return build_dataset_v1(json_dict, file_name, embedder, 'extract_v1')
 
 
 def extract_v2(pdf_path, embedder):
@@ -94,6 +110,6 @@ def extract_v2(pdf_path, embedder):
     for index, node in enumerate(extracted_data):
         json_dict = {**json_dict, **get_node_dict_v2(node, index + 1)}
 
-    save_all_format_structuring(json_dict['structured_data'], pdf_path, 'extract_v2')
+    save_all_format_structuring_v2(json_dict['structured_data'], pdf_path, 'extract_v2')
 
     return build_dataset_v2(json_dict, file_name, embedder, 'extract_v2')

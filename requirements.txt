@@ -16,3 +16,4 @@ PyMuPDF==1.24.9
 openai==1.37.1
 matplotlib==3.9.2
 anthropic==0.34.0
+rank_bm25==0.2.2

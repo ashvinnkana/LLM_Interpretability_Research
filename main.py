@@ -3,11 +3,10 @@ import logging.config
 
 from utils import constants
 from utils import logging_messages
-from scripts import extract_data, structure_data
+from scripts import extract_data
 from models.pipeline_llm_handler import LLM
 from models.embedding_model import EMBEDDER
-from utils.functions import download_nltk_resources, save_sample_docs
-from utils.functions import save_preprocessed_data
+from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds
 from utils.functions import get_rouge_scores, create_results_dataframe, visualize_rouge_results
 from utils import strings
 from models.pinecone_client import PINECONE
@@ -26,60 +25,60 @@ v1_extraction_vectordb = PINECONE(strings.extraction_v1_index)
 v2_extraction_vectordb = PINECONE(strings.extraction_v2_index)
 
 format_lists = [
-    {'id': 'unstructured',
+    {'id': 'v0-unstruct',
      'query_str': strings.unstructured_question,
      'llm_msg_str': strings.unstructured_llm_message,
      'get_docs_func': unstruct_process_docs,
      'vector_db': v0_extraction_vectordb,
-     'doc_count': 3},
-    {'id': 'json-structured-v1',
+     'doc_count': 4},
+    {'id': 'v1-json',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v1_json_process_docs,
      'vector_db': v1_extraction_vectordb,
-     'doc_count': 3},
-    {'id': 'html-structured-v1',
+     'doc_count': 4},
+    {'id': 'v1-html',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v1_html_process_docs,
      'vector_db': v1_extraction_vectordb,
-     'doc_count': 3},
-    {'id': 'toml-structured-v2',
+     'doc_count': 4},
+    {'id': 'v2-toml',
      'query_str': strings.toml_question,
      'llm_msg_str': strings.toml_llm_message,
      'get_docs_func': v2_toml_process_docs,
      'vector_db': v2_extraction_vectordb,
-     'doc_count': 1},
-    {'id': 'md-structured-v2',
+     'doc_count': 2},
+    {'id': 'v2-md',
      'query_str': strings.md_question,
      'llm_msg_str': strings.md_llm_message,
      'get_docs_func': v2_markdown_process_docs,
      'vector_db': v2_extraction_vectordb,
-     'doc_count': 3},
-    {'id': 'json-structured-v2',
+     'doc_count': 4},
+    {'id': 'v2-json',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v2_json_process_docs,
      'vector_db': v2_extraction_vectordb,
-     'doc_count': 3},
-    {'id': 'html-structured-v2',
+     'doc_count': 4},
+    {'id': 'v2-html',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v2_html_process_docs,
      'vector_db': v2_extraction_vectordb,
-     'doc_count': 3},
-    {'id': 'custom-structured-v1',
+     'doc_count': 4},
+    {'id': 'v2-custom1',
      'query_str': strings.html_question,
      'llm_msg_str': strings.html_llm_message,
      'get_docs_func': v1_custom_process_docs,
      'vector_db': v2_extraction_vectordb,
-     'doc_count': 3},
-    {'id': 'custom-structured-v2',
+     'doc_count': 4},
+    {'id': 'v2-custom2',
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v2_custom_process_docs,
      'vector_db': v2_extraction_vectordb,
-     'doc_count': 3}
+     'doc_count': 4}
 ]
 
 
@@ -89,48 +88,26 @@ def legal_llm_response(question, docs):
     print(f'{constants.aus_legal_llm}\n{legal_llm.generate_response(question, docs)}\n')
 
 
-def upsert_v0_unstructured_v0(pdf_path):
-    unstructured_vectordb.connect()
-    raw_text = extract_data.extract_v0(pdf_path)
-    unstructured_v0_dataset = structure_data.none_v0(raw_text, pdf_path)
-    save_preprocessed_data('unstructured_data', raw_text, pdf_path,
-                           'extract_v0', 'v0', 'txt')
+def upsert_extract_v0(pdf_path):
+    v0_extraction_vectordb.connect()
+    dataset = extract_data.extract_v0(pdf_path, embedder)
     try:
-        logging.info(logging_messages.upserting_chunks.format(constants.unstructured_tag, pdf_path))
-        embedder.encode_upsert_vectordb(unstructured_v0_dataset, 10, unstructured_vectordb)
-        logging.info(logging_messages.status_success)
-    except Exception as e:
-        logging.error(logging_messages.error_upserting.format(constants.unstructured_tag, pdf_path, e))
-
-
-
-
-def upsert_v0_structured_json_v1(pdf_path):
-    v1_json_structured_vectordb.connect()
-    node_data = extract_data.extract_v1(pdf_path)
-    json_structured_dataset, json_string = structure_data.json_v0(node_data, pdf_path)
-    save_preprocessed_data('structured_data', json_string, pdf_path,
-                           'extract_v1', 'v0', 'json')
-    try:
-        logging.info(logging_messages.upserting_chunks.format(constants.json_structured_tag, pdf_path))
-        embedder.encode_upsert_vectordb(json_structured_dataset, 5, v1_json_structured_vectordb)
+        logging.info(logging_messages.upserting_chunks.format('EXTRACT-V0', pdf_path))
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v0_extraction_vectordb)
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
 
 
-def upsert_v0_structured_html_v1(pdf_path):
-    v1_html_structured_vectordb.connect()
-    node_data = extract_data.extract_v1(pdf_path)
-    html_structured_dataset, html_string = structure_data.html_v0(node_data, pdf_path)
-    save_preprocessed_data('structured_data', html_string, pdf_path,
-                           'extract_v1', 'v0', 'html')
+def upsert_extract_v1(pdf_path):
+    v1_extraction_vectordb.connect()
+    dataset = extract_data.extract_v1(pdf_path, embedder)
     try:
-        logging.info(logging_messages.upserting_chunks.format(constants.html_structured_tag, pdf_path))
-        embedder.encode_upsert_vectordb(html_structured_dataset, 5, v1_html_structured_vectordb)
+        logging.info(logging_messages.upserting_chunks.format('EXTRACT-V1', pdf_path))
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v1_extraction_vectordb)
         logging.info(logging_messages.status_success)
     except Exception as e:
-        logging.error(logging_messages.error_upserting.format(constants.html_structured_tag, pdf_path, e))
+        logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
 
 
 def upsert_extract_v2(pdf_path):
@@ -139,7 +116,7 @@ def upsert_extract_v2(pdf_path):
 
     try:
         logging.info(logging_messages.upserting_chunks.format('EXTRACT-V2', pdf_path))
-        embedder.encode_upsert_vectordb(dataset, 5, v2_extraction_vectordb)
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v2_extraction_vectordb)
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
@@ -152,11 +129,11 @@ def upsert_all_data():
     for pdf_path in strings.unstructured_pdf_paths:
         logging.info(pdf_path)
 
-        # logging.info(logging_messages.sub_divider)
-        # upsert_extract_v0(pdf_path)
+        logging.info(logging_messages.sub_divider)
+        upsert_extract_v0(pdf_path)
 
-        # logging.info(logging_messages.sub_divider)
-        # upsert_extract_v1(pdf_path)
+        logging.info(logging_messages.sub_divider)
+        upsert_extract_v1(pdf_path)
 
         logging.info(logging_messages.sub_divider)
         upsert_extract_v2(pdf_path)
@@ -168,20 +145,19 @@ def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
     upsert_all_data()
 
-    return
-
     logging.info(logging_messages.main_divider)
     topic = 'LAW'
     for quest in strings.questions:
 
         # get docs
         logging.info(logging_messages.fetching_docs.format(quest['id']))
-        query_embeds = embedder.encode(quest['query'])
+        query_embeds = embedder.encode(clean_for_embeds(quest['query']))
         docs = {}
         for format_ in format_lists:
             format_['vector_db'].connect()
             docs[format_['id']] = format_['get_docs_func'](format_['vector_db']
-                                                           .get_docs(query_embeds, format_['doc_count']))
+                                                           .get_docs(quest['query'], query_embeds, format_['doc_count']))
+            logging.info(format_['id'] + ' : ' + str(embedder.count_tokens(docs[format_['id']])))
         save_sample_docs(json.dumps(docs), quest['id'])
         logging.info(logging_messages.main_divider)
         llm_format_scores = {}
@@ -191,7 +167,7 @@ def main():
             llm['client'].set_model(llm['model_id'])
             logging.info(logging_messages.sub_divider)
             scores = {}
-            for i in range(5):
+            for i in range(3):
                 logging.info(f'- Attempt 0{i + 1}')
                 for format_ in format_lists:
                     query = format_['query_str'].format(quest['query'])
@@ -222,13 +198,13 @@ def main():
         rouge1_df.to_csv(strings.csv_results_path.format(quest['id'], 'rouge1'))
         logging.info(logging_messages.main_divider)
 
-        rougeL_df = create_results_dataframe(llm_format_scores, 'rougeL')
-        print(f'Rouge L Metric - {quest['id']} Results:\n{rougeL_df}\n')
-        rougeL_df.to_csv(strings.csv_results_path.format(quest['id'], 'rougeL'))
+        rougel_df = create_results_dataframe(llm_format_scores, 'rougeL')
+        print(f'Rouge L Metric - {quest['id']} Results:\n{rougel_df}\n')
+        rougel_df.to_csv(strings.csv_results_path.format(quest['id'], 'rougeL'))
         logging.info(logging_messages.main_divider)
 
         # Visualize Results
-        visualize_rouge_results(rouge1_df, rougeL_df, format_lists, quest['id'])
+        visualize_rouge_results(rouge1_df, rougel_df, format_lists, quest['id'])
 
 
 if __name__ == '__main__':

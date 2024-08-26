@@ -1,4 +1,5 @@
 alpha_characters_only = r'[^a-zA-Z\s]'
+alpha_characters_only_simple = r'[^a-z\s]'
 alpha_characters_only_v2 = r'[^a-zA-Z\s]|[ivxlcdm]'
 no_special_characters_v2 = r'[^\w\s.,!?$%()[\]{}-]'
 start_with_bullet_pattern = r'^\s*[\u2022\-\*\d+\.\)]|^\s*\(\d+\)|^\s*\([a-zA-Z]+\)|^\s*[a-zA-Z]\.' + \

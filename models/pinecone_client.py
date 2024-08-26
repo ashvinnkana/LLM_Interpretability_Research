@@ -2,6 +2,7 @@ import os
 import time
 from pinecone import Pinecone, ServerlessSpec
 from dotenv import load_dotenv
+from rank_bm25 import BM25Okapi
 
 from utils.constants import pinecone_cloud, pinecone_region, pinecone_dimension
 
@@ -46,13 +47,21 @@ class PINECONE:
     def upsert(self, vectors):
         self.index.upsert(vectors=vectors)
 
-    def get_docs(self, query, top_k) -> list[str]:
-        res = self.index.query(vector=query, top_k=top_k, include_metadata=True)
+    def get_docs(self, query_str, query_vector, top_k) -> list[str]:
+        res = self.index.query(vector=query_vector, top_k=6, include_metadata=True)
 
+        tokenized_query = query_str.split(" ")
         # get doc text
         try:
             docs = [{'title': chunk['metadata']['title'], 'content': chunk['metadata']['content']}
                     for chunk in res["matches"]]
+            tokenized_corpus = [f"{doc['title']} : {doc['content']}".split(" ") for doc in docs]
+            bm25 = BM25Okapi(tokenized_corpus)
+            top_n = bm25.get_top_n(tokenized_query, docs, n=top_k)
         except KeyError:
             docs = [chunk['metadata']['content'] for chunk in res["matches"]]
-        return docs
+            tokenized_corpus = [doc.split(" ") for doc in docs]
+            bm25 = BM25Okapi(tokenized_corpus)
+            top_n = bm25.get_top_n(tokenized_query, docs, n=top_k)
+
+        return top_n

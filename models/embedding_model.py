@@ -3,6 +3,8 @@ from semantic_router.encoders import HuggingFaceEncoder
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer
 
+from utils.functions import clean_for_embeds
+
 
 class EMBEDDER:
     def __init__(self, name):
@@ -35,13 +37,13 @@ class EMBEDDER:
 
             # create embeddings
             try:
-                chunks = [f'{bat["title"].split(' >> ')[-1]}:{bat["content"]}'
+                chunks = [clean_for_embeds(f'{bat["title"].split(' >> ')[-1]}:{bat["content"]}')
                           for bat in batch["metadata"]]
-                embeds = self.encoder(chunks)
             except KeyError:
-                chunks = [f'{bat["content"]}'
+                chunks = [clean_for_embeds(f'{bat["content"]}')
                           for bat in batch["metadata"]]
-                embeds = self.encoder(chunks)
+
+            embeds = self.encoder(chunks)
 
             assert len(embeds) == (i_end - i)
 

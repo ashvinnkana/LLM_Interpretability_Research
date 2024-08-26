@@ -8,18 +8,33 @@ import string
 import fitz
 import ast
 import math
-
+from nltk.corpus import stopwords
 from rouge_score import rouge_scorer
 
 import pandas as pd
 import matplotlib.pyplot as plt
 from datasets import Dataset
-from nltk.tokenize import sent_tokenize
 from collections import Counter
-
 from utils import strings, constants, regex_patterns, logging_messages
 
 from models.node import Node
+
+
+def clean_for_embeds(text):
+    # Convert text to lowercase
+    text = text.lower()
+
+    # Remove numbers and symbols using regular expressions
+    text = re.sub(regex_patterns.alpha_characters_only_simple, '', text)
+
+    # Remove stop words
+    stop_words = set(stopwords.words(constants.docs_language))
+    filtered_words = [word for word in text.split() if word not in stop_words]
+
+    # Join the cleaned words back into a string
+    cleaned_text = ' '.join(filtered_words)
+
+    return cleaned_text
 
 
 def save_preprocessed_data(type_, data, unstructured_file_path, extract_version, struct_version, file_extension):
@@ -30,7 +45,29 @@ def save_preprocessed_data(type_, data, unstructured_file_path, extract_version,
         file.write(data)
 
 
-def save_all_format_structuring(json_dict, pdf_path, extract_version):
+def save_all_format_structuring_v1(json_dict, pdf_path, extract_version):
+    json_string = json.dumps(json_dict, indent=2)
+
+    save_preprocessed_data('structured_data', json_string, pdf_path,
+                           extract_version, 'JSON', 'json')
+
+    html_string = convert_to_html(json_dict)
+
+    save_preprocessed_data('structured_data', html_string, pdf_path,
+                           extract_version, 'HTML', 'html')
+
+    md_string = convert_to_markdown(json_dict)
+
+    save_preprocessed_data('structured_data', md_string, pdf_path,
+                           extract_version, 'MD', 'md')
+
+    toml_string = convert_to_toml(json_dict, [])
+
+    save_preprocessed_data('structured_data', toml_string, pdf_path,
+                           extract_version, 'TOML', 'toml')
+
+
+def save_all_format_structuring_v2(json_dict, pdf_path, extract_version):
     json_string = json.dumps(json_dict, indent=2)
 
     save_preprocessed_data('structured_data', json_string, pdf_path,
@@ -930,113 +967,93 @@ def clean(text):
     return text
 
 
-def chunk_by_word_limit(text, max_words=500):
-    """
-    Split the input text into chunks, each containing a maximum number of words.
-    - text: The input text to be chunked.
-    - max_words: The maximum number of words allowed in each chunk (default is 500).
-    """
-    sentences = sent_tokenize(text)
-    chunks = []
-    current_chunk = []
-    current_word_count = 0
-
-    for sentence in sentences:
-        word_count = len(sentence.split())
-        if current_word_count + word_count > max_words:
-            chunks.append(' '.join(current_chunk))
-            current_chunk = []
-            current_word_count = 0
-
-        current_chunk.append(sentence)
-        current_word_count += word_count
-
-    if current_chunk:
-        chunks.append(' '.join(current_chunk))
-
-    return chunks
-
-
 def get_file_name(path):
     """return the file name of the given path"""
     return path.split('/')[-1]
 
 
-def build_dataset(chunks, file_name, type_, is_html):
+def build_dataset_v0(text, file_name, embedder, extract_version):
     """
     Convert chunks of text into a dataset format compatible with the 'datasets' library.
     - chunks: List of text chunks to be converted.
     - file_name: The name of the source file.
     """
-    chunk_dictlist = create_chunk_dictlist(chunks, file_name, type_, is_html)
+    chunk_dictlist = create_chunk_dictlist_v0(text, file_name, embedder, extract_version)
     return Dataset.from_list(chunk_dictlist)
 
 
-def build_dataset_v1(chunks, file_name, type_, is_dict):
+def build_dataset_v1(json_dict, file_name, embedder, extract_version):
     """
     Convert chunks of text into a dataset format compatible with the 'datasets' library.
     - chunks: List of text chunks to be converted.
     - file_name: The name of the source file.
     """
-    chunk_dictlist = create_chunk_dictlist_v1(chunks, file_name, type_, is_dict)
+    chunk_dictlist = create_chunk_dictlist_v1(json_dict, file_name, embedder, extract_version)
     return Dataset.from_list(chunk_dictlist)
 
 
-def build_dataset_v2(chunks, file_name, embedder, extract_version):
+def build_dataset_v2(json_dict, file_name, embedder, extract_version):
     """
     Convert chunks of text into a dataset format compatible with the 'datasets' library.
     - chunks: List of text chunks to be converted.
     - file_name: The name of the source file.
     """
-    chunk_dictlist = create_chunk_dictlist_v2(chunks, file_name, embedder, extract_version)
+    chunk_dictlist = create_chunk_dictlist_v2(json_dict, file_name, embedder, extract_version)
     return Dataset.from_list(chunk_dictlist)
 
 
-def create_chunk_dictlist(chunks, file_name, type_, is_html=False):
-    """
-    Create a list of dictionaries for each chunk, suitable for creating a dataset.
-    - chunks: List or dict of text chunks to be converted.
-    - file_name: The name of the source file.
-    - is_dict: Boolean indicating whether chunks are a dictionary.
-    """
-    chunk_dictlist = [{'id': str(i + 1),
+def chunk_text_by_token_limit_v0(text, embedder):
+    current_sentence = ''
+    chunk_texts = []
+
+    for sentence in text:
+        temp_sentence = current_sentence + '\n' + sentence
+        token_count = embedder.count_tokens(temp_sentence)
+        if token_count <= constants.chunk_token_limit:
+            current_sentence = temp_sentence
+        else:
+            chunk_texts.append(current_sentence)
+            current_sentence = sentence
+
+    chunk_texts.append(current_sentence)
+
+    return chunk_texts
+
+
+def create_chunk_dictlist_v0(text, file_name, embedder, extract_version):
+
+    chunk_texts = chunk_text_by_token_limit_v0(text, embedder)
+
+    chunk_dictlist = [{'id': file_name.split('.')[0] + '-' + str(i + 1),
                        'metadata': {
                            'content': chunk_content,
                            'source': file_name
                        }}
-                      for i, chunk_content in enumerate(chunks)]
+                      for i, chunk_content in enumerate(chunk_texts)]
 
-    root_dir = 'structured_data/chunks/by_word_limit'
-    extract_version = 'extract_v0'
-    if is_html:
-        root_dir = 'structured_data/chunks/by_key_headings'
-        extract_version = 'extract_v1'
-
-    save_preprocessed_data(root_dir,
+    save_preprocessed_data('chunks/by_token_limit',
                            json.dumps(chunk_dictlist, indent=2), '/' + file_name,
-                           extract_version, f'{type_}_v0', 'json')
+                           extract_version, 'chunks', 'json')
     return chunk_dictlist
 
 
-def create_chunk_dictlist_v1(chunks, file_name, type_, is_dict=False):
-    """
-    Create a list of dictionaries for each chunk, suitable for creating a dataset.
-    - chunks: List or dict of text chunks to be converted.
-    - file_name: The name of the source file.
-    - is_dict: Boolean indicating whether chunks are a dictionary.
-    """
-    chunk_dictlist = []
-    if is_dict:
-        keys = [key for key in chunks.keys() if isinstance(chunks[key], dict)]
-        chunk_dictlist = [{'id': str(i + 1),
-                           'metadata': {
-                               'content': f"{{'{key}' : {str(chunks[key])}}}",
-                               'source': file_name
-                           }}
-                          for i, key in enumerate(keys)]
-        save_preprocessed_data('structured_data/chunks/by_key_headings',
-                               json.dumps(chunk_dictlist, indent=2), '/' + file_name,
-                               'extract_v1', f'{type_}_v0', 'json')
+def create_chunk_dictlist_v1(json_dict, file_name, embedder, extract_version):
+    chunks = []
+    for head_lvl1 in json_dict.keys():
+        process_chunks_to_lowest_node(json_dict[head_lvl1], [head_lvl1], chunks, embedder)
+
+    chunk_texts = merge_chunks_to_token_limit(chunks, embedder)
+
+    chunk_dictlist = [{'id': file_name.split('.')[0] + '-' + str(i + 1),
+                       'metadata': {
+                           'content': str(chunk),
+                           'source': file_name
+                       }}
+                      for i, chunk in enumerate(chunk_texts)]
+
+    save_preprocessed_data('chunks/by_token_limit',
+                           json.dumps(chunk_dictlist, indent=2), '/' + file_name,
+                           extract_version, 'chunks', 'json')
 
     return chunk_dictlist
 
@@ -1168,7 +1185,7 @@ def create_chunk_dictlist_v2(json_dict, file_name, embedder, extract_version):
                        }}
                       for i, chunk in enumerate(chunk_title_content)]
 
-    save_preprocessed_data('structured_data/chunks/by_token_limit',
+    save_preprocessed_data('chunks/by_token_limit',
                            json.dumps(chunk_dictlist, indent=2), '/' + file_name,
                            extract_version, 'chunks', 'json')
 
@@ -1195,19 +1212,22 @@ def unstruct_process_docs(docs):
     return '\n----\n'.join(docs)
 
 
-def v1_json_process_docs(docs):
-    merged_docs = ''
+def merge_chunks_v1(docs):
+    merged_docs = {}
     for doc in docs:
-        if merged_docs == '':
-            merged_docs = json.dumps(convert_string_to_dict(doc))
-        else:
-            merged_docs += ', ' + json.dumps(convert_string_to_dict(doc))
+        doc_dict = convert_string_to_dict(doc)
+        for key in doc_dict.keys():
+            merged_docs[key] = doc_dict[key]
 
     return merged_docs
 
 
+def v1_json_process_docs(docs):
+    return json.dumps(merge_chunks_v1(docs))
+
+
 def v1_html_process_docs(docs):
-    return '<li>' + '</li><li>'.join(docs) + '</li>'
+    return convert_to_html(merge_chunks_v1(docs))
 
 
 def update_nested_dict(d, keys, value):
@@ -1274,9 +1294,9 @@ def convert_sub_html_content(data, level):
     if isinstance(data, dict):
         keys = list(data.keys())
         for key in keys:
-            html_string += f'<div><h{level}>{key}</h{level}>'
+            html_string += f'<span><h{level}>{key}</h{level}>'
             html_string += convert_sub_html_content(data[key], level + 1)
-            html_string += '</div>'
+            html_string += '</span>'
     else:
         html_string += f'<p>{data}</p>'
 
@@ -1317,13 +1337,11 @@ def v1_custom_process_docs(docs):
 
 def convert_to_custom_v2(structured_docs):
     head_keys = list(structured_docs.keys())
-    custom_string = ''
+    custom_v2 = {}
     for head in head_keys:
-        custom_string += f'{{"{head}":{{"'
-        custom_string += convert_sub_html_content(structured_docs[head], 1)
-        custom_string += '"}}'
+        custom_v2[head] = convert_sub_html_content(structured_docs[head], 1)
 
-    return custom_string
+    return json.dumps(custom_v2)
 
 
 def v2_custom_process_docs(docs):
