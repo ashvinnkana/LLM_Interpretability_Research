@@ -4,6 +4,8 @@ alpha_characters_only_v2 = r'[^a-zA-Z\s]|[ivxlcdm]'
 no_special_characters_v2 = r'[^\w\s.,!?$%()[\]{}-]'
 start_with_bullet_pattern = r'^\s*[\u2022\-\*\d+\.\)]|^\s*\(\d+\)|^\s*\([a-zA-Z]+\)|^\s*[a-zA-Z]\.' + \
               r'|^\s*[\u2023\u2219\u25E6\u25AA\u25CF\u25CB\u25A0-\u25FF]'
+start_with_bullet_pattern_v2 = r'^\s*[\u2022\-\*\d+\.\)]|^\s*\(\d+\)|^\s*\([a-zA-Z]+\)' + \
+                            r'|^\s*[\u2023\u2219\u25E6\u25AA\u25CF\u25CB\u25A0-\u25FF]'
 ends_with_special = r'[^a-zA-Z0-9\s,]$'
 newline_before_colon = r'\n(?=:)'
 extra_space_btw_words = r'(?<!\n) +'
@@ -27,11 +29,12 @@ bullet_patterns = {
 }
 number_parenthese_bullet = r'^\((\d+)\)$'
 number_with_number_parenthese_bullet = r'^(\d+)\((\d+)\)$'
-number_alpa_char_bullet = r'^(\d+)([a-z])$'
+number_alpa_char_bullet = r'^(\d+)([a-zA-Z])$'
+number_alpha_in_parentheses_bullet = r'^(\d+)\(([a-zA-Z])\)$'
 float_number_bullet = r'^(\d+)\.(\d+)$'
-float_alpha_bullet = r'^(\d+)\.([a-z])$'
+float_alpha_bullet = r'^(\d+)\.([a-zA-Z])$'
 simple_number_bullet = r'^(\d+)$'
-simple_alpha_bullet = r'^([a-z])$'
+simple_alpha_bullet = r'^([a-zA-Z])$'
 part_division_headings = r"(?:Division|Part) \d+ — "
 function_words_ending = (r'\b(?:\w+\s)*(or|is|are|were|was|a|and|these|where|but|nor|yet|the|an|some|that|am|has|have'
                          r'|do|does|had|in|on|at|with|it|they|this|then|here|there|why)\b[.!?]?')

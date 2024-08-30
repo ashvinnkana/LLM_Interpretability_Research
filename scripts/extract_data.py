@@ -1,3 +1,4 @@
+import json
 import re
 import logging
 import itertools
@@ -7,7 +8,8 @@ from utils import logging_messages, constants, regex_patterns
 from models.node import Node
 from utils.functions import extract_pdf_raw_text, get_file_name, get_node_dict_v2, \
     build_dataset_v2, save_preprocessed_data, build_dataset_v0, get_node_dict, build_dataset_v1, \
-    save_all_format_structuring_v2, save_all_format_structuring_v1
+    save_all_format_structuring_v2, save_all_format_structuring_v1, merge_with_random_key, extract_data_v2, \
+    get_previous_bullet
 from utils.functions import clean
 from utils.functions import extract_headers_and_footers, remove_header_footer
 from utils.functions import group_sentences
@@ -90,25 +92,11 @@ def extract_v2(pdf_path, embedder):
     type_classified_pages = classify_page_text_by_types(cleaned_pages)
     extractable_data = clean_text_by_types_v2(type_classified_pages)
 
-    extracted_data = [constants.root_node_v2]
-    current_level_path = []
-    current_node_route = [0]
-    node_routes_history = {}
-    for index, span in enumerate(extractable_data):
-        node = Node(span['level'], re.sub(regex_patterns.no_special_characters_v2, '',
-                                          span['text'].strip()), span['type_index'])
-        if f"|{span['level']}.{span['type_index']}" in current_level_path:
-            current_level_path = get_level_path(f"|{span['level']}.{span['type_index']}", current_level_path)
-            current_node_route = node_routes_history[''.join(current_level_path)].copy()
-            current_node_route.append(add_node_child(extracted_data, current_node_route, node))
-        else:
-            current_level_path.append(f"|{span['level']}.{span['type_index']}")
-            node_routes_history[''.join(current_level_path)] = current_node_route.copy()
-            current_node_route.append(add_node_child(extracted_data, current_node_route, node))
+    extracted_data = extract_data_v2(extractable_data)
 
     json_dict = {}
     for index, node in enumerate(extracted_data):
-        json_dict = {**json_dict, **get_node_dict_v2(node, index + 1)}
+        json_dict = merge_with_random_key(json_dict, get_node_dict_v2(node, index + 1))
 
     save_all_format_structuring_v2(json_dict['structured_data'], pdf_path, 'extract_v2')
 

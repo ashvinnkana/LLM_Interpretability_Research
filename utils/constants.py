@@ -50,7 +50,7 @@ header_footer_occurrence_accept_threshold_v2 = 1
 
 # keep it lower for small unstructured file
 chunk_window_size = 1
-chunk_token_limit = 800
+chunk_token_limit = 1000
 
 unstructured_tag = 'UNSTRUCTURED'
 json_structured_tag = 'JSON_STRUCTURED'

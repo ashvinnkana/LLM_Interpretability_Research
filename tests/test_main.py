@@ -1,7 +1,9 @@
 import unittest
 
-from scripts.extract_data import extract_v2
-from utils.functions import get_node_children
+from utils import constants
+from utils.functions import get_node_children, extract_pdf_metadata, classify_page_text_by_levels, \
+    extract_headers_and_footers_v2, remove_header_footer_v2, clean_text_by_formats_v2, classify_page_text_by_types, \
+    clean_text_by_types_v2, extract_data_v2
 
 
 def run_tests():
@@ -19,7 +21,19 @@ def run_tests():
                 'Part 7  Transitional provisions  [Heading inserted No. 3 of 2018 s. 12.]']
             output_obtained = []
 
-            extracted_data = extract_v2(input_pdf)
+            pages = extract_pdf_metadata(input_pdf)
+
+            lvl_classified_pages = classify_page_text_by_levels(pages)
+
+            header_footer_levels = extract_headers_and_footers_v2(lvl_classified_pages)
+            content_pages = remove_header_footer_v2(lvl_classified_pages, header_footer_levels)
+
+            cleaned_pages = clean_text_by_formats_v2(content_pages)
+            type_classified_pages = classify_page_text_by_types(cleaned_pages)
+            extractable_data = clean_text_by_types_v2(type_classified_pages)
+
+            extracted_data = extract_data_v2(extractable_data)
+
             for node in get_node_children(extracted_data, input_node_route):
                 output_obtained.append(node.value)
 

@@ -1,6 +1,8 @@
 import json
 import re
 import copy
+import random
+
 import nltk
 import logging
 import pdfplumber
@@ -18,6 +20,17 @@ from collections import Counter
 from utils import strings, constants, regex_patterns, logging_messages
 
 from models.node import Node
+
+
+def merge_with_random_key(json_dict, node_dict):
+    for key, value in node_dict.items():
+        if key in json_dict:
+            # Generate a random number and update the key
+            new_key = f"{key}_id{random.randint(1000, 9999)}"
+            json_dict[new_key] = value
+        else:
+            json_dict[key] = value
+    return json_dict
 
 
 def clean_for_embeds(text):
@@ -88,15 +101,20 @@ def save_all_format_structuring_v2(json_dict, pdf_path, extract_version):
     save_preprocessed_data('structured_data', toml_string, pdf_path,
                            extract_version, 'TOML', 'toml')
 
-    custom_1_string = convert_to_custom_v1(json_dict)
+    custom_1_string = convert_to_custom1(json_dict)
 
     save_preprocessed_data('structured_data', custom_1_string, pdf_path,
-                           extract_version, 'CUSTOM_V1', 'html')
+                           extract_version, 'CUSTOM_1', 'html')
 
-    custom_2_string = convert_to_custom_v2(json_dict)
+    custom_2_string = convert_to_custom2(json_dict)
 
     save_preprocessed_data('structured_data', custom_2_string, pdf_path,
-                           extract_version, 'CUSTOM_V2', 'json')
+                           extract_version, 'CUSTOM_2', 'json')
+
+    custom_3_string = convert_to_custom3(json_dict, [])
+
+    save_preprocessed_data('structured_data', custom_3_string, pdf_path,
+                           extract_version, 'CUSTOM_3', 'toml')
 
 
 def save_sample_docs(docs, question_id):
@@ -368,9 +386,9 @@ def get_node_dict_v2(node, index):
     if len(node.children) != 0:
         for index, child in enumerate(node.children):
             # Merge the child node dictionary into the children_node dictionary
-            children_node = {**children_node, **get_node_dict_v2(child, index + 1)}
+            children_node = merge_with_random_key(children_node, get_node_dict_v2(child, index + 1))
 
-    if len(children_node.keys()) == 1:
+    if len(children_node.keys()) == 1 and node.key != 'root':
         if (not starts_with_bullet(list(children_node.keys())[0]) and
                 (not children_node[list(children_node.keys())[0]] is None) and
                 (not isinstance(children_node[list(children_node.keys())[0]], str))):
@@ -451,11 +469,18 @@ def add_node_child(stack, node_route, new_node):
 
 
 def get_previous_bullet(bullet):
-    """
-    Determines the previous bullet in a sequence based on the current bullet.
-    - bullet: The current bullet string to check.
-    Returns the previous bullet in the sequence, or None if it cannot be determined.
-    """
+
+    # Check for bullet points with a numeric suffix in parentheses (e.g., 4(b) or 4(B))
+    match = re.match(regex_patterns.number_alpha_in_parentheses_bullet, bullet)
+    if match:
+        num = int(match.group(1))
+        alpha = match.group(2)
+        if 'a' <= alpha <= 'z' and alpha > 'a':
+            return f"{num}({chr(ord(alpha) - 1)})"
+        elif 'A' <= alpha <= 'Z' and alpha > 'A':
+            return f"{num}({chr(ord(alpha) - 1)})"
+        return None
+
     # Check for bullet points with parentheses, e.g., (5)
     match = re.match(regex_patterns.number_parenthese_bullet, bullet)
     if match:
@@ -475,12 +500,14 @@ def get_previous_bullet(bullet):
             return f"{num - 1}"
         return None
 
-    # Check for bullet points with a numeric suffix (e.g., 4c)
+    # Check for bullet points with a numeric suffix (e.g., 4c or 4C)
     match = re.match(regex_patterns.number_alpa_char_bullet, bullet)
     if match:
         num = int(match.group(1))
         alpha = match.group(2)
-        if alpha > 'a':
+        if 'a' < alpha <= 'z':
+            return f"{num}{chr(ord(alpha) - 1)}"
+        elif 'A' < alpha <= 'Z':
             return f"{num}{chr(ord(alpha) - 1)}"
         return None
 
@@ -493,12 +520,14 @@ def get_previous_bullet(bullet):
             return f"{int_part}.{frac_part - 1}"
         return None
 
-    # Check for float with alphabetical fractional part (e.g., 4.a)
+    # Check for float with alphabetical fractional part (e.g., 4.a or 4.A)
     match = re.match(regex_patterns.float_alpha_bullet, bullet)
     if match:
         int_part = int(match.group(1))
         alpha = match.group(2)
-        if alpha > 'a':
+        if 'a' < alpha <= 'z':
+            return f"{int_part}.{chr(ord(alpha) - 1)}"
+        elif 'A' < alpha <= 'Z':
             return f"{int_part}.{chr(ord(alpha) - 1)}"
         return None
 
@@ -510,11 +539,13 @@ def get_previous_bullet(bullet):
             return str(num - 1)
         return None
 
-    # Check for simple alpha bullet points (e.g., a)
+    # Check for simple alpha bullet points (e.g., a or A)
     match = re.match(regex_patterns.simple_alpha_bullet, bullet)
     if match:
         alpha = match.group(1)
-        if alpha > 'a':
+        if 'a' < alpha <= 'z':
+            return chr(ord(alpha) - 1)
+        elif 'A' < alpha <= 'Z':
             return chr(ord(alpha) - 1)
         return None
 
@@ -634,7 +665,6 @@ def classify_page_text_by_levels(pages_list):
                 level += 1
 
             span['level'] = type_level[key]
-
             if len(classified_spans) == 0:
                 classified_spans.append(span)
             elif span['text'].strip() == '':
@@ -810,16 +840,21 @@ def remove_header_footer(pages, headers, footers):
 
 
 def remove_header_footer_v2(pages, header_footer_levels):
-    logging.info(logging_messages.remove_header_footer)
     cleaned_data = []
     for index, page in enumerate(pages):
-        if len(page) > 6:
-            count = 0
-        else:
-            count = 10
-        for span in page:
-            if span['level'] in header_footer_levels and span['text'].strip() != '' and count < 10:
-                count += 1
+        count = 0
+
+        if len(page) <= 6:
+            cleaned_data.extend(page)
+            continue
+
+        for i, span in enumerate(page):
+            if span['text'].strip() != '':
+              if span['level'] in header_footer_levels and count < 10 and not starts_with_bullet_v2(span['text']):
+                  count += 1
+              else:
+                cleaned_data.extend(page[i: len(page)])
+                break
             else:
                 cleaned_data.append(span)
                 continue
@@ -917,6 +952,26 @@ def clean_text_by_types_v2(type_formatted_pages):
     return extractable_data
 
 
+def extract_data_v2(extractable_data):
+    extracted_data = [constants.root_node_v2]
+    current_level_path = []
+    current_node_route = [0]
+    node_routes_history = {}
+    for index, span in enumerate(extractable_data):
+        node = Node(span['level'], re.sub(regex_patterns.no_special_characters_v2, '',
+                                          span['text'].strip()), span['type_index'])
+        if f"|{span['level']}.{span['type_index']}" in current_level_path:
+            current_level_path = get_level_path(f"|{span['level']}.{span['type_index']}", current_level_path)
+            current_node_route = node_routes_history[''.join(current_level_path)].copy()
+            current_node_route.append(add_node_child(extracted_data, current_node_route, node))
+        else:
+            current_level_path.append(f"|{span['level']}.{span['type_index']}")
+            node_routes_history[''.join(current_level_path)] = current_node_route.copy()
+            current_node_route.append(add_node_child(extracted_data, current_node_route, node))
+
+    return extracted_data
+
+
 def download_nltk_resources():
     """Download necessary NLTK resources."""
     for package in constants.nltk_resource_packages:
@@ -932,6 +987,11 @@ def download_nltk_resources():
 def starts_with_bullet(phrase):
     """Check if the phrase starts with a bullet point."""
     return bool(re.match(regex_patterns.start_with_bullet_pattern, phrase, re.IGNORECASE))
+
+
+def starts_with_bullet_v2(phrase):
+    """Check if the phrase starts with a bullet point."""
+    return bool(re.match(regex_patterns.start_with_bullet_pattern_v2, phrase, re.IGNORECASE))
 
 
 def ends_with_special(phrase):
@@ -1480,34 +1540,35 @@ def create_results_dataframe(result_dict, metric):
 
     # Create a DataFrame and transpose it to have models on the x-axis and formats on the y-axis
     df = pd.DataFrame(data, index=result_dict.keys())
-    return df.T
+    return df.T, data
 
 
-def visualize_rouge_results(rouge1_df, rougeL_df, format_lists, question_id):
+def visualize_rouge_results(rouge1_df, rougeL_df, format_lists, tag):
     # Ensure the order of formats
     formats_order = [item['id'] for item in format_lists]
     rouge1_df = rouge1_df.loc[formats_order]
     rougeL_df = rougeL_df.loc[formats_order]
 
     # List of models
-    models = rouge1_df.columns
+    columns = rouge1_df.columns
 
     # Plotting the line chart
     plt.figure(figsize=(10, 6))
 
     # Plot ROUGE-1 scores (solid lines)
-    for model in models:
-        plt.plot(formats_order, rouge1_df[model], label=f'{model} (ROUGE-1)', linestyle='-', marker='o')
+    for column in columns:
+        plt.plot(formats_order, rouge1_df[column], label=f'{column} (ROUGE-1)', linestyle='-', marker='o')
 
     # Plot ROUGE-L scores (dashed lines)
-    for model in models:
-        plt.plot(formats_order, rougeL_df[model], label=f'{model} (ROUGE-L)', linestyle='--', marker='o')
+    for column in columns:
+        plt.plot(formats_order, rougeL_df[column], label=f'{column} (ROUGE-L)', linestyle='--', marker='o')
 
     # Adding labels and title
     plt.xlabel('Formats')
     plt.ylabel('ROUGE Scores')
-    plt.title('ROUGE Scores by Model and Format')
-    plt.legend(loc='best')  # Place legend in the best location
+    plt.title(tag+' ROUGE Scores')
+    # Place the legend outside the plot
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
 
     # Adjust y-axis to the range of the data
@@ -1518,7 +1579,9 @@ def visualize_rouge_results(rouge1_df, rougeL_df, format_lists, question_id):
     plt.grid(True)
 
     # Show the plot
-    plt.tight_layout()
-    plt.savefig(f'results/temp/{question_id}_rouge_scores_plot.png')  # Save plot as PNG file
+    # Adjust layout to accommodate the legend
+    plt.tight_layout(rect=[0, 0, 0.85, 1])
+
+    plt.savefig(f'results/temp/{tag}_rouge_scores_plot.png')  # Save plot as PNG file
 
     plt.show()

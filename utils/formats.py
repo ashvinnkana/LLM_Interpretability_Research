@@ -22,6 +22,18 @@ stashed_format_lists = [
      'get_docs_func': v1_html_process_docs,
      'vector_db': v1_extraction_vectordb,
      'doc_count': 4},
+     {'id': 'v2-toml',
+     'query_str': strings.toml_question,
+     'llm_msg_str': strings.toml_llm_message,
+     'get_docs_func': v2_toml_process_docs,
+     'vector_db': v2_extraction_vectordb,
+     'doc_count': 2},
+    {'id': 'v2-custom3',
+     'query_str': strings.toml_question,
+     'llm_msg_str': strings.toml_llm_message,
+     'get_docs_func': v2_custom3_process_docs,
+     'vector_db': v2_extraction_vectordb,
+     'doc_count': 2}
 ]
 
 format_lists = [
@@ -31,12 +43,6 @@ format_lists = [
      'get_docs_func': unstruct_process_docs,
      'vector_db': v0_extraction_vectordb,
      'doc_count': 4},
-    {'id': 'v2-toml',
-     'query_str': strings.toml_question,
-     'llm_msg_str': strings.toml_llm_message,
-     'get_docs_func': v2_toml_process_docs,
-     'vector_db': v2_extraction_vectordb,
-     'doc_count': 2},
     {'id': 'v2-md',
      'query_str': strings.md_question,
      'llm_msg_str': strings.md_llm_message,
@@ -67,10 +73,5 @@ format_lists = [
      'get_docs_func': v2_custom2_process_docs,
      'vector_db': v2_extraction_vectordb,
      'doc_count': 4},
-     {'id': 'v2-custom3',
-     'query_str': strings.toml_question,
-     'llm_msg_str': strings.toml_llm_message,
-     'get_docs_func': v2_custom3_process_docs,
-     'vector_db': v2_extraction_vectordb,
-     'doc_count': 2}
+
 ]

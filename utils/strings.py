@@ -12,14 +12,21 @@ extraction_v1_index = 'v1-extracted-data-index'
 extraction_v2_index = 'v2-extracted-data-index'
 
 unstructured_pdf_paths = [
-    './data/unstructured_data/Limitation_Act_2005.pdf'
+    './data/unstructured_data/Limitation_Act_2005.pdf',
+    './data/unstructured_data/Criminal_Code_Act_Compilation_Act_1913.pdf'
 ]
 
 questions = [
     {'id': 'question_01',
      'query': 'Which section of the law in WA specifies the limitation period for commencing an action to recover '
               'land since the trespassing accrued?',
-     'ref_answer': legal_llm_responses['question_01']}
+     'ref_answer': legal_llm_responses['question_01']},
+    {'id': 'question_02',
+     'query': 'Which section of the law in WA specifies the penalty for Assault causing bodily harm?',
+     'ref_answer': legal_llm_responses['question_02']},
+    {'id': 'question_03',
+     'query': 'Which section of the law in WA specifies the imprisonment period for an unlawful assault causing death?',
+     'ref_answer': legal_llm_responses['question_03']},
 ]
 
 header_footer_level_setup_string = '{}->{}'
