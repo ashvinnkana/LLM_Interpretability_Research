@@ -1673,9 +1673,7 @@ def create_results_dataframe(result_dict, metric):
     return df.T, data
 
 
-def visualize_rouge_results(rouge1_df, rougeL_df, format_lists, tag):
-    # Ensure the order of formats
-    formats_order = [item['id'] for item in format_lists]
+def visualize_rouge_results(rouge1_df, rougeL_df, formats_order, tag):
     rouge1_df = rouge1_df.loc[formats_order]
     rougeL_df = rougeL_df.loc[formats_order]
 
@@ -1714,4 +1712,39 @@ def visualize_rouge_results(rouge1_df, rougeL_df, format_lists, tag):
 
     plt.savefig(f'results/temp/{tag}_rouge_scores_plot.png')  # Save plot as PNG file
 
-    plt.show()
+
+def get_overall_scores(data):
+    # Initialize the 'overall' dictionary
+    average_scores = {'overall': {}}
+
+    # Calculate the average for each format dynamically
+    for question in data:
+        for format, score in data[question].items():
+            if format not in average_scores['overall']:
+                average_scores['overall'][format] = []
+            average_scores['overall'][format].append(score)
+
+    # Calculate the final average for each format
+    for format in average_scores['overall']:
+        scores = average_scores['overall'][format]
+        average_scores['overall'][format] = sum(scores) / len(scores)
+
+    return average_scores
+
+def get_overall_format_order(rouge1, rougel):
+    combined_scores = {}
+    for format in rouge1['overall']:
+        combined_scores[format] = (rouge1['overall'][format] + rougel['overall'][format]) / 2
+
+    # Step 2: Identify the format that contains 'unstruct'
+    unstruct_format = next((format for format in combined_scores if 'unstruct' in format), None)
+
+    # Step 3: Sort formats by average score in ascending order, excluding the 'unstruct' format
+    sorted_formats = sorted([fmt for fmt in combined_scores if fmt != unstruct_format], key=combined_scores.get)
+
+    # Step 4: Ensure the 'unstruct' format is the first element
+    ordered_list = [unstruct_format] if unstruct_format else []
+    ordered_list.extend(sorted_formats)
+
+    return ordered_list
+

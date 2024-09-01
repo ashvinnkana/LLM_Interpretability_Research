@@ -9,7 +9,8 @@ from scripts import extract_data
 from models.embedding_model import EMBEDDER
 from utils.formats import v0_extraction_vectordb, v1_extraction_vectordb, v2_extraction_vectordb, format_lists, \
     v2_1_extraction_vectordb
-from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds, get_docs_v2_1
+from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds, get_docs_v2_1, \
+    get_overall_scores, get_overall_format_order
 from utils.functions import get_rouge_scores, create_results_dataframe, visualize_rouge_results
 from utils import strings
 
@@ -89,13 +90,22 @@ def upsert_all_data():
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    #upsert_all_data()
+    upsert_all_data()
 
     logging.info(logging_messages.main_divider)
     topic = 'LEGAL'
 
     quest_format_r1_scores = {}
     quest_format_rL_scores = {}
+
+    llm_format_r1_scores = {}
+    llm_format_rL_scores = {}
+    llm_order = [item['model_id'] for item in constants.non_legal_llm_list]
+
+    for llm in llm_order:
+        llm_format_r1_scores[llm] = {}
+        llm_format_rL_scores[llm] = {}
+
     for quest in strings.questions:
 
         # get docs
@@ -124,7 +134,7 @@ def main():
             llm['client'].set_model(llm['model_id'])
             logging.info(logging_messages.sub_divider)
             scores = {}
-            for i in range(5):
+            for i in range(3):
                 logging.info(f'- Attempt 0{i + 1}')
                 for format_ in format_lists:
                     query = format_['query_str'].format(quest['query'])
@@ -162,7 +172,7 @@ def main():
         logging.info(logging_messages.main_divider)
 
         # Visualize Results
-        # visualize_rouge_results(rouge1_df, rougel_df, format_lists, quest['id'])
+        visualize_rouge_results(rouge1_df, rougel_df, [item['id'] for item in format_lists], quest['id'])
 
         # fetch overall results for quest
         quest_format_r1_scores[quest['id']] = {}
@@ -171,18 +181,71 @@ def main():
             quest_format_r1_scores[quest['id']][format_['id']] = sum(rouge1_dict[format_['id']]) / 3
             quest_format_rL_scores[quest['id']][format_['id']] = sum(rougel_dict[format_['id']]) / 3
 
-    # Save Overall Results
+        # fetch overall results for llm
+        for format_ in format_lists:
+            for index, llm in enumerate(llm_order):
+                if format_['id'] in llm_format_r1_scores[llm]:
+                    llm_format_r1_scores[llm][format_['id']]['total'] += rouge1_dict[format_['id']][index]
+                    llm_format_r1_scores[llm][format_['id']]['count'] += 1
+                    llm_format_rL_scores[llm][format_['id']]['total'] += rougel_dict[format_['id']][index]
+                    llm_format_rL_scores[llm][format_['id']]['count'] += 1
+                else:
+                    llm_format_r1_scores[llm][format_['id']] = {'total':rouge1_dict[format_['id']][index], 'count':1}
+                    llm_format_rL_scores[llm][format_['id']] = {'total': rougel_dict[format_['id']][index], 'count': 1}
+
+    # Save Question Results
     # Convert to DataFrame and transpose
     quest_r1_df = pandas.DataFrame.from_dict(quest_format_r1_scores, orient='index').transpose()
-    print(f'Rouge 1 Metric - Overall Results:\n{quest_r1_df}\n')
-    quest_r1_df.to_csv(strings.csv_results_path.format('overall', 'rouge1'))
+    print(f'Rouge 1 Metric - Questions Results:\n{quest_r1_df}\n')
+    quest_r1_df.to_csv(strings.csv_results_path.format('questions', 'rouge1'))
 
     quest_rl_df = pandas.DataFrame.from_dict(quest_format_rL_scores, orient='index').transpose()
-    print(f'Rouge L Metric - Overall Results:\n{quest_rl_df}\n')
-    quest_rl_df.to_csv(strings.csv_results_path.format('overall', 'rougeL'))
+    print(f'Rouge L Metric - Questions Results:\n{quest_rl_df}\n')
+    quest_rl_df.to_csv(strings.csv_results_path.format('questions', 'rougeL'))
 
     # Visualize Results
-    visualize_rouge_results(quest_r1_df, quest_rl_df, format_lists, 'Overall')
+    visualize_rouge_results(quest_r1_df, quest_rl_df, [item['id'] for item in format_lists], 'questions')
+
+    logging.info(logging_messages.main_divider)
+
+    # Save LLM Results
+    for format_ in format_lists:
+        for index, llm in enumerate(llm_order):
+            llm_format_r1_scores[llm][format_['id']] = llm_format_r1_scores[llm][format_['id']]['total'] / llm_format_r1_scores[llm][format_['id']]['count']
+            llm_format_rL_scores[llm][format_['id']] = llm_format_rL_scores[llm][format_['id']]['total'] / llm_format_rL_scores[llm][format_['id']]['count']
+
+    # Convert to DataFrame and transpose
+    llm_r1_df = pandas.DataFrame.from_dict(llm_format_r1_scores, orient='index').transpose()
+    print(f'Rouge 1 Metric - LLM Results:\n{llm_r1_df}\n')
+    llm_r1_df.to_csv(strings.csv_results_path.format('llms', 'rouge1'))
+
+    llm_rl_df = pandas.DataFrame.from_dict(llm_format_rL_scores, orient='index').transpose()
+    print(f'Rouge L Metric - LLM Results:\n{llm_rl_df}\n')
+    llm_rl_df.to_csv(strings.csv_results_path.format('llms', 'rougeL'))
+
+    # Visualize Results
+    visualize_rouge_results(llm_r1_df, llm_rl_df, [item['id'] for item in format_lists], 'llms')
+
+    logging.info(logging_messages.main_divider)
+
+    # Save Overall Results
+    # Initialize the 'overall' dictionary
+    r1_overall_scores = get_overall_scores(quest_format_r1_scores)
+    rl_overall_scores = get_overall_scores(quest_format_rL_scores)
+
+    # Convert to DataFrame and transpose
+    overall_r1_df = pandas.DataFrame.from_dict(r1_overall_scores, orient='index').transpose()
+    print(f'Rouge 1 Metric - Overall Results:\n{overall_r1_df}\n')
+    overall_r1_df.to_csv(strings.csv_results_path.format('overall', 'rouge1'))
+
+    overall_rl_df = pandas.DataFrame.from_dict(rl_overall_scores, orient='index').transpose()
+    print(f'Rouge L Metric - Overall Results:\n{overall_rl_df}\n')
+    overall_rl_df.to_csv(strings.csv_results_path.format('overall', 'rougeL'))
+
+    # Visualize Results
+    format_order = get_overall_format_order(r1_overall_scores, rl_overall_scores)
+    visualize_rouge_results(overall_r1_df, overall_rl_df, format_order, 'overall')
+
 
 if __name__ == '__main__':
     main()
