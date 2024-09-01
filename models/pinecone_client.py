@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from rank_bm25 import BM25Okapi
 
 from utils.constants import pinecone_cloud, pinecone_region, pinecone_dimension
+from utils.functions import clean_for_embeds
 
 load_dotenv()
 
@@ -50,18 +51,26 @@ class PINECONE:
     def get_docs(self, query_str, query_vector, top_k) -> list[str]:
         res = self.index.query(vector=query_vector, top_k=6, include_metadata=True)
 
-        tokenized_query = query_str.split(" ")
-        # get doc text
-        try:
+        tokenized_query = clean_for_embeds(query_str).split(" ")
+        if 'title' in res['matches'][0]['metadata']:
+            # v2
             docs = [{'title': chunk['metadata']['title'], 'content': chunk['metadata']['content']}
                     for chunk in res["matches"]]
-            tokenized_corpus = [f"{doc['title']} : {doc['content']}".split(" ") for doc in docs]
-            bm25 = BM25Okapi(tokenized_corpus)
-            top_n = bm25.get_top_n(tokenized_query, docs, n=top_k)
-        except KeyError:
-            docs = [chunk['metadata']['content'] for chunk in res["matches"]]
-            tokenized_corpus = [doc.split(" ") for doc in docs]
-            bm25 = BM25Okapi(tokenized_corpus)
-            top_n = bm25.get_top_n(tokenized_query, docs, n=top_k)
+            tokenized_corpus = [clean_for_embeds(f"{doc['title']} : {doc['content']}").split(" ") for doc in docs]
 
+        elif 'spans' in res['matches'][0]['metadata']:
+            # v2.1
+            docs = [{'spans': chunk['metadata']['spans'],
+                     'content': chunk['metadata']['content'],
+                     'id': chunk['id']}
+                    for chunk in res["matches"]]
+            tokenized_corpus = [clean_for_embeds(doc['content']).split(" ") for doc in docs]
+
+        else:
+            # other versions
+            docs = [chunk['metadata']['content'] for chunk in res["matches"]]
+            tokenized_corpus = [clean_for_embeds(doc).split(" ") for doc in docs]
+
+        bm25 = BM25Okapi(tokenized_corpus)
+        top_n = bm25.get_top_n(tokenized_query, docs, n=top_k)
         return top_n

@@ -9,7 +9,7 @@ from models.node import Node
 from utils.functions import extract_pdf_raw_text, get_file_name, get_node_dict_v2, \
     build_dataset_v2, save_preprocessed_data, build_dataset_v0, get_node_dict, build_dataset_v1, \
     save_all_format_structuring_v2, save_all_format_structuring_v1, merge_with_random_key, extract_data_v2, \
-    get_previous_bullet
+    get_previous_bullet, build_dataset_v2_1
 from utils.functions import clean
 from utils.functions import extract_headers_and_footers, remove_header_footer
 from utils.functions import group_sentences
@@ -101,3 +101,18 @@ def extract_v2(pdf_path, embedder):
     save_all_format_structuring_v2(json_dict['structured_data'], pdf_path, 'extract_v2')
 
     return build_dataset_v2(json_dict, file_name, embedder, 'extract_v2')
+
+
+def extract_v2_1(pdf_path, embedder):
+    logging.info(logging_messages.display_extraction_version.format('2.1'))
+    file_name = get_file_name(pdf_path)
+
+    pages = extract_pdf_metadata(pdf_path)
+
+    lvl_classified_pages = classify_page_text_by_levels(pages)
+
+    header_footer_levels = extract_headers_and_footers_v2(lvl_classified_pages)
+    content_pages = remove_header_footer_v2(lvl_classified_pages, header_footer_levels)
+
+
+    return build_dataset_v2_1(content_pages, file_name, embedder, 'extract_v2x1')

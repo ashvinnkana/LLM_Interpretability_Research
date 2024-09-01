@@ -11,6 +11,7 @@ import fitz
 import ast
 import math
 from nltk.corpus import stopwords
+from rank_bm25 import BM25Okapi
 from rouge_score import rouge_scorer
 
 import pandas as pd
@@ -1062,6 +1063,52 @@ def build_dataset_v2(json_dict, file_name, embedder, extract_version):
     return Dataset.from_list(chunk_dictlist)
 
 
+def build_dataset_v2_1(text, file_name, embedder, extract_version):
+    """
+    Convert chunks of text into a dataset format compatible with the 'datasets' library.
+    - chunks: List of text chunks to be converted.
+    - file_name: The name of the source file.
+    """
+    chunk_dictlist = create_chunk_dictlist_v2_1(text, file_name, embedder, extract_version)
+    return Dataset.from_list(chunk_dictlist)
+
+
+def create_chunk_dictlist_v2_1(text, file_name, embedder, extract_version):
+
+    chunk_texts = chunk_text_by_token_limit_v2_1(text, embedder)
+
+    chunk_dictlist = [{'id': file_name.split('.')[0] + '-' + str(i + 1),
+                       'metadata': {
+                           'content': '\n'.join([cur_sent['text'] for cur_sent in chunk_content]),
+                           'spans': str([cur_sent['level'] for cur_sent in chunk_content]),
+                           'source': file_name
+                       }}
+                      for i, chunk_content in enumerate(chunk_texts)]
+
+    save_preprocessed_data('chunks/by_token_limit',
+                           json.dumps(chunk_dictlist, indent=2), '/' + file_name,
+                           extract_version, 'chunks', 'json')
+    return chunk_dictlist
+
+
+def chunk_text_by_token_limit_v2_1(text, embedder):
+    current_sentence = []
+    chunk_texts = []
+
+    for sentence in text:
+        temp_sentence = '\n'.join([cur_sent['text'] for cur_sent in current_sentence])+ '\n' + sentence['text']
+        token_count = embedder.count_tokens(temp_sentence)
+        if token_count <= constants.chunk_token_limit:
+            current_sentence.append(sentence)
+        else:
+            chunk_texts.append(current_sentence)
+            current_sentence = [sentence]
+
+    chunk_texts.append(current_sentence)
+
+    return chunk_texts
+
+
 def chunk_text_by_token_limit_v0(text, embedder):
     current_sentence = ''
     chunk_texts = []
@@ -1275,7 +1322,7 @@ def unstruct_process_docs(docs):
 def merge_chunks_v1(docs):
     merged_docs = {}
     for doc in docs:
-        doc_dict = convert_string_to_dict(doc)
+        doc_dict = convert_string_to_literal(doc)
         for key in doc_dict.keys():
             merged_docs[key] = doc_dict[key]
 
@@ -1321,7 +1368,7 @@ def update_nested_dict_v2(d, keys, value):
         update_nested_dict_v2(d[key], keys[1:], value)
 
 
-def convert_string_to_dict(context):
+def convert_string_to_literal(context):
     try:
         return ast.literal_eval(context)
     except (ValueError, SyntaxError):
@@ -1334,8 +1381,7 @@ def merge_chunks_v2(docs):
     for doc in docs:
         heading_str = doc['title']
         context = doc['content']
-        context = convert_string_to_dict(context)
-
+        context = convert_string_to_literal(context)
         headings = heading_str.split(' >> ')
         if heading_str == '':
             merge_dicts(structured_docs, context)
@@ -1343,6 +1389,90 @@ def merge_chunks_v2(docs):
             update_nested_dict_v2(structured_docs, headings, context)
 
     return structured_docs
+
+def get_docs_v2_1(docs, embedder):
+    structured_docs = {}
+    for doc in docs:
+        level_list = convert_string_to_literal(doc['spans'])
+        text_list = doc['content'].split('\n')
+
+        span_list = [{"text": text, "level": level} for text, level in zip(text_list, level_list)]
+
+        logging.disable(logging.INFO)
+        cleaned_spans = clean_text_by_formats_v2(span_list)
+        type_classified_spans = classify_page_text_by_types(cleaned_spans)
+        extractable_spans = clean_text_by_types_v2(type_classified_spans)
+
+        logging.disable(logging.NOTSET)
+
+        extracted_data = extract_data_v2(extractable_spans)
+
+        for index, node in enumerate(extracted_data):
+            structured_docs = get_node_dict_v2(node, index + 1)
+
+    chunks = []
+    for head_lvl1 in structured_docs['structured_data'].keys():
+        process_chunks_to_lowest_node(structured_docs['structured_data'][head_lvl1], [head_lvl1], chunks, embedder)
+
+    limit_merged_chunks = merge_chunks_to_token_limit(chunks, embedder)
+    chunk_title_contents = title_chunks(limit_merged_chunks)
+
+    return chunk_title_contents, docs
+
+
+def merge_chunks_v2_1(docs, query, doc_count):
+    tokenized_corpus = [clean_for_embeds(f"{doc['title']} : {doc['content']}").split(" ") for doc in docs]
+
+    bm25 = BM25Okapi(tokenized_corpus)
+    tokenized_query = clean_for_embeds(query).split(" ")
+
+    top_n = bm25.get_top_n(tokenized_query, docs, n=doc_count)
+
+    structured_docs = {}
+    for doc in top_n:
+        heading_str = doc['title']
+        context = doc['content']
+        headings = heading_str.split(' >> ')
+        if heading_str == '':
+            merge_dicts(structured_docs, context)
+        else:
+            update_nested_dict_v2(structured_docs, headings, context)
+
+    return structured_docs
+
+
+def v2_1_unstruct_process_docs(docs, query, doc_count, texts):
+    doc_texts = [doc['content'] for doc in texts]
+    return '\n----\n'.join(doc_texts)
+
+
+def v2_1_toml_process_docs(docs, query, doc_count, texts):
+    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
+    return convert_to_toml(structured_docs, ['Context'])
+
+
+def v2_1_markdown_process_docs(docs, query, doc_count, texts):
+    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
+    return convert_to_markdown(structured_docs)
+
+
+def v2_1_json_process_docs(docs, query, doc_count, texts):
+    return json.dumps(merge_chunks_v2_1(docs, query, doc_count))
+
+
+def v2_1_html_process_docs(docs, query, doc_count, texts):
+    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
+    return convert_to_html(structured_docs)
+
+
+def v2_1_custom1_process_docs(docs, query, doc_count, texts):
+    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
+    return convert_to_custom1(structured_docs)
+
+
+def v2_1_custom2_process_docs(docs, query, doc_count, embedder):
+    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
+    return convert_to_custom2(structured_docs)
 
 
 def v2_json_process_docs(docs):

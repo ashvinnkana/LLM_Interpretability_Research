@@ -7,8 +7,9 @@ from utils import constants
 from utils import logging_messages
 from scripts import extract_data
 from models.embedding_model import EMBEDDER
-from utils.formats import v0_extraction_vectordb, v1_extraction_vectordb, v2_extraction_vectordb, format_lists
-from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds
+from utils.formats import v0_extraction_vectordb, v1_extraction_vectordb, v2_extraction_vectordb, format_lists, \
+    v2_1_extraction_vectordb
+from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds, get_docs_v2_1
 from utils.functions import get_rouge_scores, create_results_dataframe, visualize_rouge_results
 from utils import strings
 
@@ -52,6 +53,18 @@ def upsert_extract_v2(pdf_path):
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
 
 
+def upsert_extract_v2_1(pdf_path):
+    v2_1_extraction_vectordb.connect()
+    dataset = extract_data.extract_v2_1(pdf_path, embedder)
+
+    try:
+        logging.info(logging_messages.upserting_chunks.format('EXTRACT-V2.1', pdf_path))
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v2_1_extraction_vectordb)
+        logging.info(logging_messages.status_success)
+    except Exception as e:
+        logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
+
+
 def upsert_all_data():
     logging.info(logging_messages.main_upserting_datasets)
     logging.info(logging_messages.main_divider)
@@ -68,15 +81,18 @@ def upsert_all_data():
         logging.info(logging_messages.sub_divider)
         upsert_extract_v2(pdf_path)
 
+        logging.info(logging_messages.sub_divider)
+        upsert_extract_v2_1(pdf_path)
+
         logging.info(logging_messages.main_divider)
 
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    upsert_all_data()
+    #upsert_all_data()
 
     logging.info(logging_messages.main_divider)
-    topic = 'LAW'
+    topic = 'LEGAL'
 
     quest_format_r1_scores = {}
     quest_format_rL_scores = {}
@@ -86,10 +102,17 @@ def main():
         logging.info(logging_messages.fetching_docs.format(quest['id']))
         query_embeds = embedder.encode(clean_for_embeds(quest['query']))
         docs = {}
+
+        v2_1_extraction_vectordb.connect()
+        v2_1_dicts, v2_1_texts = get_docs_v2_1(v2_1_extraction_vectordb.get_docs(quest['query'], query_embeds, 3),
+                                               embedder)
         for format_ in format_lists:
-            format_['vector_db'].connect()
-            unformatted_docs = format_['vector_db'].get_docs(quest['query'], query_embeds, format_['doc_count'])
-            docs[format_['id']] = format_['get_docs_func'](unformatted_docs)
+            if format_['version'] == 2.1:
+                docs[format_['id']] = format_['get_docs_func'](v2_1_dicts, quest['query'], format_['doc_count'], v2_1_texts)
+            else:
+                format_['vector_db'].connect()
+                unformatted_docs = format_['vector_db'].get_docs(quest['query'], query_embeds, format_['doc_count'])
+                docs[format_['id']] = format_['get_docs_func'](unformatted_docs)
             logging.info(format_['id'] + ' : ' + str(embedder.count_tokens(docs[format_['id']])))
 
         save_sample_docs(json.dumps(docs), quest['id'])
@@ -101,7 +124,7 @@ def main():
             llm['client'].set_model(llm['model_id'])
             logging.info(logging_messages.sub_divider)
             scores = {}
-            for i in range(3):
+            for i in range(5):
                 logging.info(f'- Attempt 0{i + 1}')
                 for format_ in format_lists:
                     query = format_['query_str'].format(quest['query'])

@@ -10,6 +10,7 @@ logging_config_file = 'logging.conf'
 extraction_v0_index = 'v0-extracted-data-index'
 extraction_v1_index = 'v1-extracted-data-index'
 extraction_v2_index = 'v2-extracted-data-index'
+extraction_v2_1_index = 'v2-1-extracted-data-index'
 
 unstructured_pdf_paths = [
     './data/unstructured_data/Limitation_Act_2005.pdf',
@@ -22,7 +23,7 @@ questions = [
               'land since the trespassing accrued?',
      'ref_answer': legal_llm_responses['question_01']},
     {'id': 'question_02',
-     'query': 'Which section of the law in WA specifies the penalty for Assault causing bodily harm?',
+     'query': 'Which section of the law in WA specifies the penalty for Common assault?',
      'ref_answer': legal_llm_responses['question_02']},
     {'id': 'question_03',
      'query': 'Which section of the law in WA specifies the imprisonment period for an unlawful assault causing death?',

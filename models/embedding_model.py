@@ -37,9 +37,11 @@ class EMBEDDER:
 
             # create embeddings
             try:
+                # for version 2
                 chunks = [clean_for_embeds(f'{bat["title"].split(' >> ')[-1]}:{bat["content"]}')
                           for bat in batch["metadata"]]
             except KeyError:
+                # other versions including v2.1
                 chunks = [clean_for_embeds(f'{bat["content"]}')
                           for bat in batch["metadata"]]
 
