@@ -2,7 +2,8 @@ from utils import strings
 from models.pinecone_client import PINECONE
 from utils.functions import v1_json_process_docs, v2_json_process_docs, v2_markdown_process_docs, \
  v2_custom3_process_docs, v2_1_unstruct_process_docs, v2_1_json_process_docs, v2_1_html_process_docs, \
- v2_1_markdown_process_docs, v2_1_custom1_process_docs, v2_1_custom2_process_docs, v2_1_toml_process_docs
+ v2_1_markdown_process_docs, v2_1_custom1_process_docs, v2_1_custom2_process_docs, v2_1_toml_process_docs, \
+ v2_1_custom4_process_docs
 from utils.functions import v1_html_process_docs, v2_html_process_docs, unstruct_process_docs
 from utils.functions import v2_toml_process_docs, v2_custom1_process_docs, v2_custom2_process_docs
 
@@ -82,6 +83,13 @@ stashed_format_lists = [
      'get_docs_func': v2_custom2_process_docs,
      'vector_db': v2_extraction_vectordb,
      'doc_count': 4},
+    {'id': 'v2.1-toml',
+     'version': 2.1,
+     'query_str': strings.toml_question,
+     'llm_msg_str': strings.toml_llm_message,
+     'get_docs_func': v2_1_toml_process_docs,
+     'vector_db': v2_1_extraction_vectordb,
+     'doc_count': 2},
 ]
 
 format_lists = [
@@ -99,13 +107,6 @@ format_lists = [
      'get_docs_func': v2_1_markdown_process_docs,
      'vector_db': v2_1_extraction_vectordb,
      'doc_count': 3},
-    {'id': 'v2.1-toml',
-     'version': 2.1,
-     'query_str': strings.toml_question,
-     'llm_msg_str': strings.toml_llm_message,
-     'get_docs_func': v2_1_toml_process_docs,
-     'vector_db': v2_1_extraction_vectordb,
-     'doc_count': 2},
     {'id': 'v2.1-json',
      'version': 2.1,
      'query_str': strings.json_question,
@@ -132,6 +133,13 @@ format_lists = [
      'query_str': strings.json_question,
      'llm_msg_str': strings.json_llm_message,
      'get_docs_func': v2_1_custom2_process_docs,
+     'vector_db': v2_1_extraction_vectordb,
+     'doc_count': 3},
+    {'id': 'v2.1-custom4',
+     'version': 2.1,
+     'query_str': strings.code_question,
+     'llm_msg_str': strings.code_llm_message,
+     'get_docs_func': v2_1_custom4_process_docs,
      'vector_db': v2_1_extraction_vectordb,
      'doc_count': 3},
 ]

@@ -125,7 +125,9 @@ def main():
                 docs[format_['id']] = format_['get_docs_func'](unformatted_docs)
             logging.info(format_['id'] + ' : ' + str(embedder.count_tokens(docs[format_['id']])))
 
+        docs['prompt'] = strings.unstructured_llm_message.format(topic, docs['v2.1-unstruct']) + '\n' + strings.unstructured_question.format(quest['query'])
         save_sample_docs(json.dumps(docs), quest['id'])
+
         logging.info(logging_messages.main_divider)
         llm_format_scores = {}
         # generate responses

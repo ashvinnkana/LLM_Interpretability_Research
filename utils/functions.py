@@ -117,6 +117,11 @@ def save_all_format_structuring_v2(json_dict, pdf_path, extract_version):
     save_preprocessed_data('structured_data', custom_3_string, pdf_path,
                            extract_version, 'CUSTOM_3', 'toml')
 
+    custom_4_string = convert_to_custom4(json_dict)
+
+    save_preprocessed_data('structured_data', custom_4_string, pdf_path,
+                           extract_version, 'CUSTOM_4', 'py')
+
 
 def save_sample_docs(docs, question_id):
 
@@ -691,7 +696,22 @@ def classify_page_text_by_types(formatted_pages):
     found_bullets = {}
     for span in formatted_pages:
         bullet, value = is_bullet(span['text'])
-        if bullet is not None:
+        if bullet == '*':
+            if not value.strip() == '':
+                if value[0].isupper():
+                    if ends_with_special_v2(value.strip()):
+                        span['type_index'] = 3
+                    else:
+                        span['type_index'] = 0
+                else:
+                    if ends_with_special_v2(value.strip()):
+                        span['type_index'] = 2
+                    else:
+                        span['type_index'] = 1
+            else:
+                continue
+
+        elif bullet is not None:
             previous_bullet = get_previous_bullet(bullet)
             if previous_bullet is not None:
                 if previous_bullet in found_bullets:
@@ -987,12 +1007,12 @@ def download_nltk_resources():
 
 def starts_with_bullet(phrase):
     """Check if the phrase starts with a bullet point."""
-    return bool(re.match(regex_patterns.start_with_bullet_pattern, phrase, re.IGNORECASE))
+    return bool(re.match(regex_patterns.start_with_bullet_pattern, phrase, re.IGNORECASE | re.UNICODE))
 
 
 def starts_with_bullet_v2(phrase):
     """Check if the phrase starts with a bullet point."""
-    return bool(re.match(regex_patterns.start_with_bullet_pattern_v2, phrase, re.IGNORECASE))
+    return bool(re.match(regex_patterns.start_with_bullet_pattern_v2, phrase, re.IGNORECASE | re.UNICODE))
 
 
 def ends_with_special(phrase):
@@ -1470,9 +1490,14 @@ def v2_1_custom1_process_docs(docs, query, doc_count, texts):
     return convert_to_custom1(structured_docs)
 
 
-def v2_1_custom2_process_docs(docs, query, doc_count, embedder):
+def v2_1_custom2_process_docs(docs, query, doc_count, texts):
     structured_docs = merge_chunks_v2_1(docs, query, doc_count)
     return convert_to_custom2(structured_docs)
+
+
+def v2_1_custom4_process_docs(docs, query, doc_count, texts):
+    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
+    return convert_to_custom4(structured_docs)
 
 
 def v2_json_process_docs(docs):
@@ -1558,6 +1583,40 @@ def convert_to_custom3(structured_docs, headings):
 def v2_custom3_process_docs(docs):
     structured_docs = merge_chunks_v2(docs)
     return convert_to_custom3(structured_docs, ['Context'])
+
+
+def convert_to_custom4(structured_docs, prefix='', heading_num=1):
+    output = []
+    heading_map = {}
+
+    def traverse_dict(d, prefix_, heading_num_):
+        nonlocal output
+
+        for i, (key, value) in enumerate(d.items(), start=1):
+            heading_key = f"heading_{heading_num_}"
+            if heading_num_ == 1 or prefix_ == '':
+                heading_value = f'"{key}"'
+            else:
+                heading_value = f'{prefix_} + ">>{key}"'
+
+            heading_map[heading_num_] = heading_key
+            output.append(f'{heading_key} = {heading_value}')
+
+            if isinstance(value, dict):
+                traverse_dict(value, heading_key, heading_num_ + 1)
+            else:
+                context = f'CONTEXT({heading_key}, \'{value}\')'
+                output.append(context)
+
+            heading_num_ += 1
+
+    traverse_dict(structured_docs, prefix, heading_num)
+    return "\n".join(output)
+
+
+def v2_custom4_process_docs(docs):
+    structured_docs = merge_chunks_v2(docs)
+    return convert_to_custom4(structured_docs)
 
 
 def convert_sub_markdown_content(data, level):
