@@ -10,7 +10,7 @@ from models.embedding_model import EMBEDDER
 from utils.formats import v0_extraction_vectordb, v1_extraction_vectordb, v2_extraction_vectordb, format_lists, \
     v2_1_extraction_vectordb
 from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds, get_docs_v2_1, \
-    get_overall_scores, get_overall_format_order
+    get_overall_scores, get_overall_format_order, save_checkpoint
 from utils.functions import get_rouge_scores, create_results_dataframe, visualize_rouge_results
 from utils import strings
 
@@ -182,6 +182,9 @@ def main():
         for format_ in format_lists:
             quest_format_r1_scores[quest['id']][format_['id']] = sum(rouge1_dict[format_['id']]) / 3
             quest_format_rL_scores[quest['id']][format_['id']] = sum(rougel_dict[format_['id']]) / 3
+
+        save_checkpoint(quest_format_r1_scores, quest['id'], 'rouge1')
+        save_checkpoint(quest_format_rL_scores, quest['id'], 'rougeL')
 
         # fetch overall results for llm
         for format_ in format_lists:

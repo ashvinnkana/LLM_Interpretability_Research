@@ -22,6 +22,13 @@ from utils import strings, constants, regex_patterns, logging_messages
 
 from models.node import Node
 
+def save_checkpoint(data, question, rouge):
+    file_path = f'results/temp/{question}_{rouge}_checkpoint.json'
+
+    # Save the JSON data to a file
+    with open(file_path, 'w') as json_file:
+        json.dump(data, json_file, indent=2)
+
 
 def merge_with_random_key(json_dict, node_dict):
     for key, value in node_dict.items():
