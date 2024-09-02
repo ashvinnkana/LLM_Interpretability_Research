@@ -1,4 +1,4 @@
-legal_llm_responses = {
+V2_1_legal_llm_responses = {
     'question_01': "In Western Australia, the section of the Limitation Act 2005 that specifies the limitation period "
                    "for commencing an action to recover land since trespassing accrued is Section 19. Section 19(1) "
                    "states that an action to recover cannot be commenced if 12 years have elapsed since the cause of "
@@ -276,7 +276,17 @@ legal_llm_responses = {
                    "commit a similar breach in the immediate future. It is advised to comply with these directions to "
                    "avoid potential complications such as fines or prosecution.",
 
-    'question_28': "",
+    'question_28': "In Western Australia, the duty of a vehicle driver is broadly encapsulated under several "
+                   "provisions of the Road Traffic Act 1974 (WA). Primarily, the driver needs to ensure that the "
+                   "vehicle they are operating is licenced and roadworthy (section 4(2)). Failure in this can result "
+                   "in punishments that include a fine of 10 Penalty Units (section 4(2)). The driver must also renew "
+                   "the license within a certain period after it has (section 4(3)). Additionally, if the car is the "
+                   "subject of a permit (section 4(4)(a)) or is compliant with necessary number plate requirements ("
+                   "section 4(4)(b)), the driver bears the responsibility of ensuring compliance with these. "
+                   "Importantly, if the vehicle is authorized in another jurisdiction but is driven by a resident of "
+                   "the state, the driver is still responsible under section 4(5). Further, if the driver is striving "
+                   "for the grant, renewal, transfer or variation of a license, they need to submit an application in "
+                   "an approved format (section 5(1)).",
 
     'question_29': "In Western Australia, to gain the benefit of the reasonable steps defence under Road Traffic Law, "
                    "the person charged needs to prove: (1) they did not know and could not reasonably be expected to "
