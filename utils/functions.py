@@ -22,6 +22,23 @@ from utils import strings, constants, regex_patterns, logging_messages
 
 from models.node import Node
 
+def re_arrange_dict(data):
+    result = {}
+
+    # Iterate over questions
+    for question, formats in data.items():
+        # Iterate over formats and LLM scores
+        for format_type, llms in formats.items():
+            for llm, score in llms.items():
+                if llm not in result:
+                    result[llm] = {}
+                if question not in result[llm]:
+                    result[llm][question] = {}
+                result[llm][question][format_type] = score
+
+    return  result
+
+
 def save_checkpoint(data, question, rouge):
     file_path = f'results/temp/{question}_{rouge}_checkpoint.json'
 
@@ -1780,35 +1797,37 @@ def visualize_rouge_results(rouge1_df, rougeL_df, formats_order, tag):
 
 
 def get_overall_scores(data):
-    # Initialize the 'overall' dictionary
-    average_scores = {'overall': {}}
+    # Initialize a dictionary to track total scores and counts for each format
+    format_sums = {}
+    format_counts = {}
 
-    # Calculate the average for each format dynamically
-    for question in data:
-        for format, score in data[question].items():
-            if format not in average_scores['overall']:
-                average_scores['overall'][format] = []
-            average_scores['overall'][format].append(score)
+    # Iterate over each LLM and question
+    for llm, questions in data.items():
+        for question, formats in questions.items():
+            for format, score in formats.items():
+                if format not in format_sums:
+                    format_sums[format] = 0
+                    format_counts[format] = 0
+                # Sum the scores and count the occurrences
+                format_sums[format] += score
+                format_counts[format] += 1
 
-    # Calculate the final average for each format
-    for format in average_scores['overall']:
-        scores = average_scores['overall'][format]
-        average_scores['overall'][format] = sum(scores) / len(scores)
+    # Calculate the overall averages
+    overall_averages = {format: format_sums[format] / format_counts[format] for format in format_sums}
 
-    return average_scores
+    # Output the result
+    return {"overall": overall_averages}
+
 
 def get_overall_format_order(rouge1, rougel):
     combined_scores = {}
     for format in rouge1['overall']:
         combined_scores[format] = (rouge1['overall'][format] + rougel['overall'][format]) / 2
 
-    # Step 2: Identify the format that contains 'unstruct'
     unstruct_format = next((format for format in combined_scores if 'unstruct' in format), None)
 
-    # Step 3: Sort formats by average score in ascending order, excluding the 'unstruct' format
     sorted_formats = sorted([fmt for fmt in combined_scores if fmt != unstruct_format], key=combined_scores.get)
 
-    # Step 4: Ensure the 'unstruct' format is the first element
     ordered_list = [unstruct_format] if unstruct_format else []
     ordered_list.extend(sorted_formats)
 

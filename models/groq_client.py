@@ -23,10 +23,9 @@ class GROQ:
         chat_response = self.groq_client.chat.completions.create(
             model=self.model,
             messages=messages,
-            max_tokens=7000,
             # focussed responses
-            temperature=0.2, # controlled randomness
-            top_p=0.3 # controlled diversity
+            temperature=0, # controlled randomness
+            top_p=0 # controlled diversity
         )
 
         return chat_response.choices[0].message.content

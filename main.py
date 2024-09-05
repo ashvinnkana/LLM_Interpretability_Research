@@ -10,7 +10,7 @@ from models.embedding_model import EMBEDDER
 from utils.formats import v0_extraction_vectordb, v1_extraction_vectordb, v2_extraction_vectordb, format_lists, \
     v2_1_extraction_vectordb
 from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds, get_docs_v2_1, \
-    get_overall_scores, get_overall_format_order, save_checkpoint
+    get_overall_scores, get_overall_format_order, save_checkpoint, re_arrange_dict
 from utils.functions import get_rouge_scores, create_results_dataframe, visualize_rouge_results
 from utils import strings
 
@@ -90,7 +90,7 @@ def upsert_all_data():
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    upsert_all_data()
+    #upsert_all_data()
 
     logging.info(logging_messages.main_divider)
     topic = 'LEGAL'
@@ -98,126 +98,158 @@ def main():
     quest_format_r1_scores = {}
     quest_format_rL_scores = {}
 
+    llm_order = [item['model_id'] for item in constants.non_legal_llm_list[:3]]
+
+    #for quest in strings.questions:
+
+    #    # get docs
+    #    logging.info(logging_messages.fetching_docs.format(quest['id']))
+    #    query_embeds = embedder.encode(clean_for_embeds(quest['query']))
+    #    docs = {}
+
+    #    v2_1_extraction_vectordb.connect()
+    #    v2_1_dicts, v2_1_texts = get_docs_v2_1(v2_1_extraction_vectordb.get_docs(quest['query'], query_embeds, 3),
+    #                                           embedder)
+    #    for format_ in format_lists:
+    #        if format_['version'] == 2.1:
+    #            docs[format_['id']] = format_['get_docs_func'](v2_1_dicts, quest['query'], format_['doc_count'], v2_1_texts)
+    #        else:
+    #            format_['vector_db'].connect()
+    #            unformatted_docs = format_['vector_db'].get_docs(quest['query'], query_embeds, format_['doc_count'])
+    #            docs[format_['id']] = format_['get_docs_func'](unformatted_docs)
+    #        logging.info(format_['id'] + ' : ' + str(embedder.count_tokens(docs[format_['id']])))
+
+    #    docs['prompt'] = strings.unstructured_llm_message.format(topic, docs['v2.1-unstruct']) + '\n' + strings.unstructured_question.format(quest['query'])
+    #    save_sample_docs(json.dumps(docs), quest['id'])
+
+    #    logging.info(logging_messages.main_divider)
+    #    llm_format_scores = {}
+    #    # generate responses
+    #    for llm in constants.non_legal_llm_list[:3]:
+    #        logging.info(f'>> Generating Responses using {llm['model_id']}')
+    #        llm['client'].set_model(llm['model_id'])
+    #        logging.info(logging_messages.sub_divider)
+    #        scores = {}
+    #        for i in range(1):
+    #            logging.info(f'- Attempt 0{i + 1}')
+    #            for format_ in format_lists:
+    #                query = format_['query_str'].format(quest['query'])
+    #                system_message = format_['llm_msg_str'].format(topic, docs[format_['id']])
+    #                response = ''
+
+    #                check = True
+    #                while check:
+    #                    try:
+    #                        response = llm['client'].generate_response(query, system_message)
+
+    #                        response = response.replace('\n', '\\n')  # Replace newlines with '\n'
+    #                        logging.info(f'-- {format_['id']} :: {response}')
+    #                        check = False
+    #                    except Exception as e:
+    #                        logging.error(f'-- {format_['id']} :: FAILED({e})')
+    #                        if "{'error': {'message': 'Service Unavailable', 'type': 'internal_server_error'}}" not in str(e):
+    #                            check = False
+    #                        else:
+    #                            logging.info(f'-- RETRYING ...')
+
+    #                # record scores
+    #                score = get_rouge_scores(quest['ref_answer'], response)
+    #                try:
+    #                    scores[format_['id']].append(score)
+    #                except KeyError:
+    #                    scores[format_['id']] = []
+    #                    scores[format_['id']].append(score)
+
+    #            logging.info(scores)
+    #            logging.info(logging_messages.main_divider)
+    #        llm_format_scores[llm['model_id']] = scores
+    #        logging.info(logging_messages.main_divider)
+
+    #    # Save Results
+    #    rouge1_df, rouge1_dict = create_results_dataframe(llm_format_scores, 'rouge1')
+    #    print(f'Rouge 1 Metric - {quest['id']} Results:\n{rouge1_df}\n')
+    #    rouge1_df.to_csv(strings.csv_results_path.format(quest['id'], 'rouge1'))
+    #    logging.info(logging_messages.main_divider)
+
+    #    rougel_df, rougel_dict = create_results_dataframe(llm_format_scores, 'rougeL')
+    #    print(f'Rouge L Metric - {quest['id']} Results:\n{rougel_df}\n')
+    #    rougel_df.to_csv(strings.csv_results_path.format(quest['id'], 'rougeL'))
+    #    logging.info(logging_messages.main_divider)
+
+    #    # Visualize Results
+    #    visualize_rouge_results(rouge1_df, rougel_df, [item['id'] for item in format_lists], quest['id'])
+
+    #    # fetch overall results for quest
+    #    quest_format_r1_scores[quest['id']] = {}
+    #    quest_format_rL_scores[quest['id']] = {}
+    #    for format_ in format_lists:
+    #        for index, llm in enumerate(llm_order):
+    #            if format_['id'] in quest_format_r1_scores[quest['id']]:
+    #                quest_format_r1_scores[quest['id']][format_['id']][llm] = rouge1_dict[format_['id']][index]
+    #                quest_format_rL_scores[quest['id']][format_['id']][llm] = rougel_dict[format_['id']][index]
+    #            else:
+    #                quest_format_r1_scores[quest['id']][format_['id']] = {llm: rouge1_dict[format_['id']][index]}
+    #                quest_format_rL_scores[quest['id']][format_['id']] = {llm: rougel_dict[format_['id']][index]}
+
+    #    save_checkpoint(quest_format_r1_scores, quest['id'], 'rouge1')
+    #    save_checkpoint(quest_format_rL_scores, quest['id'], 'rougeL')
+
+    ## Save Question Results
+    #save_checkpoint(quest_format_r1_scores, 'questions', 'rouge1')
+    #save_checkpoint(quest_format_rL_scores, 'questions', 'rougeL')
+
+    with open('results/temp/questions_rouge1_checkpoint.json', 'r') as json_file:
+        quest_format_r1_scores = json.load(json_file)
+
+    with open('results/temp/questions_rougeL_checkpoint.json', 'r') as json_file:
+        quest_format_rL_scores = json.load(json_file)
+
+
+    quest_format_r1_scores = re_arrange_dict(quest_format_r1_scores)
+    quest_format_rL_scores = re_arrange_dict(quest_format_rL_scores)
+
+    for llm in llm_order:
+        # Convert to DataFrame and transpose
+        quest_r1_df = pandas.DataFrame.from_dict(quest_format_r1_scores[llm], orient='index').transpose()
+        print(f'Rouge 1 Metric - {llm} Questions Results:\n{quest_r1_df}\n')
+        quest_r1_df.to_csv(strings.csv_results_path.format(f'questions-{llm}', 'rouge1'))
+
+        quest_rl_df = pandas.DataFrame.from_dict(quest_format_rL_scores[llm], orient='index').transpose()
+        print(f'Rouge L Metric - {llm} Questions Results:\n{quest_rl_df}\n')
+        quest_rl_df.to_csv(strings.csv_results_path.format(f'questions-{llm}', 'rougeL'))
+
+        # Visualize Results
+        visualize_rouge_results(quest_r1_df, quest_rl_df, [item['id'] for item in format_lists], f'questions-{llm}')
+
+    logging.info(logging_messages.main_divider)
+
+    # Save LLM Results
     llm_format_r1_scores = {}
     llm_format_rL_scores = {}
-    llm_order = [item['model_id'] for item in constants.non_legal_llm_list]
 
     for llm in llm_order:
         llm_format_r1_scores[llm] = {}
         llm_format_rL_scores[llm] = {}
 
-    for quest in strings.questions:
-
-        # get docs
-        logging.info(logging_messages.fetching_docs.format(quest['id']))
-        query_embeds = embedder.encode(clean_for_embeds(quest['query']))
-        docs = {}
-
-        v2_1_extraction_vectordb.connect()
-        v2_1_dicts, v2_1_texts = get_docs_v2_1(v2_1_extraction_vectordb.get_docs(quest['query'], query_embeds, 3),
-                                               embedder)
-        for format_ in format_lists:
-            if format_['version'] == 2.1:
-                docs[format_['id']] = format_['get_docs_func'](v2_1_dicts, quest['query'], format_['doc_count'], v2_1_texts)
-            else:
-                format_['vector_db'].connect()
-                unformatted_docs = format_['vector_db'].get_docs(quest['query'], query_embeds, format_['doc_count'])
-                docs[format_['id']] = format_['get_docs_func'](unformatted_docs)
-            logging.info(format_['id'] + ' : ' + str(embedder.count_tokens(docs[format_['id']])))
-
-        docs['prompt'] = strings.unstructured_llm_message.format(topic, docs['v2.1-unstruct']) + '\n' + strings.unstructured_question.format(quest['query'])
-        save_sample_docs(json.dumps(docs), quest['id'])
-
-        logging.info(logging_messages.main_divider)
-        llm_format_scores = {}
-        # generate responses
-        for llm in constants.non_legal_llm_list:
-            logging.info(f'>> Generating Responses using {llm['model_id']}')
-            llm['client'].set_model(llm['model_id'])
-            logging.info(logging_messages.sub_divider)
-            scores = {}
-            for i in range(3):
-                logging.info(f'- Attempt 0{i + 1}')
-                for format_ in format_lists:
-                    query = format_['query_str'].format(quest['query'])
-                    system_message = format_['llm_msg_str'].format(topic, docs[format_['id']])
-                    response = ''
-                    try:
-                        response = llm['client'].generate_response(query, system_message)
-                        response = response.replace('\n', '\\n')  # Replace newlines with '\n'
-                        logging.info(f'-- {format_['id']} :: {response}')
-                    except Exception as e:
-                        logging.error(f'-- {format_['id']} :: FAILED({e})')
-
-                    # record scores
-                    score = get_rouge_scores(quest['ref_answer'], response)
-                    try:
-                        scores[format_['id']].append(score)
-                    except KeyError:
-                        scores[format_['id']] = []
-                        scores[format_['id']].append(score)
-
-                logging.info(scores)
-                logging.info(logging_messages.main_divider)
-            llm_format_scores[llm['model_id']] = scores
-            logging.info(logging_messages.main_divider)
-
-        # Save Results
-        rouge1_df, rouge1_dict = create_results_dataframe(llm_format_scores, 'rouge1')
-        print(f'Rouge 1 Metric - {quest['id']} Results:\n{rouge1_df}\n')
-        rouge1_df.to_csv(strings.csv_results_path.format(quest['id'], 'rouge1'))
-        logging.info(logging_messages.main_divider)
-
-        rougel_df, rougel_dict = create_results_dataframe(llm_format_scores, 'rougeL')
-        print(f'Rouge L Metric - {quest['id']} Results:\n{rougel_df}\n')
-        rougel_df.to_csv(strings.csv_results_path.format(quest['id'], 'rougeL'))
-        logging.info(logging_messages.main_divider)
-
-        # Visualize Results
-        visualize_rouge_results(rouge1_df, rougel_df, [item['id'] for item in format_lists], quest['id'])
-
-        # fetch overall results for quest
-        quest_format_r1_scores[quest['id']] = {}
-        quest_format_rL_scores[quest['id']] = {}
-        for format_ in format_lists:
-            quest_format_r1_scores[quest['id']][format_['id']] = sum(rouge1_dict[format_['id']]) / 3
-            quest_format_rL_scores[quest['id']][format_['id']] = sum(rougel_dict[format_['id']]) / 3
-
-        save_checkpoint(quest_format_r1_scores, quest['id'], 'rouge1')
-        save_checkpoint(quest_format_rL_scores, quest['id'], 'rougeL')
-
-        # fetch overall results for llm
-        for format_ in format_lists:
-            for index, llm in enumerate(llm_order):
+    for llm in llm_order:
+        for quest in strings.questions:
+            for format_ in format_lists:
                 if format_['id'] in llm_format_r1_scores[llm]:
-                    llm_format_r1_scores[llm][format_['id']]['total'] += rouge1_dict[format_['id']][index]
+                    llm_format_r1_scores[llm][format_['id']]['total'] += quest_format_r1_scores[llm][quest['id']][format_['id']]
                     llm_format_r1_scores[llm][format_['id']]['count'] += 1
-                    llm_format_rL_scores[llm][format_['id']]['total'] += rougel_dict[format_['id']][index]
+                    llm_format_rL_scores[llm][format_['id']]['total'] += quest_format_rL_scores[llm][quest['id']][format_['id']]
                     llm_format_rL_scores[llm][format_['id']]['count'] += 1
                 else:
-                    llm_format_r1_scores[llm][format_['id']] = {'total':rouge1_dict[format_['id']][index], 'count':1}
-                    llm_format_rL_scores[llm][format_['id']] = {'total': rougel_dict[format_['id']][index], 'count': 1}
+                    llm_format_r1_scores[llm][format_['id']] = {'total': quest_format_r1_scores[llm][quest['id']][format_['id']], 'count': 1}
+                    llm_format_rL_scores[llm][format_['id']] = {'total': quest_format_rL_scores[llm][quest['id']][format_['id']], 'count': 1}
 
-    # Save Question Results
-    # Convert to DataFrame and transpose
-    quest_r1_df = pandas.DataFrame.from_dict(quest_format_r1_scores, orient='index').transpose()
-    print(f'Rouge 1 Metric - Questions Results:\n{quest_r1_df}\n')
-    quest_r1_df.to_csv(strings.csv_results_path.format('questions', 'rouge1'))
-
-    quest_rl_df = pandas.DataFrame.from_dict(quest_format_rL_scores, orient='index').transpose()
-    print(f'Rouge L Metric - Questions Results:\n{quest_rl_df}\n')
-    quest_rl_df.to_csv(strings.csv_results_path.format('questions', 'rougeL'))
-
-    # Visualize Results
-    visualize_rouge_results(quest_r1_df, quest_rl_df, [item['id'] for item in format_lists], 'questions')
-
-    logging.info(logging_messages.main_divider)
-
-    # Save LLM Results
     for format_ in format_lists:
-        for index, llm in enumerate(llm_order):
-            llm_format_r1_scores[llm][format_['id']] = llm_format_r1_scores[llm][format_['id']]['total'] / llm_format_r1_scores[llm][format_['id']]['count']
-            llm_format_rL_scores[llm][format_['id']] = llm_format_rL_scores[llm][format_['id']]['total'] / llm_format_rL_scores[llm][format_['id']]['count']
+        for llm in llm_order:
+            llm_format_r1_scores[llm][format_['id']] = llm_format_r1_scores[llm][format_['id']]['total'] / \
+                                                       llm_format_r1_scores[llm][format_['id']]['count']
+            llm_format_rL_scores[llm][format_['id']] = llm_format_rL_scores[llm][format_['id']]['total'] / \
+                                                       llm_format_rL_scores[llm][format_['id']]['count']
+
 
     # Convert to DataFrame and transpose
     llm_r1_df = pandas.DataFrame.from_dict(llm_format_r1_scores, orient='index').transpose()
