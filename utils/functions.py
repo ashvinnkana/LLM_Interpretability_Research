@@ -1485,9 +1485,20 @@ def merge_chunks_v2_1(docs, query, doc_count):
     return structured_docs
 
 
+def create_prompt_for_legal_llm(query, texts):
+        doc_texts = [doc['content'] for doc in texts]
+        prompt = strings.unstructured_llm_message.format('LEGAL', '\n----\n'.join(doc_texts)) + '\n' + strings.unstructured_question.format(query)
+        return prompt
+
+
 def v2_1_unstruct_process_docs(docs, query, doc_count, texts):
-    doc_texts = [doc['content'] for doc in texts]
-    return '\n----\n'.join(doc_texts)
+    string_ = v2_1_json_process_docs(docs, query, doc_count, texts)
+    return (string_
+            .replace('{', '\n')
+            .replace('"','')
+            .replace("'","")
+            .replace(':',' ')
+            .replace('}',''))
 
 
 def v2_1_toml_process_docs(docs, query, doc_count, texts):

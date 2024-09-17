@@ -150,7 +150,7 @@ questions = [
      'query': 'Which section of the law in WA specifies about the defences against a dog attack?',
      'ref_answer': V2_1_legal_llm_responses['question_40']},
     {'id': 'question_41',
-     'query': 'In what circumstances can the registration of a cat be cancelled, according to the law in WA?',
+     'query': 'In what situation can the registration of a cat be cancelled, according to the law in WA?',
      'ref_answer': V2_1_legal_llm_responses['question_41']},
     {'id': 'question_42',
      'query': 'According to the law in WA, what is the age limit that a cat must be microchipped?',

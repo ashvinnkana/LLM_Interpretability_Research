@@ -1,9 +1,9 @@
 from utils import strings
 from models.pinecone_client import PINECONE
 from utils.functions import v1_json_process_docs, v2_json_process_docs, v2_markdown_process_docs, \
- v2_custom3_process_docs, v2_1_unstruct_process_docs, v2_1_json_process_docs, v2_1_html_process_docs, \
+ v2_custom3_process_docs, v2_1_json_process_docs, v2_1_html_process_docs, \
  v2_1_markdown_process_docs, v2_1_custom1_process_docs, v2_1_custom2_process_docs, v2_1_toml_process_docs, \
- v2_1_custom4_process_docs
+ v2_1_custom4_process_docs, v2_1_unstruct_process_docs
 from utils.functions import v1_html_process_docs, v2_html_process_docs, unstruct_process_docs
 from utils.functions import v2_toml_process_docs, v2_custom1_process_docs, v2_custom2_process_docs
 
