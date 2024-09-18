@@ -39,16 +39,10 @@ V2_1_legal_llm_responses = {
                    "offences within the period of 1 year before their conviction for the current stealing offence. In "
                    "such cases, the summary conviction penalty in section 426(4) does not apply.",
 
-    'question_05': "The sections of the Criminal Code in Western Australia that pertain to fraud include Section 378, "
-                   "which outlines the penalties for committing an offence analogous to stealing; Section 380, "
-                   "which pertains to fraudulently concealing a will; and Section 386, which deals with fraudulent "
-                   "concealing of mining royalties. Section 387 relates to defraud by collecting guano without lawful "
-                   "authority. Section 421 pertains to making false business-related statements with the intent to "
-                   "manipulate stock value. Section 422 provides a defence for the offences defined in the chapter, "
-                   "including fraud. Section 424 criminalizes fraudulent falsification of records. In summary, "
-                   "fraud-related offences are scattered in different sections and chapters of the Criminal Code in "
-                   "Western Australia, with penalties varying as per the nature and severity of the offence. "
-                   "Therefore, it is vital to refer to the specific section when seeking information related to fraud.",
+    'question_05': "The specific section of the Western Australian Criminal Code Act Compilation Act 1913 that deals "
+                   "with the offense of preventing the birth of a live child is section 290. It provides that any "
+                   "person who does an act with intent to a child from being born alive, or to cause it to die after "
+                   "birth, faces imprisonment for life if the child dies as a result of the action.",
 
     'question_06': 'Section 279(1) of the Criminal Code outlines the conditions under which killing of another person '
                    'is considered to be legally defined as murder These include an intention to cause death or '
@@ -60,51 +54,44 @@ V2_1_legal_llm_responses = {
                    'the circumstances of the case, may be murder or manslaughter". The exact classification will '
                    'depend on the specific circumstances surrounding the act of killing.',
 
-    'question_07': "The legal jurisdiction for this question is Australia, specifically Western Australia. You should "
-                   "refer to the Criminal Code Act Compilation Act 1913 of Western Australia, specifically Section "
-                   "23B for the defence of accident which is found under Part IV - Parties to Offences. This section "
-                   "states that if an event that resulted in death or grievous bodily harm was not intended by the "
-                   "accused, and the event was an accident or outside of the accused’s control, then the accused will "
-                   "not be criminally responsible for this event. This is a potential defence to a number of offences "
-                   "including offences causing bodily harm or death. sure to gather all evidence that might prove the "
-                   "incident was an accident including any existing footage, witnesses, and potential expert "
-                   "witnesses depending on the nature of the accident. The advice should be confirmed depending on "
-                   "specific circumstances of the case.",
+    'question_07': "The penalty for stalking with the intent to intimidate a person is outlined within section 338E "
+                   "of the Western Australia Criminal Code. Subsection 1 specifies that if a person pursues another "
+                   "with the intent to intimidate that person or a third person, they are guilty of a. In a case of "
+                   "aggravated circumstances, the offender may face imprisonment for up to 8 years, while in other "
+                   "cases, the penalty is up to 3 years of imprisonment. Furthermore, subsection 2 states that if a "
+                   "person pursues another in a manner that could be reasonably expected to intimidate, and in fact "
+                   "does intimidate that person or a third person, they are guilty of a simple offense, "
+                   "with a penalty of imprisonment for 12 months and a fine of $12,000. Lastly, subsection 3 provides "
+                   "a defense, if the accused can prove they acted with lawful authority.",
 
-    'question_08': "In the Criminal Code Act Compilation Act 1913 of Western Australia, the term 'applies force' is "
-                   "covered under the section related to assault. Here, 'applies force' is interpreted as direct or "
-                   "indirect physical contact which could range from hitting, pushing, touching to throwing an object "
-                   "at a person. However, it's also essential to understand that in a broader legal context, "
-                   "applying force could inadvertently include actions that compel a person to move, act or refrain "
-                   "from acting against their will, even though direct physical contact may not occur. This includes "
-                   "instances where the victim was compelled to move due the offender's actions, which could also "
-                   "potentially constitute the application of force. However, each situation is unique, "
-                   "thus the direct interpretation of 'applying force' should be assessed on a case-by-case basis "
-                   "according to respective circumstances and within the purview of the relevant law. The context and "
-                   "intent of the action, along with its result, tend to influence the categorization.",
+    'question_08': "In Western Australia, as per section 203 of the Criminal Code, a person who performs an indecent "
+                   "act in a public place, within sight of someone in a public place, or within a police station or "
+                   "lock-up, is deemed to have committed a crime. If convicted of this crime, the individual can be "
+                   "sentenced to a maximum of 2 years in imprisonment. If dealt with summarily, the potential penalty "
+                   "includes a jail term of up to 9 months and a fine amounting to $9,000. This law is applicable to "
+                   "any act deemed indecent under the strict guidelines and definitions provided within the local "
+                   "jurisdiction, and it considers the severity of such actions, the impact on public decency, "
+                   "and the overall potential to disrupt peace within society.",
 
-    'question_09': "The Criminal Code in Australia or Western Australia does not explicitly state the standard of "
-                   "proof required in criminal cases. The standard of proof in criminal is a matter of common law, "
-                   "which means it is determined by court decisions over time and not directly in statutes. For "
-                   "criminal cases, the standard is 'beyond a reasonable doubt'. means that the prosecution must "
-                   "prove the defendant's guilt such an extent that a reasonable person would have no doubt about it. "
-                   "If there is any reasonable doubt, the defendant must be acquitted. The burden of proof is also on "
-                   "the prosecution in criminal cases - it is the prosecution's responsibility to prove guilt, "
-                   "not the defendant's responsibility to prove innocence. Any failure to meet these standards can "
-                   "lead to an appeal. This concept is fundamental to the criminal justice system and is universally "
-                   "applied.",
+    'question_09': "In Western Australia, the penalty for distributing child exploitation material is in Section 219 "
+                   "of the Criminal Code. A person who distributes child exploitation material is considered guilty "
+                   "of a crime and is liable to imprisonment for 10 years. Furthermore, if a person is found in "
+                   "possession of such material with intention of distributing it, as per Section 219 (3), "
+                   "that person is also guilty of a crime and is liable to imprisonment for or up to 10 years. This "
+                   "includes communicating, exhibiting, selling, sending, supplying, offering or transmitting child "
+                   "exploitation material to another person, or making this material available for access by "
+                   "electronic or other means. It is also illegal to enter into an agreement or arrangement to do so.",
 
-    'question_10': "In Western Australia, the equation of specific imprisonment periods for aggravated home burglary "
-                   "offences is covered under various sections of the legislation. Section 279, 280, 281, 283, 325, "
-                   "326, 327, and 328 reflect this. The specific minimum sentence depends on the severity of the "
-                   "offence associated with the aggravated burglary. For example, Section 280 relates to "
-                   "manslaughter, specifying a minimum of 15 years if committed by an adult offender during an "
-                   "aggravated burglary. Similarly, sections 325, 326 (related to sexual penetration without "
-                   "consent), 327 (sexual coercion), 328 (aggravated sexual coercion) denote that if offences are "
-                   "committed during an aggravated home burglary by an adult offender, then the court must impose a "
-                   "term of imprisonment of at least 75% of the respective maximum term listed in subsections (1) of "
-                   "these sections. For juvenile offenders, a term of 3 years imprisonment or detention is mandatory "
-                   "under the same circumstances, as per subsection (3) of these sections.",
+    'question_10': "In Western Australia, the law that specifies the fine for possessing bulletproof clothing is "
+                   "encapsulated within Section 557I of the Criminal Code Act Compilation Act 1913. According to "
+                   "subsection (2) of this particular section, a person found guilty of possessing bulletproof "
+                   "clothing is liable to a fine of $6,000. However, some exceptions are provided in subsection (3) "
+                   "where certain individuals, including appointed police officers, designated public service "
+                   "personnel, prison officers, and individuals operating under an Act of the Commonwealth, "
+                   "State or Territory, are allowed to lawfully possess bulletproof clothing in the course of duty. "
+                   "Furthermore, the Commissioner of Police may authorize a permit granting permission to possess "
+                   "bulletproof clothing under pre-specified conditions as per subsection (4). Violation of these "
+                   "stipulations will nonetheless bring about the indicated fine.",
 
     'question_11': "According to the Births, Deaths and Marriages Registration Act 1998 of Western Australia, "
                    "restricted persons for change of name are defined under section 36A and include: prisoners, "
@@ -245,26 +232,25 @@ V2_1_legal_llm_responses = {
                    "to terminate the tenancy agreement due to these reasons, it must also order for the possession of "
                    "the premises, with the orders taking effect from an appropriate date as determined by the court.",
 
-    'question_25': "In Western Australia, under the Road Traffic (Vehicles) Act 2012, a person commits an offence "
-                   "when they violate traffic laws. They might drive or attempt to drive a motor vehicle on a road "
-                   "while under the influence of alcohol, drugs or both. Additionally, exceeding the speed limit, "
-                   "reckless driving, not wearing a seat belt, using a phone while driving, disobeying traffic signs "
-                   "and signals, illegal street racing, or driving without a valid license are also considered "
-                   "offences. Furthermore, if a vehicle has not passed safety and emissions tests or does not meet "
-                   "standards it may not be used on a road. Also, if a vehicle is found to bear offensive "
-                   "advertisement displays according to the Road Traffic (Vehicles) Amendment (Offensive Advertising) "
-                   "Act 2023, the person may be violating the law",
+    'question_25': "According to Section 2 of the Road Traffic Law in Western Australia (WA), a person commits an "
+                   "offence if they use a vehicle on the road and either a vehicle licence is required for the "
+                   "vehicle and has not been granted, or a licence has been granted but is not current. Penalties "
+                   "include a fine and a court order to pay further charges. However, exceptions include use within a "
+                   "period after licence expiry when renewal may occur, use under a permit, use with certain number "
+                   "plates, and use authorised under the law of another jurisdiction, unless the vehicle's "
+                   "responsible person is ordinarily resident within WA.",
 
-    'question_26': "In Western Australia, under the Road Traffic (Vehicles) Act 2012, the CEO may cancel the vehicle "
-                   "licence in certain circumstances. If the Ad Standards body provides the CEO with a written notice "
-                   "that a vehicle's advertisement breaches the advertising code, and the said advertisement has not "
-                   "been from the vehicle, the CEO may issue a licence warning notice. This notice will state that if "
-                   "the isn't removed in a time frame no less than 14 days from the issued warning, the CEO may "
-                   "cancel the vehicle licence. If the vehicle licence is not cancelled before the expiry of the "
-                   "warning notice, it may only expire naturally or after the issuance of a new licence for the "
-                   "vehicle. However, if it's proved that the offence has been rectified, the CEO must withdraw the "
-                   "licence warning notice and state the vehicle licence cannot be cancelled on the basis of the "
-                   "initial warning.",
+    'question_26': "The section that states about the free vehicle licences for certain overseas vehicles, according "
+                   "to the Road Traffic law in Western Australia (WA), is Section 22. It outlines provision for "
+                   "expiring licences where someone can apply to the CEO for a free extension or renewal. The CEO "
+                   "will grant this if he/she is satisfied that the vehicle is being used in the State, there is in "
+                   "force a vehicle licence from the owner's ordinary resident country, there exists a contract of "
+                   "insurance as per Motor Vehicle (Third Party Insurance) Act 1943 section 4, there is documentary "
+                   "evidence establishing that the owner guaranteed to take the vehicle out of Australia and if the "
+                   "overseas vehicle meets the prescribed standards and requirements or complies with a requirement "
+                   "as per section 5(3)(a)(ii). If these conditions are met, an extension or renewal will not go "
+                   "beyond 12 months from landing in Australia or the expiry of the foreign licence or insurance "
+                   "contract.",
 
     'question_27': "In Western Australia, under the Road Traffic (Vehicles) Act 2012, section 63 covers minor risk "
                    "breaches. Specifically, subsection 63(1) states that a police officer may give direction if they "
@@ -297,7 +283,7 @@ V2_1_legal_llm_responses = {
                    "exercise supervision over others, assure compliance in commercial arrangements or employee "
                    "training, maintain equipment/work systems, past compliance issues, and any personal expertise the "
                    "person charged or their agents/employees had or should've had. If charged in the capacity of a "
-                   "responsible person, proving the vehicle was used unauthorisedly, beyond employment scope, "
+                   "responsible person, proving the vehicle was used unauthorized, beyond employment scope, "
                    "or had ceased to be under their control can also provide a defence.",
 
     'question_30': "In Western Australia (WA), if a person enters into a surrogacy arrangement that is for reward, "
@@ -328,15 +314,12 @@ V2_1_legal_llm_responses = {
                    "who has access to these records. For specific access rights, refer to Division 4 of Part 8 "
                    "regarding access to, and certification of register entries.",
 
-    'question_33': "In the surrogacy law of Western Australia, it does not indicate in the supplied sections a "
-                   "specific provision which explicitly states what the court must regard before making an order to "
-                   "change a’s name. It implies name change disputes will likely be governed by the principles "
-                   "applicable in the Family Court. You should consult the Family Law Act 1975 for Australia or the "
-                   "Family Court Act 1997 of Western Australia for guidance. These laws typically encourage decisions "
-                   "that are deemed to be in the 'best interests' of the child. This may involve considering the "
-                   "child's relationships, the effect of the change on the child, the views of the child, "
-                   "and any other practical difficulties or expenses. You may also engage expert legal counsel to "
-                   "provide further advice based on these laws and the specific circumstances of your case.",
+    'question_33': "Section 454 of the Criminal Code in Western Australia outlines the penalties for causing an "
+                   "explosion likely to cause serious injury to property. According to section, any individual who "
+                   "intentionally and unlawfully causes an explosion by any explosive, in a manner likely to cause "
+                   "serious property damage regardless of whether the property is actually damaged or not is "
+                   "committing a crime. The penalty for this crime, as stipulated in this section, is imprisonment "
+                   "for up to 20 years.",
 
     'question_34': "An application for a parentage order in Western Australia can be made based on the requirements "
                    "identified in section 21 of the Act. This states that the court must be satisfied the child is "
@@ -420,7 +403,7 @@ V2_1_legal_llm_responses = {
 
     'question_42': "In Western Australia, according to the Animal Welfare Act, the owner of a cat is required to "
                    "ensure that the cat is microchipped once it has reached 6 months of age. Failure to do so may "
-                   "result in a penalty a $5,000 fine. However, a cat is exempt from this microchipping requirement "
+                   "result in a penalty a $5,000 fine. However, a cat is exempt from this microchip requirement "
                    "if a veterinarian certifies that implantation of a microchip could adversely affect the cat's "
                    "health and welfare. It should be noted that this exemption doesn't apply to a cat that is under 6 "
                    "months of age. Therefore, effectively, the age limit by which a cat must be microchipped in "

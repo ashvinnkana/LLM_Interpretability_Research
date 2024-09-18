@@ -10,7 +10,8 @@ from models.embedding_model import EMBEDDER
 from utils.formats import v0_extraction_vectordb, v1_extraction_vectordb, v2_extraction_vectordb, format_lists, \
     v2_1_extraction_vectordb
 from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds, get_docs_v2_1, \
-    get_overall_scores, get_overall_format_order, save_checkpoint, re_arrange_dict, create_prompt_for_legal_llm
+    get_overall_scores, get_overall_format_order, save_checkpoint, re_arrange_dict, create_prompt_for_legal_llm, \
+    merge_chunks_v2_1
 from utils.functions import get_rouge_scores, create_results_dataframe, visualize_rouge_results
 from utils import strings
 
@@ -90,7 +91,7 @@ def upsert_all_data():
 
 def main():
     print("RUNNING ON: ", embedder.get_encoder_device())
-    #upsert_all_data()
+    upsert_all_data()
 
     logging.info(logging_messages.main_divider)
     topic = 'LEGAL'
@@ -111,16 +112,18 @@ def main():
         v2_1_dicts, v2_1_texts = get_docs_v2_1(v2_1_extraction_vectordb.get_docs(quest['query'], query_embeds, 3),
                                                embedder)
 
+        v2_1_merged_docs_3 = merge_chunks_v2_1(v2_1_dicts, quest['query'], 3)
+
         for format_ in format_lists:
             if format_['version'] == 2.1:
-                docs[format_['id']] = format_['get_docs_func'](v2_1_dicts, quest['query'], format_['doc_count'], v2_1_texts)
+                docs[format_['id']] = format_['get_docs_func'](v2_1_merged_docs_3)
             else:
                 format_['vector_db'].connect()
                 unformatted_docs = format_['vector_db'].get_docs(quest['query'], query_embeds, format_['doc_count'])
                 docs[format_['id']] = format_['get_docs_func'](unformatted_docs)
             logging.info(format_['id'] + ' : ' + str(embedder.count_tokens(docs[format_['id']])))
 
-        docs['prompt'] = create_prompt_for_legal_llm(quest['query'], v2_1_texts)
+        docs['prompt'] = create_prompt_for_legal_llm(quest['query'], docs['v2.1-unstruct'])
         save_sample_docs(json.dumps(docs), quest['id'])
 
         logging.info(logging_messages.main_divider)
@@ -148,10 +151,14 @@ def main():
                             check = False
                         except Exception as e:
                             logging.error(f'-- {format_['id']} :: FAILED({e})')
-                            if "{'error': {'message': 'Service Unavailable', 'type': 'internal_server_error'}}" not in str(e):
-                                check = False
+                            error_message = e.args[0]
+                            if isinstance(error_message, dict) and 'error' in error_message and 'type' in error_message['error']:
+                                if 'internal_server_error' != error_message['error']['type']:
+                                    check = False
+                                else:
+                                    logging.info(f'-- RETRYING ...')
                             else:
-                                logging.info(f'-- RETRYING ...')
+                                check = False
 
                     # record scores
                     score = get_rouge_scores(quest['ref_answer'], response)

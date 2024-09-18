@@ -1486,14 +1486,12 @@ def merge_chunks_v2_1(docs, query, doc_count):
 
 
 def create_prompt_for_legal_llm(query, texts):
-        doc_texts = [doc['content'] for doc in texts]
-        prompt = strings.unstructured_llm_message.format('LEGAL', '\n----\n'.join(doc_texts)) + '\n' + strings.unstructured_question.format(query)
+        prompt = strings.unstructured_llm_message.format('LEGAL', texts) + '\n' + strings.unstructured_question.format(query)
         return prompt
 
 
-def v2_1_unstruct_process_docs(docs, query, doc_count, texts):
-    string_ = v2_1_json_process_docs(docs, query, doc_count, texts)
-    return (string_
+def v2_1_unstruct_process_docs(docs):
+    return (json.dumps(docs)
             .replace('{', '\n')
             .replace('"','')
             .replace("'","")
@@ -1501,38 +1499,36 @@ def v2_1_unstruct_process_docs(docs, query, doc_count, texts):
             .replace('}',''))
 
 
-def v2_1_toml_process_docs(docs, query, doc_count, texts):
-    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
-    return convert_to_toml(structured_docs, ['Context'])
+def v2_1_toml_process_docs(docs):
+    return convert_to_toml(docs, ['Context'])
 
 
-def v2_1_markdown_process_docs(docs, query, doc_count, texts):
-    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
-    return convert_to_markdown(structured_docs)
+def v2_1_markdown_process_docs(docs):
+    return convert_to_markdown(docs)
 
 
-def v2_1_json_process_docs(docs, query, doc_count, texts):
-    return json.dumps(merge_chunks_v2_1(docs, query, doc_count))
+def v2_1_json_process_docs(docs):
+    return json.dumps(docs)
 
 
-def v2_1_html_process_docs(docs, query, doc_count, texts):
-    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
-    return convert_to_html(structured_docs)
+def v2_1_html_process_docs(docs):
+    return convert_to_html(docs)
 
 
-def v2_1_custom1_process_docs(docs, query, doc_count, texts):
-    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
-    return convert_to_custom1(structured_docs)
+def v2_1_custom1_process_docs(docs):
+    return convert_to_custom1(docs)
 
 
-def v2_1_custom2_process_docs(docs, query, doc_count, texts):
-    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
-    return convert_to_custom2(structured_docs)
+def v2_1_custom2_process_docs(docs):
+    return convert_to_custom2(docs)
 
 
-def v2_1_custom4_process_docs(docs, query, doc_count, texts):
-    structured_docs = merge_chunks_v2_1(docs, query, doc_count)
-    return convert_to_custom4(structured_docs)
+def v2_1_custom3_process_docs(docs):
+    return convert_to_custom3(docs, ['Context'])
+
+
+def v2_1_custom4_process_docs(docs):
+    return convert_to_custom4(docs)
 
 
 def v2_json_process_docs(docs):
