@@ -2,13 +2,14 @@ import json
 import logging.config
 
 import pandas
+from datasets import Dataset
 
 from utils import constants
 from utils import logging_messages
 from scripts import extract_data
 from models.embedding_model import EMBEDDER
 from utils.formats import v0_extraction_vectordb, v1_extraction_vectordb, v2_extraction_vectordb, format_lists, \
-    v2_1_extraction_vectordb
+    v2_1_extraction_vectordb, unstruct_io_vectordb
 from utils.functions import download_nltk_resources, save_sample_docs, clean_for_embeds, get_docs_v2_1, \
     get_overall_scores, get_overall_format_order, save_checkpoint, re_arrange_dict, create_prompt_for_legal_llm, \
     merge_chunks_v2_1
@@ -26,7 +27,7 @@ def upsert_extract_v0(pdf_path):
     dataset = extract_data.extract_v0(pdf_path, embedder)
     try:
         logging.info(logging_messages.upserting_chunks.format('EXTRACT-V0', pdf_path))
-        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v0_extraction_vectordb)
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v0_extraction_vectordb, 'v0')
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
@@ -37,7 +38,7 @@ def upsert_extract_v1(pdf_path):
     dataset = extract_data.extract_v1(pdf_path, embedder)
     try:
         logging.info(logging_messages.upserting_chunks.format('EXTRACT-V1', pdf_path))
-        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v1_extraction_vectordb)
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v1_extraction_vectordb, 'v1')
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
@@ -49,7 +50,7 @@ def upsert_extract_v2(pdf_path):
 
     try:
         logging.info(logging_messages.upserting_chunks.format('EXTRACT-V2', pdf_path))
-        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v2_extraction_vectordb)
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v2_extraction_vectordb, 'v2')
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
@@ -61,7 +62,24 @@ def upsert_extract_v2_1(pdf_path):
 
     try:
         logging.info(logging_messages.upserting_chunks.format('EXTRACT-V2.1', pdf_path))
-        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v2_1_extraction_vectordb)
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v2_1_extraction_vectordb, 'v2.1')
+        logging.info(logging_messages.status_success)
+    except Exception as e:
+        logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
+
+
+def upsert_unstructured_io_extract(pdf_path):
+    unstruct_io_vectordb.connect()
+
+    file_name = pdf_path.split('/')[-1].split('.')[0]
+    with open(f'data/chunks/by_unstructured_io/{file_name}_chunks.json', 'r') as json_file:
+        data = json.load(json_file)
+
+    dataset = Dataset.from_list(data)
+
+    try:
+        logging.info(logging_messages.upserting_chunks.format('UNSTRUCT-IO', pdf_path))
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v2_1_extraction_vectordb, 'unstruct-io')
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))

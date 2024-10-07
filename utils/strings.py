@@ -11,6 +11,7 @@ extraction_v0_index = 'v0-extracted-data-index'
 extraction_v1_index = 'v1-extracted-data-index'
 extraction_v2_index = 'v2-extracted-data-index'
 extraction_v2_1_index = 'v2-1-extracted-data-index'
+unstructured_io_index = 'unstruct-io-extracted-data-index'
 
 unstructured_pdf_paths = [
     './data/unstructured_data/Limitation_Act_2005.pdf',

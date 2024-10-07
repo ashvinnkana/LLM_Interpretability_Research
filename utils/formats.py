@@ -11,6 +11,7 @@ v0_extraction_vectordb = PINECONE(strings.extraction_v0_index)
 v1_extraction_vectordb = PINECONE(strings.extraction_v1_index)
 v2_extraction_vectordb = PINECONE(strings.extraction_v2_index)
 v2_1_extraction_vectordb = PINECONE(strings.extraction_v2_1_index)
+unstruct_io_vectordb = PINECONE(strings.unstructured_io_index)
 
 stashed_format_lists = [
     {'id': 'v1-json',

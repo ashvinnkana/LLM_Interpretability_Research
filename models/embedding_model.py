@@ -27,7 +27,7 @@ class EMBEDDER:
     def encode(self, text):
         return self.encoder([text])
 
-    def encode_upsert_vectordb(self, data, batch_size, db_client):
+    def encode_upsert_vectordb(self, data, batch_size, db_client, version):
         for i in tqdm(range(0, len(data), batch_size)):
 
             # find end of batch
@@ -36,12 +36,13 @@ class EMBEDDER:
             batch = data[i:i_end]
 
             # create embeddings
-            try:
-                # for version 2
-                chunks = [clean_for_embeds(f'{bat["title"].split(' >> ')[-1]}:{bat["content"]}')
+            if version == 'v2':
+                chunks = [clean_for_embeds(f'{bat["title"].split(' >> ')[-1]} {bat["content"]}')
                           for bat in batch["metadata"]]
-            except KeyError:
-                # other versions including v2.1
+            elif version == 'unstruct-io':
+                chunks = [clean_for_embeds(f'{bat["Filename"]} {bat["Page Number"]} {bat["text"]}')
+                          for bat in batch["metadata"]]
+            else:
                 chunks = [clean_for_embeds(f'{bat["content"]}')
                           for bat in batch["metadata"]]
 
