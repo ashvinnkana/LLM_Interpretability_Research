@@ -79,7 +79,7 @@ def upsert_unstructured_io_extract(pdf_path):
 
     try:
         logging.info(logging_messages.upserting_chunks.format('UNSTRUCT-IO', pdf_path))
-        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, v2_1_extraction_vectordb, 'unstruct-io')
+        embedder.encode_upsert_vectordb(dataset, constants.upsert_batch_size, unstruct_io_vectordb, 'unstruct-io')
         logging.info(logging_messages.status_success)
     except Exception as e:
         logging.error(logging_messages.error_upserting.format(constants.json_structured_tag, pdf_path, e))
@@ -103,6 +103,9 @@ def upsert_all_data():
 
         logging.info(logging_messages.sub_divider)
         upsert_extract_v2_1(pdf_path)
+
+        logging.info(logging_messages.sub_divider)
+        upsert_unstructured_io_extract(pdf_path)
 
         logging.info(logging_messages.main_divider)
 

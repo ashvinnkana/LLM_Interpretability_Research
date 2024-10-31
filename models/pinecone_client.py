@@ -49,7 +49,7 @@ class PINECONE:
         self.index.upsert(vectors=vectors)
 
     def get_docs(self, query_str, query_vector, top_k) -> list[str]:
-        res = self.index.query(vector=query_vector, top_k=6, include_metadata=True)
+        res = self.index.query(vector=query_vector, top_k=top_k*2, include_metadata=True)
 
         tokenized_query = clean_for_embeds(query_str).split(" ")
         if 'title' in res['matches'][0]['metadata']:
@@ -65,6 +65,15 @@ class PINECONE:
                      'id': chunk['id']}
                     for chunk in res["matches"]]
             tokenized_corpus = [clean_for_embeds(doc['content']).split(" ") for doc in docs]
+
+        elif 'text' in res['matches'][0]['metadata']:
+            # unstructured io
+            docs = [{'text': chunk['metadata']['text'],
+                     'Filename': chunk['metadata']['Filename'],
+                     'Filetype': chunk['metadata']['Filetype'],
+                     'Page Number': chunk['metadata']['Page Number'],}
+                    for chunk in res["matches"]]
+            tokenized_corpus = [clean_for_embeds(f"{doc['Filename']} {doc['Page Number']} {doc['text']}").split(" ") for doc in docs]
 
         else:
             # other versions

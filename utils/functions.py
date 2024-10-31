@@ -1519,6 +1519,13 @@ def v2_1_custom1_process_docs(docs):
     return convert_to_custom1(docs)
 
 
+def io_process_docs(docs):
+    contents = []
+    for doc in docs:
+        contents.append(doc['text'])
+    return "\n-----------\n".join(contents)
+
+
 def v2_1_custom2_process_docs(docs):
     return convert_to_custom2(docs)
 
